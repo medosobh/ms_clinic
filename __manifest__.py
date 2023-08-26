@@ -40,24 +40,25 @@
         'security/ir.model.access.csv',
 
         # Sequences
-        'sequences/transaction.xml',
+        'sequences/sequence_views.xml',
         
         # Views
-        'views/clinic.xml', # this should come before all the other menu (contain parent menu)
-        'views/appointment.xml',
-        'views/doctor.xml',
-        'views/insurance.xml',
-        'views/insurance_policy.xml',
-        'views/medicine.xml',
+        'views/clinic.xml',
         'views/patient.xml',
-        'views/pharmacist.xml',
-        'views/staff.xml',
-        'views/transaction.xml',
+        # 'views/appointment.xml',
+        # 'views/doctor.xml',
+        # 'views/insurance.xml',
+        # 'views/insurance_policy.xml',
+        # 'views/medicine.xml',
+        
+        # 'views/pharmacist.xml',
+        # 'views/staff.xml',
+        # 'views/transaction.xml',
         
     ],
     # only loaded in demonstration mode
     'demo': [
-        'demo/demo.xml',
+        # 'demo/demo.xml',
     ],
     'installable': True,
     'auto_install': False,

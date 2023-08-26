@@ -9,3 +9,4 @@ from . import patient
 from . import pharmacist
 from . import staff
 from . import transaction
+from . import medical_history
