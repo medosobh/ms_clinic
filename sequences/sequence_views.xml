@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Sequences for sales tickets -->
+        <record id="clinic_appointment_tickets_seq"
+            model="ir.sequence">
+            <field name="name">Housmaid Sales Tickets</field>
+            <field name="code">housemaid.sales.tickets</field>
+            <field name="prefix">CT/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="company_id"
+                eval="False"/>
+        </record>
+        <!-- Sequences for operation tickets -->
+        <record id="housemaid_transfer_tickets_seq"
+            model="ir.sequence">
+            <field name="name">Housmaid Transfer Tickets</field>
+            <field name="code">housemaid.transfer.tickets</field>
+            <field name="prefix">TT/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="company_id"
+                eval="False"/>
+        </record>
+        <record id="housemaid_operation_tickets_seq"
+            model="ir.sequence">
+            <field name="name">Housmaid Temporary Tickets</field>
+            <field name="code">housemaid.temporary.tickets</field>
+            <field name="prefix">TM/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="company_id"
+                eval="False"/>
+        </record>
+    </data>
+</odoo>
