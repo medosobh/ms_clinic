@@ -21,19 +21,23 @@
     'version': '15.0.0',
 
     # any module necessary for this one to work correctly
-    'depends': ['stock',
+    'depends': [
                 'base',
                 'mail',
-                'l10n_eg',
                 'account',
+                'stock',
+                'l10n_eg',
                 'uom',
                 'product',
                 'sale',
                 'sale_management',
                 'purchase',
+                'hr',
                 'hr_expense',
                 'web_kanban_gauge',
-                ],
+                'portal',
+                'web',
+    ],
 
     # always loaded
     'data': [
@@ -41,7 +45,7 @@
 
         # Sequences
         'sequences/sequence_views.xml',
-        
+
         # Views
         'views/clinic.xml',
         'views/patient.xml',
@@ -50,11 +54,11 @@
         # 'views/insurance.xml',
         # 'views/insurance_policy.xml',
         # 'views/medicine.xml',
-        
+
         # 'views/pharmacist.xml',
         # 'views/staff.xml',
         # 'views/transaction.xml',
-        
+
     ],
     # only loaded in demonstration mode
     'demo': [

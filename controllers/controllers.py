@@ -6,7 +6,7 @@ from reportlab.pdfgen import canvas
 
 class Eclinic(http.Controller):
 
-    @http.route('/eclinic/download_pdf_hello_world', type='http', auth="public")
+    @http.route('/ms_hospital/download_pdf_hello_world', type='http', auth="public")
     def download_pdf_hello_world(self, **kwargs):
         response = http.Response()
         pdf_file = io.BytesIO()
