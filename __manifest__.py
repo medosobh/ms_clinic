@@ -37,6 +37,7 @@
                 'web_kanban_gauge',
                 'portal',
                 'web',
+                'calendar',
     ],
 
     # always loaded
