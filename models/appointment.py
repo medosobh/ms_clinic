@@ -3,20 +3,44 @@ from datetime import datetime
 
 
 class Appointment(models.Model):
-    _name = 'ms_clinic.appointment'
+    _name = 'ms_hospital.appointment'
     _description = 'Information about appointments'
 
-    name = fields.Char(string='Name', required=True)
-    clinic_id = fields.Many2one('clinic', string='Location')
-    patient_id = fields.Many2one('ms_clinic.patient', string='Patient')
-    doctor_id = fields.Many2one('ms_clinic.doctor', string='Doctor')
-    appointment_date = fields.Date(string='Appointment Date', default=fields.Date.today())
-    consultation_notes = fields.Text(string='Consultation Notes')
-    prescription_notes = fields.Text(string='Prescription Notes')
-    
-    billing_amount = fields.Float(string='Billing Amount')
-    payment_amount = fields.Float(string='Payment Amount')
-    payment_date = fields.Date(string='Payment Date')
+    name = fields.Char(
+        string='Name',
+        required=True
+    )
+    clinic_id = fields.Many2one(
+        'clinic',
+        string='Location'
+    )
+    patient_id = fields.Many2one(
+        'ms_hospital.patient',
+        string='Patient'
+    )
+    doctor_id = fields.Many2one(
+        'ms_hospital.doctor',
+        string='Doctor'
+    )
+    appointment_date = fields.Date(
+        string='Appointment Date',
+        default=fields.Date.today()
+    )
+    consultation_notes = fields.Text(
+        string='Consultation Notes'
+    )
+    prescription_notes = fields.Text(
+        string='Prescription Notes'
+    )
+    billing_amount = fields.Float(
+        string='Billing Amount'
+    )
+    payment_amount = fields.Float(
+        string='Payment Amount'
+    )
+    payment_date = fields.Date(
+        string='Payment Date'
+    )
 
     @api.onchange('patient_id')
     def onchange_patient_id(self):
@@ -28,7 +52,7 @@ class Appointment(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': 'Create Appointment',
-            'res_model': 'ms_clinic.appointment',
+            'res_model': 'ms_hospital.appointment',
             'view_mode': 'form',
             'target': 'current',
             'context': {
@@ -41,7 +65,7 @@ class Appointment(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': 'Schedule Appointment',
-            'res_model': 'ms_clinic.appointment',
+            'res_model': 'ms_hospital.appointment',
             'view_mode': 'form',
             'target': 'current',
             'context': {
@@ -54,7 +78,7 @@ class Appointment(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': 'Appointment Calendar',
-            'res_model': 'ms_clinic.appointment',
+            'res_model': 'ms_hospital.appointment',
             'view_mode': 'calendar,tree',
             'target': 'current',
         }
@@ -63,7 +87,7 @@ class Appointment(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': 'Billing',
-            'res_model': 'ms_clinic.appointment',
+            'res_model': 'ms_hospital.appointment',
             'view_mode': 'form',
             'target': 'current',
         }
@@ -72,7 +96,7 @@ class Appointment(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': 'Payment',
-            'res_model': 'ms_clinic.appointment',
+            'res_model': 'ms_hospital.appointment',
             'view_mode': 'form',
             'target': 'current',
         }
