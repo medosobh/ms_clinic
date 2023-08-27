@@ -1,20 +1,11 @@
 <odoo>
     <data>
-
         <menuitem id="hospital_root" name="Hospital" web_icon="static/description/icon.png" sequence="145" />
-
         <menuitem id="hospital_menu_appointments" name="Appointments" parent="hospital_root" sequence="10" />
-
-        <!-- This Menu Item Must have a parent -->
         <menuitem id="hospital_menu_patients" name="Patients" parent="hospital_root" sequence="20" />
-
         <menuitem id="hospital_menu_doctors" name="Doctors" parent="hospital_root" sequence="30" />
-
         <menuitem id="hospital_menu_configuration" name="Configuration" parent="hospital_root" sequence="40" />
-
-        <!-- importan  -->
-        <menuitem id="menu_product_product" name="Product" parent="hospital_menu_product" action="stock.product_template_action_product" sequence="41"/>
-
-
+        <!-- importan -->
+        <menuitem id="menu_product_product" name="Product" parent="hospital_menu_product" action="stock.product_template_action_product" sequence="41" />
     </data>
 </odoo>
