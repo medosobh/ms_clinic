@@ -4,9 +4,9 @@
         <!-- Sequences for sales tickets -->
         <record id="clinic_appointment_tickets_seq"
             model="ir.sequence">
-            <field name="name">Housmaid Sales Tickets</field>
-            <field name="code">housemaid.sales.tickets</field>
-            <field name="prefix">CT/%(year)s/</field>
+            <field name="name">Appointment Tickets</field>
+            <field name="code">ms_hospital.appointment</field>
+            <field name="prefix">AT/%(year)s/</field>
             <field name="padding">5</field>
             <field name="company_id"
                 eval="False"/>

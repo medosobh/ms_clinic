@@ -2,12 +2,16 @@ from odoo import models, fields, api
 
 
 class Clinic(models.Model):
-    _name = 'ms_clinic.clinic'
+    _name = 'ms_hospital.clinic'
     _description = 'Clinic or Section'
 
     name = fields.Char(
         string='Name',
         required=True
+    )
+    type = fields.Many2one(
+        'ms_hospital.clinicttype',
+        'Type'
     )
     location = fields.Text(
         string='Description'
@@ -24,30 +28,40 @@ class Clinic(models.Model):
     website = fields.Char(
         string='Website'
     )
-    doctors = fields.Many2many(
-        'ms_clinic.doctor',
-        string='Doctors'
-    )
-    patients = fields.One2many(
-        'ms_clinic.patient',
-        'clinic_id', string='Patients'
-    )
-    pharmacies = fields.One2many(
-        'ms_clinic.pharmacist',
-        'clinic_id',
-        string='Pharmacies'
-    )
-    transactions = fields.One2many(
-        'ms_clinic.transaction',
-        'clinic_id',
-        string='Transactions'
-    )
     appointments = fields.One2many(
-        'ms_clinic.appointment',
+        'ms_hospital.appointment',
         'clinic_id',
         string='Appointments'
     )
+    doctors = fields.Many2many(
+        'ms_hospital.doctor',
+        string='Doctors'
+    )
+    patients = fields.Many2many(
+        'ms_hospital.patient',
+        string='Patients'
+    )
+    pharmacies = fields.Many2many(
+        'ms_hospital.pharmacist',
+        string='Pharmacies'
+    )
+    transactions = fields.One2many(
+        'ms_hospital.transaction',
+        'clinic_id',
+        string='Transactions'
+    )
+    
     is_active = fields.Boolean(
         string='Active',
         default=True
+    )
+
+
+class ClinicType(models.Model):
+    _name = 'ms_hospital.clinictype'
+    _description = 'Clinic or Section'
+
+    name = fields.Char(
+        string='Name',
+        required=True
     )
