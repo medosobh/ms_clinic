@@ -8,27 +8,23 @@ class Staff(models.Model):
     _description = "Information about staff"
 
     name = fields.Char(string="Name", required=True)
-    title = fields.Many2one("hospital.title", string="Title")
+    roles_id = fields.Many2one("hospital.role", string="Role")
     age = fields.Integer(string="Age")
-    gender = fields.Selection([("male", "Male"), ("female", "Female")], string="Gender")
+    gender = fields.Selection(
+        [
+            ("male", "Male"),
+            ("female", "Female")
+        ], string="Gender")
     phone = fields.Char(string="Phone")
     email = fields.Char(string="Email")
     contact_number = fields.Char(string="Contact Number")
     address = fields.Char(string="Address")
-    role = fields.Selection(
-        [
-            ("receptionist", "Receptionist"),
-            ("nurse", "Nurse"),
-            ("administrator", "Administrator"),
-        ],
-        string="Role",
-    )
     is_active = fields.Boolean(string="Active", default=True)
     specialization = fields.Char(string="Specialization")
     appointments = fields.One2many(
-        "hospital.appointment", "staff_id", string="Appointments"
+        "hospital.appointments", "staff_id", string="Appointments"
     )
-    clinic_id = fields.Many2many("clinic", string="Clinic")
+    clinics_id = fields.Many2many("hospital.clinics", string="Clinic")
 
     def toggle_active(self):
         for record in self:
@@ -39,6 +35,6 @@ class Staff(models.Model):
             record.is_active = False
 
 
-class Title(models.Model):
-    _name = "hospital.title"
-    _description = "Job Title"
+class Roles(models.Model):
+    _name = "hospital.roles"
+    _description = "Job Roles"
