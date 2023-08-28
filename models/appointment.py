@@ -1,6 +1,6 @@
-from odoo import models, fields, api
+from odoo import models, fields, api, _
+from odoo.exceptions import UserError, ValidationError
 from datetime import date, datetime, timedelta
-
 
 class Appointment(models.Model):
     _name = "ms_hospital.appointment"
@@ -46,7 +46,7 @@ class Appointment(models.Model):
         for r in self:
             if not (r.start_date and r.end_date):
                 raise UserError(
-                    _(
+                    (
                         "Please define start and End date for current project for the company %s (%s)."
                     )
                     % (self.company_id.name, self.company_id.id)
