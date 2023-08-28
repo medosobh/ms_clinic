@@ -2,6 +2,7 @@ from odoo import models, fields, api, _
 from odoo.exceptions import UserError, ValidationError
 from datetime import date, datetime, timedelta
 
+
 class Appointment(models.Model):
     _name = "ms_hospital.appointment"
     _description = "Information about appointments"
@@ -29,6 +30,11 @@ class Appointment(models.Model):
     billing_amount = fields.Float(string="Billing Amount")
     payment_amount = fields.Float(string="Payment Amount")
     payment_date = fields.Date(string="Payment Date")
+    analytic_account_id = fields.Reference(
+        selection=[
+            ('account.analytic.account', 'Analytic Account')
+        ],
+        string='Analytic Account')
 
     @api.depends("start_date")
     def _get_end_date(self):
@@ -116,3 +122,90 @@ class Appointment(models.Model):
             "view_mode": "form",
             "target": "current",
         }
+
+
+class diagnosis(models.Model):
+    _name = 'diagnosis'
+    _description = 'diagnosis'
+    _rec_name = 'name'
+    _order = 'name ASC'
+
+    def _get_report_base_filename(self):
+        return self.name
+
+    sequence = fields.Integer(
+        string='Sequence',
+        default=10)
+    description = fields.Text(
+        string='Diagnosis Description',
+        required=True,
+        copy=False
+    )
+    attachment = fields.Binary(
+        string="Attachment File",
+        help='Attachment, one file to upload',
+        required=False,
+        tracking=True,
+    )
+    attachment_name = fields.Char(
+        string='Attachment Filename',
+        required=False,
+        tracking=True
+    )
+
+
+class prescription(models.Model):
+    _name = 'prescription'
+    _description = 'prescription'
+    _rec_name = 'name'
+    _order = 'name ASC'
+
+    def _get_report_base_filename(self):
+        return self.name
+
+    sequence = fields.Integer(
+        string='Sequence',
+        default=10)
+    product_id = fields.Many2one(
+        comodel_name='product.product',
+        required=True,
+        domain="[('categ_id', '=', categ_id)]")
+    name = fields.Text(
+        string='Description',
+        required=False)
+    categ_id = fields.Many2one(
+        related='materials_id.category_id',
+        string='Category')
+    price_unit = fields.Float(
+        string='Price')
+    product_uom = fields.Many2one(
+        comodel_name='uom.uom',
+        string='Unit of Measure',
+        related='product_id.uom_id',
+        domain="[('category_id', '=', product_uom_category_id)]")
+    qty = fields.Float(
+        'Quantity')
+    company_id = fields.Many2one(
+        comodel_name='res.company',
+        string='Company',
+        related='materials_id.company_id',
+        change_default=True,
+        default=lambda self: self.env.company,
+        required=False,
+        readonly=True)
+    currency_id = fields.Many2one(
+        comodel_name='res.currency',
+        string='Currency',
+        related='materials_id.currency_id',
+        readonly=True,
+        help="Used to display the currency when tracking monetary values")
+    note = fields.Char(
+        string='Short Note')
+    price_subtotal = fields.Monetary(
+        string='Subtotal',
+        compute='_compute_subtotal',
+        currency_field='currency_id',
+        store=True)
+    appointments_id = fields.Many2one(
+        comodel_name='ms_hospital.appointments',
+        string='Appointment')

@@ -14,9 +14,9 @@
         <!-- Sequences for operation tickets -->
         <record id="housemaid_transfer_tickets_seq"
             model="ir.sequence">
-            <field name="name">Housmaid Transfer Tickets</field>
-            <field name="code">housemaid.transfer.tickets</field>
-            <field name="prefix">TT/%(year)s/</field>
+            <field name="name">Sales Invoices</field>
+            <field name="code">ms_hospital.sales</field>
+            <field name="prefix">SI/%(year)s/</field>
             <field name="padding">5</field>
             <field name="company_id"
                 eval="False"/>
