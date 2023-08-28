@@ -4,11 +4,11 @@ from datetime import date, datetime, timedelta
 
 
 class Staff(models.Model):
-    _name = "ms_clinic.staff"
+    _name = "hospital.staff"
     _description = "Information about staff"
 
     name = fields.Char(string="Name", required=True)
-    title = fields.Many2one("ms_hospital.title", string="Title")
+    title = fields.Many2one("hospital.title", string="Title")
     age = fields.Integer(string="Age")
     gender = fields.Selection([("male", "Male"), ("female", "Female")], string="Gender")
     phone = fields.Char(string="Phone")
@@ -26,7 +26,7 @@ class Staff(models.Model):
     is_active = fields.Boolean(string="Active", default=True)
     specialization = fields.Char(string="Specialization")
     appointments = fields.One2many(
-        "ms_clinic.appointment", "staff_id", string="Appointments"
+        "hospital.appointment", "staff_id", string="Appointments"
     )
     clinic_id = fields.Many2many("clinic", string="Clinic")
 
@@ -40,5 +40,5 @@ class Staff(models.Model):
 
 
 class Title(models.Model):
-    _name = "ms_clinic.title"
+    _name = "hospital.title"
     _description = "Job Title"

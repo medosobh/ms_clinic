@@ -2,8 +2,8 @@ from odoo import models, fields, api, _
 from odoo.exceptions import UserError, ValidationError
 from datetime import date, datetime, timedelta
 
-class Patient(models.Model):
-    _name = "ms_clinic.patient"
+class Patients(models.Model):
+    _name = "hospital.patients"
     _description = "Patient"
     _rec_name = "name"
     _check_company_auto = True
@@ -52,23 +52,23 @@ class Patient(models.Model):
         tracking=True,
     )
     medical_history_id = fields.Many2many(
-        "ms_clinic.medicalhistory",
+        "hospital.medicalhistory",
         string="Medical History",
         tracking=True,
     )
     clinic_id = fields.Many2many(
-        "ms_clinic.clinic",
+        "hospital.clinic",
         string="Clinic",
         tracking=True,
     )
     appointments = fields.One2many(
-        "ms_clinic.appointment",
+        "hospital.appointment",
         "patient_id",
         string="Appointments",
         tracking=True,
     )
     insurance_id = fields.Many2one(
-        "ms_clinic.insurance",
+        "hospital.insurance",
         string="Patient Insurance",
         tracking=True,
     )

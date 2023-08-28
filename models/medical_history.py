@@ -1,12 +1,12 @@
-from odoo import models, fields, api, _
-from odoo.exceptions import UserError, ValidationError
+from odoo import api, fields, models, _
+from odoo.exceptions import UserError
 from datetime import date, datetime, timedelta
 from odoo.modules.module import get_module_resource
 import base64
 
 class medicalhistory(models.Model):
 
-    _name = 'ms_clinic.medicalhistory'
+    _name = 'clinic.medicalhistory'
     _description = 'Medical History'
     _rec_name = 'code'
     _check_company_auto = True

@@ -3,8 +3,8 @@ from odoo.exceptions import UserError, ValidationError
 from datetime import date, datetime, timedelta
 
 class Service(models.Model):
-    _name = 'ms_hospital.service'
-    _description = 'ms_hospital.service'
+    _name = 'hospital.service'
+    _description = 'hospital.service'
     _rec_name = 'name'
     _order = 'name ASC'
 

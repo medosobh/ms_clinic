@@ -3,7 +3,7 @@ from odoo.exceptions import UserError
 
 
 class sales(models.Model):
-    _name = 'ms_hospital.sales'
+    _name = 'hospital.sales'
     _description = 'Sales Orders'
     _check_company_auto = True
     _order = 'issue_date'
@@ -26,7 +26,7 @@ class sales(models.Model):
         domain=[('order_type', '=', 'sales')],
         string='Product Category')
     appointments_id = fields.Many2one(
-        comodel_name='ms_hospital.appointments',
+        comodel_name='hospital.appointments',
         required=True,
         tracking=True)
     issue_date = fields.Date(
@@ -55,7 +55,7 @@ class sales(models.Model):
     notes = fields.Html(
         string='Terms and Conditions')
     sales_order_line_ids = fields.One2many(
-        comodel_name='ms_hospital.sales.oline',
+        comodel_name='hospital.sales.oline',
         inverse_name='sales_id',
         string="order lines")
     company_id = fields.Many2one(
@@ -122,7 +122,7 @@ class sales(models.Model):
     def create(self, vals):
         if not vals.get('name') or vals['name'] == _('New'):
             vals['name'] = self.env['ir.sequence'].next_by_code(
-                'ms_hospital.sales') or _('New')
+                'hospital.sales') or _('New')
         return super(sales, self).create(vals)
 
     def action_customer_invoice(self):
