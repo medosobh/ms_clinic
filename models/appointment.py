@@ -5,6 +5,7 @@ from datetime import date, datetime, timedelta
 class Appointment(models.Model):
     _name = "ms_hospital.appointment"
     _description = "Information about appointments"
+    _inherit = ['mail.thread', 'mail.activity.mixin']
 
     name = fields.Char(string="Name", required=True)
     clinic_id = fields.Many2one("clinic", string="Location")
