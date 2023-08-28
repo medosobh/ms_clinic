@@ -23,6 +23,16 @@
                         </group>
                     </page>
                 </xpath>
+                <xpath expr="//page[@name='general_information']" position="after">
+                    <page string="Service" name="service">
+                        <group>
+                            <field name="service_name" />
+                            <field name="description" />
+                            <field name="unit_price" />
+                            <field name="services_id" />
+                        </group>
+                    </page>
+                </xpath>
             </field>
         </record>
         <!-- Inherit Form View to Modify it -->

@@ -28,6 +28,5 @@ class ProductTemplate(models.Model):
     description = fields.Text(
         string="Description")
     unit_price = fields.Float(string="Unit Price")
-    quantity = fields.Integer(string="Quantity")
     services_id = fields.Many2one('hospital.services',
-                                  string="Manufacturer")
+                                  string="Service Department")
