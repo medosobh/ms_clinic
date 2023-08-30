@@ -1,162 +1,142 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-	<data>
-		<!-- Appointment Form View -->
-		<record id="appointment_form_view"
-			model="ir.ui.view">
-			<field name="name">
-				hospital.appointments.form
-			</field>
-			<field name="model">
-				hospital.appointments
-			</field>
-			<field name="arch"
-				type="xml">
-				<form string="Appointment">
-					<header>
-						<button name=""
-							string="Draft"
-							type="object"
-							class="oe_highlight" />
-						<button name=""
-							string="Confirmed"
-							type="object" />
-						<button name=""
-							string=""
-							type="object" />
-						<button name=""
-							string="Billing"
-							type="object" />
-						<button name=""
-							string="Payment"
-							type="object" />
-						<field name="state"
-							widget="statusbar"
-							options="{'clickable': '0'}"
-							clickable="True"
-							type="object" />
-					</header>
-					<sheet>
-						<div class="oe_button_box"
-							name="button_sales_box">
-							<button name="action_customer_invoice"
-								type="object"
-								class="oe_stat_button"
-								icon="fa-file-text-o">
-								<div class="o_stat_info">
-									<field name="customer_invoice_count" />
-									<span class="o_stat_text">
-										Count
-									</span>
-								</div>
-							</button>
-							<button name="action_customer_invoice"
-								type="object"
-								class="oe_stat_button"
-								icon="fa-money">
-								<div class="o_stat_info">
-									<field name="currency_id"
-										invisible="1"
-										groups="base.group_multi_currency" />
-									<field name="customer_invoice_total"
-										widget="monetary"
-										options="{'currency_field': 'currency_id'}" />
-									<span class="o_stat_text">
-										Amount
-									</span>
-								</div>
-							</button>
-						</div>
-						<group>
-							<group>
-								<field name="name" />
-								<field name="clinic_id" />
-								<field name="appointment_date" />
-								<field name="patient_id" />
-							</group>
-							<group>
-								<field name="doctor_id" />
-								<field name="billing_amount" />
-								<field name="payment_amount" />
-								<field name="payment_date" />
-							</group>
-						</group>
-						<group>
-							<group>
-								<field name="consultation_notes" />
-							</group>
-							<group>
-								<field name="prescription_notes" />
-							</group>
-						</group>
-					</sheet>
-				</form>
-			</field>
-		</record>
-		<!-- Define the action -->
-		<record id="action_appointments_tree"
-			model="ir.actions.act_window">
-			<field name="name">
-				Appointments
-			</field>
-			<field name="res_model">
-				ms_hospital.appointments
-			</field>
-			<field name="view_mode">
-				tree,form,kanban,calendar
-			</field>
-			<field name="domain" />
-			<field name="context" />
-			<field name="help"
-				type="html">
-				<p class="oe_view_nocontent_create">
-					Click here to add a new appointment.
-				</p>
-			</field>
-		</record>
-		<!-- Appointment Tree View -->
-		<record id="appointments_tree_view"
-			model="ir.ui.view">
-			<field name="name">
-				ms_hospital.appointments.tree
-			</field>
-			<field name="model">
-				ms_hospital.appointments
-			</field>
-			<field name="arch"
-				type="xml">
-				<tree string="Appointments">
-					<field name="name" />
-					<field name="clinic_id" />
-					<field name="patient_id" />
-					<field name="doctor_id" />
-					<field name="appointment_date" />
-					<field name="billing_amount" />
-					<field name="payment_amount" />
-					<field name="payment_date" />
-				</tree>
-			</field>
-		</record>
-		<record model="ir.ui.view"
-			id="eclinic_appointments_calendar_view">
-			<field name="name">
-				ms_hospital.appointments.calendar
-			</field>
-			<field name="model">
-				ms_hospital.appointments
-			</field>
-			<field name="arch"
-				type="xml">
-				<calendar string="Appointments"
-					date_start="appointment_date">
-					<field name="name" />
-					<field name="appointment_date" />
-					<field name="patient_id" />
-					<field name="doctor_id" />
-					<field name="consultation_notes" />
-					<field name="prescription_notes" />
-				</calendar>
-			</field>
-		</record>
-	</data>
+    <data>
+        <!-- Appointment Form View -->
+        <record id="appointment_form_view"
+                model="ir.ui.view">
+            <field name="name">hospital.appointments.form</field>
+            <field name="model">hospital.appointments</field>
+            <field name="arch"
+                   type="xml">
+                <form string="Appointment">
+                    <header>
+                        <button name=""
+                                string="Draft"
+                                type="object"
+                                class="oe_highlight"/>
+                        <button name=""
+                                string="Confirmed"
+                                type="object"/>
+                        <button name=""
+                                string=""
+                                type="object"/>
+                        <button name=""
+                                string="Billing"
+                                type="object"/>
+                        <button name=""
+                                string="Payment"
+                                type="object"/>
+                        <field name="state"
+                               widget="statusbar"
+                               options="{'clickable': '0'}"
+                               clickable="True"
+                               type="object"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box"
+                             name="button_sales_box">
+                            <button name="action_customer_invoice"
+                                    type="object"
+                                    class="oe_stat_button"
+                                    icon="fa-file-text-o">
+                                <div class="o_stat_info">
+                                    <field name="customer_invoice_count"/>
+                                    <span class="o_stat_text">
+                                        Count
+                                    </span>
+                                </div>
+                            </button>
+                            <button name="action_customer_invoice"
+                                    type="object"
+                                    class="oe_stat_button"
+                                    icon="fa-money">
+                                <div class="o_stat_info">
+                                    <field name="currency_id"
+                                           invisible="1"
+                                           groups="base.group_multi_currency"/>
+                                    <field name="customer_invoice_total"
+                                           widget="monetary"
+                                           options="{'currency_field': 'currency_id'}"/>
+                                    <span class="o_stat_text">Amount</span>
+                                </div>
+                            </button>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="clinic_id"/>
+                                <field name="appointment_date"/>
+                                <field name="patient_id"/>
+                            </group>
+                            <group>
+                                <field name="doctor_id"/>
+                                <field name="billing_amount"/>
+                                <field name="payment_amount"/>
+                                <field name="payment_date"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="consultation_notes"/>
+                            </group>
+                            <group>
+                                <field name="prescription_notes"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!-- Define the action -->
+        <record id="action_appointments_tree"
+                model="ir.actions.act_window">
+            <field name="name">Appointments</field>
+            <field name="res_model">ms_hospital.appointments</field>
+            <field name="view_mode">tree,form,kanban,calendar</field>
+            <field name="domain"/>
+            <field name="context"/>
+            <field name="help"
+                   type="html">
+                <p class="oe_view_nocontent_create">
+                    Click here to add a new appointment.
+                </p>
+            </field>
+        </record>
+        <!-- Appointment Tree View -->
+        <record id="appointments_tree_view"
+                model="ir.ui.view">
+            <field name="name">ms_hospital.appointments.tree</field>
+            <field name="model">ms_hospital.appointments</field>
+            <field name="arch"
+                   type="xml">
+                <tree string="Appointments">
+                    <field name="name"/>
+                    <field name="clinic_id"/>
+                    <field name="patient_id"/>
+                    <field name="doctor_id"/>
+                    <field name="appointment_date"/>
+                    <field name="billing_amount"/>
+                    <field name="payment_amount"/>
+                    <field name="payment_date"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view"
+                id="eclinic_appointments_calendar_view">
+            <field name="name">ms_hospital.appointments.calendar</field>
+            <field name="model">ms_hospital.appointments</field>
+            <field name="arch"
+                   type="xml">
+                <calendar string="Appointments"
+                          date_start="appointment_date">
+                    <field name="name"/>
+                    <field name="appointment_date"/>
+                    <field name="patient_id"/>
+                    <field name="doctor_id"/>
+                    <field name="consultation_notes"/>
+                    <field name="prescription_notes"/>
+                </calendar>
+            </field>
+        </record>
+    </data>
 </odoo>
