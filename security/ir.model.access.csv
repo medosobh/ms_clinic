@@ -1,7 +1,8 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 ms_hospital.access_hospoital_appointments,access_hospital_appointments,ms_hospital.model_hospital_appointments,base.group_user,1,1,1,1
-ms_hospital.access_hospoital_clinic,access_hospital_clinic,ms_hospital.model_hospital_clinic,base.group_user,1,1,1,1
-ms_hospital.access_hospoital_patient,access_hospital_patient,ms_hospital.model_hospital_patient,base.group_user,1,1,1,1
+ms_hospital.access_hospoital_clinics,access_hospital_clinics,ms_hospital.model_hospital_clinics,base.group_user,1,1,1,1
+ms_hospital.access_hospoital_patients,access_hospital_patients,ms_hospital.model_hospital_patients,base.group_user,1,1,1,1
+ms_hospital.access_hospoital_doctors,access_hospital_doctors,ms_hospital.model_hospital_doctors,base.group_user,1,1,1,1
 
 
 
