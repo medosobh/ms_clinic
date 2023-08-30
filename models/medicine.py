@@ -1,6 +1,5 @@
-from odoo import models, fields, api, _
-from odoo.exceptions import UserError, ValidationError
-from datetime import date, datetime, timedelta
+from odoo import models, fields
+
 
 class ProductTemplate(models.Model):
     _inherit = "product.template"

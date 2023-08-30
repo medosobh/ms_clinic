@@ -1,6 +1,5 @@
-from odoo import models, fields, api, _
-from odoo.exceptions import UserError, ValidationError
-from datetime import date, datetime, timedelta
+from odoo import models, fields
+
 
 class Patients(models.Model):
     _name = "hospital.patients"
@@ -9,11 +8,12 @@ class Patients(models.Model):
     _check_company_auto = True
     _sql_constraints = [
         (
-            "identaty_uniq",
-            "unique(identaty)",
-            "An identaty can only be assigned to one patient!",
+            "identity_uniq",
+            "unique(identity)",
+            "An identity can only be assigned to one patient!",
         ),
-        ("name_uniq", "unique(name)", "A name can only be assigned to one patient!"),
+        ("name_uniq", "unique(name)",
+         "A name can only be assigned to one patient!"),
     ]
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
@@ -22,8 +22,8 @@ class Patients(models.Model):
         required=True,
         tracking=True,
     )
-    identaty = fields.Char(
-        string="Patient Identaty",
+    identity = fields.Char(
+        string="Patient Identity",
         tracking=True,
     )
     birthday = fields.Date(
@@ -32,7 +32,7 @@ class Patients(models.Model):
     )
     age = fields.Integer(string="Age")
     gender = fields.Selection(
-        [
+        selection=[
             ("male", "Male"),
             ("female", "Female"),
         ],
@@ -52,23 +52,36 @@ class Patients(models.Model):
         tracking=True,
     )
     medical_history_id = fields.Many2many(
-        "hospital.medicalhistory",
+        comodel_name="hospital.medical.history",
         string="Medical History",
         tracking=True,
     )
     clinic_id = fields.Many2many(
-        "hospital.clinic",
+        comodel_name="hospital.clinics",
         string="Clinic",
         tracking=True,
     )
     appointments = fields.One2many(
-        "hospital.appointment",
-        "patient_id",
+        comodel_name="hospital.appointments",
+        inverse_name="patient_id",
         string="Appointments",
         tracking=True,
     )
     insurance_id = fields.Many2one(
-        "hospital.insurance",
+        comodel_name="hospital.insurance",
         string="Patient Insurance",
+        tracking=True,
+    )
+
+
+class Insurance(models.Model):
+    _name = "hospital.insurance"
+    _description = "Patient"
+
+    _inherit = ["mail.thread", "mail.activity.mixin"]
+
+    name = fields.Char(
+        string="Patient Name",
+        required=True,
         tracking=True,
     )
