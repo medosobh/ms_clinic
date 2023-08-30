@@ -2,7 +2,7 @@ from odoo import fields, models, api, _
 from odoo.exceptions import UserError
 
 
-class sales(models.Model):
+class Sales(models.Model):
     _name = 'hospital.sales'
     _description = 'Sales Orders'
     _check_company_auto = True
@@ -15,7 +15,7 @@ class sales(models.Model):
         readonly=True,
         tracking=True,
         default=lambda x: _('New'))
-    state = fields.Selection([
+    state = fields.Selection(selection=[
         ('order', 'Invoicing'),
         ('lock', 'Locked')],
         string='State', readonly=False, copy=False,
@@ -86,11 +86,12 @@ class sales(models.Model):
     # -------------------------------------------------------------------------
     @api.depends('sales_order_line_ids')
     def _compute_sales_order_cost(self):
+        rec: Sales
         for rec in self:
-            sline = sum(self.env['farm.sales.oline'].search([
+            oline = sum(self.env['farm.sales.oline'].search([
                 ('sales_id', '=', rec.id)
             ]).mapped('price_subtotal'))
-            rec.s_order_cost = sline
+            rec.s_order_cost = oline
         return rec.s_order_cost
 
     def _compute_customer_invoice_count(self):
@@ -100,6 +101,7 @@ class sales(models.Model):
             ])
             rec.customer_invoice_count = customer_invoice_count
 
+    # noinspection PyGlobalUndefined
     def _compute_customer_invoice_total(self):
         for rec in self:
             total_debit = sum(
@@ -123,7 +125,7 @@ class sales(models.Model):
         if not vals.get('name') or vals['name'] == _('New'):
             vals['name'] = self.env['ir.sequence'].next_by_code(
                 'hospital.sales') or _('New')
-        return super(sales, self).create(vals)
+        return super(Sales, self).create(vals)
 
     def action_customer_invoice(self):
         return {
@@ -143,21 +145,24 @@ class sales(models.Model):
         # check analytic_account_id created
         analytic = self.analytic_account_id
         if not analytic:
-            raise UserError(_('Please define an analytic account for the company %s (%s).') % (
-                self.company_id.name, self.company_id.id))
+            raise UserError(
+                _('Please define an analytic account for the company %s (%s).') % (
+                    self.company_id.name, self.company_id.id))
 
         move_type = self._context.get('default_move_type', 'out_invoice')
         journal = self.env['account.move'].with_context(
             default_move_type=move_type)._get_default_journal()
         if not journal:
             raise UserError(
-                _('Please define an accounting sales journal for the company %s (%s).', self.company_id.name,
+                _('Please define an accounting sales journal for the company %s (%s).',
+                  self.company_id.name,
                   self.company_id.id))
 
         partner_invoice_id = self.partner_id.address_get(['invoice'])[
             'invoice']
         partner_bank_id = self.partner_id.commercial_partner_id.bank_ids.filtered_domain(
-            ['|', ('company_id', '=', False), ('company_id', '=', self.company_id.id)])[:1]
+            ['|', ('company_id', '=', False),
+             ('company_id', '=', self.company_id.id)])[:1]
         invoice_vals = {
             'state': 'draft',
             'ref': self.name or '',
@@ -166,7 +171,9 @@ class sales(models.Model):
             'currency_id': self.currency_id.id,
             'invoice_user_id': self.user_id and self.user_id.id or self.env.user.id,
             'partner_id': partner_invoice_id,
-            # 'fiscal_position_id': (self.fiscal_position_id or self.fiscal_position_id.get_fiscal_position(partner_invoice_id)).id,
+            # 'fiscal_position_id': (self.fiscal_position_id or
+            # self.fiscal_position_id.get_fiscal_position(
+            # partner_invoice_id)).id,
             'payment_reference': self.name or '',
             'partner_bank_id': partner_bank_id.id,
             'journal_id': journal.id,  # company comes from the journal
@@ -189,14 +196,15 @@ class sales(models.Model):
         res = self.env.ref('account.view_move_form', False)
         form_view = [(res and res.id or False, 'form')]
         result['views'] = form_view + \
-            [(state, view)
-             for state, view in result['views'] if view != 'form']
+                          [(state, view)
+                           for state, view in result['views'] if
+                           view != 'form']
         result['res_id'] = invoice.id
         return result
 
 
-class farm_sales_oline(models.Model):
-    _name = 'farm.sales.oline'
+class SalesOline(models.Model):
+    _name = 'hospital.sales.oline'
     _description = 'Sales Order Line'
 
     name = fields.Text(
