@@ -15,14 +15,14 @@
 				<form string="Appointment">
 					<header>
 						<button name=""
-							string="New Appointment"
+							string="Draft"
 							type="object"
 							class="oe_highlight" />
 						<button name=""
-							string="Schedule Appointment"
+							string="Confirmed"
 							type="object" />
 						<button name=""
-							string="View Calendar"
+							string=""
 							type="object" />
 						<button name=""
 							string="Billing"
