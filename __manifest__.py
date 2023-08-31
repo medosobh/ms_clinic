@@ -59,7 +59,7 @@
     'installable': True,
     'auto_install': False,
     'application': True,
-    'sequence': '31',
+    'sequence': 46,
     'license': 'LGPL-3',
     'assets': {
         'web.assets_backend': {

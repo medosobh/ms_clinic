@@ -138,9 +138,9 @@
                    type="xml">
                 <tree string="Appointments">
                     <field name="name"/>
-                    <field name="clinic_id"/>
-                    <field name="patient_id"/>
-                    <field name="doctor_id"/>
+                    <field name="clinics_id"/>
+                    <field name="patients_id"/>
+                    <field name="staff_id"/>
                     <field name="appointment_date"/>
                     <field name="billing_amount"/>
                     <field name="payment_amount"/>

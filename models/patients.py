@@ -56,7 +56,7 @@ class Patients(models.Model):
         string="Medical History",
         tracking=True,
     )
-    clinic_id = fields.Many2many(
+    clinics_id = fields.Many2many(
         comodel_name="hospital.clinics",
         string="Clinic",
         tracking=True,

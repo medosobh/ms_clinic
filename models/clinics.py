@@ -17,7 +17,7 @@ class Clinics(models.Model):
     website = fields.Char(string="Website")
     appointments = fields.One2many(
         comodel_name="hospital.appointments",
-        inverse_name="clinic_id",
+        inverse_name="clinics_id",
         string="Appointments")
     staff_id = fields.Many2many(
         comodel_name="hospital.staff",

@@ -52,7 +52,7 @@
                         </group>
                         <notebook>
                             <page string="Clinics">
-                                <field name="clinic_id"
+                                <field name="clinics_id"
                                        widget="many2many_tags"/>
                             </page>
                         </notebook>
