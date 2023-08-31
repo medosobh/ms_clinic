@@ -19,15 +19,6 @@ class Clinics(models.Model):
         comodel_name="hospital.appointments",
         inverse_name="clinics_id",
         string="Appointments")
-    staff_id = fields.Many2many(
-        comodel_name="hospital.staff",
-        string="Doctors")
-    patients = fields.Many2many(
-        comodel_name="hospital.patients",
-        string="Patients")
-    pharmacies = fields.Many2many(
-        comodel_name="hospital.staff",
-        string="Pharmacies")
     fees_rate = fields.Monetary(
         string="Fees Rate")
     is_active = fields.Boolean(

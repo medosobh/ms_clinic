@@ -52,22 +52,18 @@
                         </group>
                         <notebook>
                             <page string="Doctors">
-                                <field name="doctors" widget="many2many_tags"/>
                             </page>
                             <page string="Patients">
                                 <field name="patients" widget="one2many_list"/>
                             </page>
                             <page string="Pharmacies">
-                                <field name="pharmacies"
-                                       widget="one2many_list"/>
+
                             </page>
                             <page string="Transactions">
-                                <field name="transactions"
-                                       widget="one2many_list"/>
+
                             </page>
                             <page string="Appointments">
-                                <field name="appointments"
-                                       widget="one2many_list"/>
+
                             </page>
                         </notebook>
                     </sheet>

@@ -11,12 +11,12 @@ class Staff(models.Model):
         string="Name",
         required=True)
     roles_id = fields.Many2one(
-        "hospital.role",
+        comodel_name="hospital.roles",
         string="Role")
     age = fields.Integer(
         string="Age")
     gender = fields.Selection(
-        [
+        selection=[
             ("male", "Male"),
             ("female", "Female")
         ], string="Gender")
@@ -34,11 +34,11 @@ class Staff(models.Model):
     specialization = fields.Char(
         string="Specialization")
     appointments = fields.One2many(
-        "hospital.appointments",
-        "staff_id",
+        comodel_name="hospital.appointments",
+        inverse_name="staff_id",
         string="Appointments")
     clinics_id = fields.Many2many(
-        "hospital.clinics",
+        comodel_name="hospital.clinics",
         string="Clinic")
 
     def toggle_active(self):

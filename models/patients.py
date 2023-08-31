@@ -56,22 +56,20 @@ class Patients(models.Model):
         string="Medical History",
         tracking=True,
     )
-    clinics_id = fields.Many2many(
+    clinics_id = fields.One2many(
         comodel_name="hospital.clinics",
+        inverse_name="patients_id",
         string="Clinic",
-        tracking=True,
-    )
+        tracking=True)
     appointments = fields.One2many(
         comodel_name="hospital.appointments",
         inverse_name="patient_id",
         string="Appointments",
-        tracking=True,
-    )
+        tracking=True)
     insurance_id = fields.Many2one(
         comodel_name="hospital.insurance",
         string="Patient Insurance",
-        tracking=True,
-    )
+        tracking=True)
 
 
 class Insurance(models.Model):
