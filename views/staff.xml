@@ -76,13 +76,6 @@
             </field>
         </record>
 
-        <!-- Define the menuitem that points to the action -->
-        <menuitem
-                id="menu_staff_tree"
-                name="Staff"
-                parent="clinic_parent_menu"
-                action="action_staff_tree"
-                sequence="90"
-        />
+
     </data>
 </odoo>

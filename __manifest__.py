@@ -12,7 +12,7 @@
     """,
 
     'author': "Mohamed Sobh",
-    'website': "http://www.yourcompany.com",
+    'website': "https://www.linkedin.com/in/mohamed-sobh-898a1140",
 
     'category': 'Services',
     'version': '15.0.1.0',
@@ -45,10 +45,10 @@
         'sequences/sequence_views.xml',
 
         # Views
-        'views/appointment.xml',
-        'views/clinic.xml',
-        'views/patient.xml',
-        'views/doctor.xml',
+        'views/appointments.xml',
+        'views/clinics.xml',
+        'views/patients.xml',
+        'views/staff.xml',
         'views/sales.xml',
         # 'views/insurance.xml',
         # 'views/insurance_policy.xml',
