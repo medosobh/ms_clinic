@@ -10,20 +10,20 @@
                    type="xml">
                 <form string="Appointment">
                     <header>
-                        <button name=""
+                        <button name="set_to_draft"
                                 string="Draft"
                                 type="object"
                                 class="oe_highlight"/>
-                        <button name=""
+                        <button name="set_to_confirm"
                                 string="Confirmed"
                                 type="object"/>
-                        <button name=""
+                        <button name="set_to_inspection"
                                 string=""
                                 type="object"/>
-                        <button name=""
+                        <button name="set_to_reschedule"
                                 string="Billing"
                                 type="object"/>
-                        <button name=""
+                        <button name="set_to_closed"
                                 string="Payment"
                                 type="object"/>
                         <field name="state"

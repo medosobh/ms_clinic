@@ -79,75 +79,20 @@ class Appointments(models.Model):
         string="Patient Invoice Total",
         compute="_compute_customer_invoice_total")
 
-    def reschedule_appointment(self):
-        # create new appointment
-        # set close state next date to old appointment rec
+    def set_to_draft(self):
+        self.state = 'draft'
 
-        return
+    def set_to_confirm(self):
+        self.state = 'confirm'
 
-    @api.depends("start_date")
-    def _get_end_date(self):
-        global r
-        r: Appointments
-        for r in self:
-            if not (r.start_date and r.p_days):
-                r.end_date = r.start_date
-                continue
-            # Add duration to start_date, but: Monday + 5 days = Saturday, so
-            # subtract one second to get on Friday instead
-            p_days = timedelta(days=r.p_days, seconds=0)
-            r.end_date = r.start_date + p_days
-        return r.end_date
+    def set_to_inspection(self):
+        self.state = 'inspection'
 
-    def _set_end_date(self):
-        for rec in self:
-            if not (rec.start_date and rec.end_date):
-                raise UserError((
-                                    "Please define start and End date for current project for the company %s (%s).") % (
-                                    self.company_id.name, self.company_id.id))
-            continue
+    def set_to_reschedule(self):
+        self.state = 'reschedule'
 
-            # Compute the difference between dates, but: Friday - Monday = 4 days,
-            # so add one day to get 5 days instead
-            rec.p_days = (rec.end_date - rec.start_date).days
-        return rec.p_days
-
-    @api.onchange("patient_id")
-    def onchange_patient_id(self):
-        if self.patient_id:
-            today = datetime.now().strftime("%Y%m%d")
-            self.name = "APPOINTMENT/" + self.patient_id.name + "/" + today
-
-    def open_create_appointment_form(self):
-        return {"type": "ir.actions.act_window", "name": "Create Appointment",
-                "res_model": "hospital.appointment",
-                "view_mode": "form", "target": "current",
-                "context": {"default_patient_id": self.patient_id.id,
-                            "default_clinic_id": self.clinic_id.id, }, }
-
-    def open_schedule_appointment_form(self):
-        return {"type": "ir.actions.act_window",
-                "name": "Schedule Appointment",
-                "res_model": "hospital.appointment",
-                "view_mode": "form", "target": "current",
-                "context": {"default_patient_id": self.patient_id.id,
-                            "default_clinic_id": self.clinic_id.id, }, }
-
-    def open_appointments_calendar(self):
-        return {"type": "ir.actions.act_window",
-                "name": "Appointment Calendar",
-                "res_model": "hospital.appointment",
-                "view_mode": "calendar,tree", "target": "current", }
-
-    def open_billing(self):
-        return {"type": "ir.actions.act_window", "name": "Billing",
-                "res_model": "hospital.appointment",
-                "view_mode": "form", "target": "current", }
-
-    def open_payment(self):
-        return {"type": "ir.actions.act_window", "name": "Payment",
-                "res_model": "hospital.appointment",
-                "view_mode": "form", "target": "current", }
+    def set_to_closed(self):
+        self.state = 'closed'
 
     def _compute_customer_invoice_count(self):
         for rec in self:
