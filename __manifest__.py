@@ -38,7 +38,10 @@
     ],
     # always loaded
     'data': [
+        # Security
         'security/ir.model.access.csv',
+        # Data
+        # 'data/data.xml',
         # Sequences
         'sequences/sequence_views.xml',
         # Views
