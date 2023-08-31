@@ -36,14 +36,11 @@
                 'web',
                 'calendar',
     ],
-
     # always loaded
     'data': [
         'security/ir.model.access.csv',
-
         # Sequences
         'sequences/sequence_views.xml',
-
         # Views
         'views/appointments.xml',
         'views/clinics.xml',
@@ -51,9 +48,6 @@
         'views/staff.xml',
         'views/sales.xml',
         # 'views/insurance.xml',
-        # 'views/insurance_policy.xml',
-        # 'views/medicine.xml',
-
     ],
     # only loaded in demonstration mode
     'demo': [
