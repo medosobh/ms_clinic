@@ -118,7 +118,7 @@
         <record id="action_tickets_tree"
                 model="ir.actions.act_window">
             <field name="name">Appointments</field>
-            <field name="res_model">ms_hospital.tickets</field>
+            <field name="res_model">hospital.tickets</field>
             <field name="view_mode">tree,form,kanban,calendar</field>
             <field name="domain"/>
             <field name="context"/>
@@ -132,8 +132,8 @@
         <!-- Appointment Tree View -->
         <record id="tickets_tree_view"
                 model="ir.ui.view">
-            <field name="name">ms_hospital.tickets.tree</field>
-            <field name="model">ms_hospital.tickets</field>
+            <field name="name">hospital.tickets.tree</field>
+            <field name="model">hospital.tickets</field>
             <field name="arch"
                    type="xml">
                 <tree string="Appointments">
@@ -150,8 +150,8 @@
         </record>
         <record model="ir.ui.view"
                 id="eclinic_tickets_calendar_view">
-            <field name="name">ms_hospital.tickets.calendar</field>
-            <field name="model">ms_hospital.tickets</field>
+            <field name="name">hospital.tickets.calendar</field>
+            <field name="model">hospital.tickets</field>
             <field name="arch"
                    type="xml">
                 <calendar string="Appointments"

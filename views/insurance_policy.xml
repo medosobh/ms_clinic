@@ -5,7 +5,7 @@
         <record id="action_insurance_policy_tree"
                 model="ir.actions.act_window">
             <field name="name">Insurance Policies</field>
-            <field name="res_model">ms_clinic.insurance.policy</field>
+            <field name="res_model">hospital.insurance.policy</field>
             <field name="view_mode">tree,form</field>
             <field name="domain"/>
             <field name="context"/>
@@ -18,8 +18,8 @@
 
         <!-- Insurance Policy Tree View -->
         <record model="ir.ui.view" id="insurance_policy_tree_view">
-            <field name="name">ms_clinic.insurance.policy.tree</field>
-            <field name="model">ms_clinic.insurance.policy</field>
+            <field name="name">hospital.insurance.policy.tree</field>
+            <field name="model">hospital.insurance.policy</field>
             <field name="arch" type="xml">
                 <tree>
                     <field name="number"/>
@@ -34,8 +34,8 @@
 
         <!-- Insurance Policy Form View -->
         <record id="insurance_policy_form_view" model="ir.ui.view">
-            <field name="name">ms_clinic.insurance.policy.form</field>
-            <field name="model">ms_clinic.insurance.policy</field>
+            <field name="name">hospital.insurance.policy.form</field>
+            <field name="model">hospital.insurance.policy</field>
             <field name="arch" type="xml">
                 <form string="Insurance Policy">
                     <sheet>

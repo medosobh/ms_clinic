@@ -4,7 +4,7 @@
         <!-- Define the action -->
         <record id="action_insurance_tree" model="ir.actions.act_window">
             <field name="name">Insurances</field>
-            <field name="res_model">ms_clinic.insurance</field>
+            <field name="res_model">hospital.insurance</field>
             <field name="view_mode">tree,form</field>
             <field name="domain"/>
             <field name="context"/>
@@ -16,8 +16,8 @@
         </record>
 
         <record model="ir.ui.view" id="insurance_tree_view">
-            <field name="name">ms_clinic.insurance.tree</field>
-            <field name="model">ms_clinic.insurance</field>
+            <field name="name">hospital.insurance.tree</field>
+            <field name="model">hospital.insurance</field>
             <field name="arch" type="xml">
                 <tree>
                     <field name="name"/>
@@ -29,8 +29,8 @@
         </record>
 
         <record model="ir.ui.view" id="insurance_form_view">
-            <field name="name">ms_clinic.insurance.form</field>
-            <field name="model">ms_clinic.insurance</field>
+            <field name="name">hospital.insurance.form</field>
+            <field name="model">hospital.insurance</field>
             <field name="arch" type="xml">
                 <form string="Insurance">
                     <sheet>

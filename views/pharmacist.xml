@@ -4,7 +4,7 @@
         <!-- Define the action -->
         <record id="action_pharmacist_tree" model="ir.actions.act_window">
             <field name="name">Pharmacists</field>
-            <field name="res_model">ms_clinic.pharmacist</field>
+            <field name="res_model">hospital.pharmacist</field>
             <field name="view_mode">tree,form</field>
             <field name="domain"/>
             <field name="context"/>
@@ -17,8 +17,8 @@
 
         <!-- Tree View -->
         <record model="ir.ui.view" id="pharmacist_tree_view">
-            <field name="name">ms_clinic.pharmacist.tree</field>
-            <field name="model">ms_clinic.pharmacist</field>
+            <field name="name">hospital.pharmacist.tree</field>
+            <field name="model">hospital.pharmacist</field>
             <field name="arch" type="xml">
                 <tree>
                     <field name="name"/>
@@ -33,8 +33,8 @@
 
         <!-- Form View -->
         <record id="view_pharmacist_form" model="ir.ui.view">
-            <field name="name">ms_clinic.pharmacist.form</field>
-            <field name="model">ms_clinic.pharmacist</field>
+            <field name="name">hospital.pharmacist.form</field>
+            <field name="model">hospital.pharmacist</field>
             <field name="arch" type="xml">
                 <form string="Pharmacist">
                     <sheet>
