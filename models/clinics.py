@@ -15,8 +15,8 @@ class Clinics(models.Model):
     phone = fields.Char(string="Phone")
     email = fields.Char(string="Email")
     website = fields.Char(string="Website")
-    appointments = fields.One2many(
-        comodel_name="hospital.appointments",
+    tickets_ids = fields.One2many(
+        comodel_name="hospital.tickets",
         inverse_name="clinics_id",
         string="Appointments")
     fees_rate = fields.Monetary(

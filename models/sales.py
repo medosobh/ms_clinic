@@ -25,8 +25,8 @@ class Sales(models.Model):
         required=True,
         domain=[('order_type', '=', 'sales')],
         string='Product Category')
-    appointments_id = fields.Many2one(
-        comodel_name='hospital.appointments',
+    tickets_id = fields.Many2one(
+        comodel_name='hospital.tickets',
         required=True,
         tracking=True)
     issue_date = fields.Date(
@@ -79,7 +79,7 @@ class Sales(models.Model):
         string="Customer Invoice Total",
         compute='_compute_customer_invoice_total')
     analytic_account_id = fields.Reference(
-        related='appointments_id.analytic_account_id')
+        related='tickets_id.analytic_account_id')
 
     # -------------------------------------------------------------------------
     # COMPUTE METHODS

@@ -1,11 +1,13 @@
 <odoo>
 	<data>
 		<menuitem id="hospital_root" name="Hospital" web_icon="static/description/icon.png" sequence="145" />
-		<!-- appointnent only -->
+		<!-- ticket only -->
 		<menuitem id="hospital_menu_main" name="Appointments" parent="hospital_root" sequence="10" />
 		<!-- split -->
-		<menuitem id="hospital_menu_appointments" name="Appointments" parent="hospital_menu_main" action="xyz" sequence="11" />
-		<!-- appointnent (dignose records and attchment + prescription + customer invoices) -->
+		<menuitem id="hospital_menu_tickets" name="Tickets"
+				  parent="hospital_menu_main" action="xyz" sequence="11" />
+		<!-- ticket (diagnosis records and attachment + prescription +
+		customer invoices) -->
 		<!-- patients and charges -->
 		<!-- doctors and staff -->
 		<menuitem id="hospital_menu_hospital" name="Hospital" parent="hospital_root" sequence="20" />

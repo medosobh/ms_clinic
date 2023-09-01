@@ -4,8 +4,8 @@
         <!-- Appointment Form View -->
         <record id="appointment_form_view"
                 model="ir.ui.view">
-            <field name="name">hospital.appointments.form</field>
-            <field name="model">hospital.appointments</field>
+            <field name="name">hospital.tickets.form</field>
+            <field name="model">hospital.tickets</field>
             <field name="arch"
                    type="xml">
                 <form string="Appointment">
@@ -83,7 +83,7 @@
                                 <field name="child_id"/>
                             </gorup>
                             <gorup>
-                                <field name="company_id"/>
+                                <field name="company_id" groups="base.group_multi_company"/>
                                 <field name="currency_id"/>
                             </gorup>
                         </group>
@@ -115,10 +115,10 @@
             </field>
         </record>
         <!-- Define the action -->
-        <record id="action_appointments_tree"
+        <record id="action_tickets_tree"
                 model="ir.actions.act_window">
             <field name="name">Appointments</field>
-            <field name="res_model">ms_hospital.appointments</field>
+            <field name="res_model">ms_hospital.tickets</field>
             <field name="view_mode">tree,form,kanban,calendar</field>
             <field name="domain"/>
             <field name="context"/>
@@ -130,10 +130,10 @@
             </field>
         </record>
         <!-- Appointment Tree View -->
-        <record id="appointments_tree_view"
+        <record id="tickets_tree_view"
                 model="ir.ui.view">
-            <field name="name">ms_hospital.appointments.tree</field>
-            <field name="model">ms_hospital.appointments</field>
+            <field name="name">ms_hospital.tickets.tree</field>
+            <field name="model">ms_hospital.tickets</field>
             <field name="arch"
                    type="xml">
                 <tree string="Appointments">
@@ -149,9 +149,9 @@
             </field>
         </record>
         <record model="ir.ui.view"
-                id="eclinic_appointments_calendar_view">
-            <field name="name">ms_hospital.appointments.calendar</field>
-            <field name="model">ms_hospital.appointments</field>
+                id="eclinic_tickets_calendar_view">
+            <field name="name">ms_hospital.tickets.calendar</field>
+            <field name="model">ms_hospital.tickets</field>
             <field name="arch"
                    type="xml">
                 <calendar string="Appointments"

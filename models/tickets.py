@@ -3,9 +3,9 @@ from datetime import datetime
 from odoo import models, fields
 
 
-class Appointments(models.Model):
-    _name = "hospital.appointments"
-    _description = "Information about appointments"
+class Tickets(models.Model):
+    _name = "hospital.tickets"
+    _description = "Information about tickets"
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
     state = fields.Selection(
@@ -44,15 +44,15 @@ class Appointments(models.Model):
         string="Prescription Notes")
     medicine_line_ids = fields.One2many(
         comodel_name='hospital.medicine.line',
-        inverse_name='appointments_id',
+        inverse_name='tickets_id',
         string="Medicine lines")
     diagnosis_ids = fields.One2many(
         comodel_name='hospital.diagnosis',
-        inverse_name='appointments_id',
+        inverse_name='tickets_id',
         string="Diagnosis lines")
     prescriptions_ids = fields.One2many(
         comodel_name='hospital.prescriptions',
-        inverse_name='appointments_id',
+        inverse_name='tickets_id',
         string="Prescriptions lines")
     billing_amount = fields.Float(
         string="Billing Amount")
@@ -162,8 +162,8 @@ class Diagnosis(models.Model):
         string="Attachment Filename",
         required=False,
         tracking=True)
-    appointments_id = fields.Many2one(
-        comodel_name="hospital.appointments",
+    tickets_id = fields.Many2one(
+        comodel_name="hospital.tickets",
         string="Appointment")
 
     def _get_report_base_filename(self):
@@ -194,8 +194,8 @@ class Prescriptions(models.Model):
         string="Attachment Filename",
         required=False,
         tracking=True)
-    appointments_id = fields.Many2one(
-        comodel_name="hospital.appointments",
+    tickets_id = fields.Many2one(
+        comodel_name="hospital.tickets",
         string="Appointment")
 
     def _get_report_base_filename(self):
@@ -244,6 +244,6 @@ class MedicineLine(models.Model):
         compute='_compute_subtotal',
         currency_field='currency_id',
         store=True)
-    appointments_id = fields.Many2one(
-        comodel_name='hospital.appointments',
+    tickets_id = fields.Many2one(
+        comodel_name='hospital.tickets',
         string='Appointment ticket')

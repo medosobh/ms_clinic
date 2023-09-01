@@ -45,7 +45,7 @@
         # Sequences
         'sequences/sequence_views.xml',
         # Views
-        'views/appointments.xml',
+        'views/tickets.xml',
         'views/clinics.xml',
         'views/patients.xml',
         'views/staff.xml',

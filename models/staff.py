@@ -33,8 +33,8 @@ class Staff(models.Model):
         default=True)
     specialization = fields.Char(
         string="Specialization")
-    appointments = fields.One2many(
-        comodel_name="hospital.appointments",
+    tickets_ids = fields.One2many(
+        comodel_name="hospital.tickets",
         inverse_name="staff_id",
         string="Appointments")
     clinics_id = fields.Many2many(

@@ -61,8 +61,8 @@ class Patients(models.Model):
         inverse_name="patients_id",
         string="Clinic",
         tracking=True)
-    appointments = fields.One2many(
-        comodel_name="hospital.appointments",
+    tickets_ids = fields.One2many(
+        comodel_name="hospital.tickets",
         inverse_name="patient_id",
         string="Appointments",
         tracking=True)

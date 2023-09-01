@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from . import clinics
-from . import appointments
+from . import tickets
 from . import patients
 from . import staff
 from . import inherit
