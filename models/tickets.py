@@ -88,6 +88,13 @@ class Tickets(models.Model):
         related="company_id.currency_id",
         readonly=True, ondelete="set null",
         help="Used to display the currency when tracking monetary values")
+    sales_id = fields.Many2one(
+        comodel_name='hospital.sales',
+        string="Sales Orders")
+    sales_ids = fields.One2many(
+        comodel_name='hospital.sales',
+        inverse_name='tickets_id',
+        string="Sales Orders")
     customer_invoice_count = fields.Integer(
         string="Patient Invoice Count",
         compute="_compute_customer_invoice_count")

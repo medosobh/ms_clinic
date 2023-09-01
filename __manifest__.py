@@ -40,6 +40,7 @@
     'data': [
         # Security
         'security/ir.model.access.csv',
+        # 'security/security.xml',
         # Data
         # 'data/data.xml',
         # Sequences
