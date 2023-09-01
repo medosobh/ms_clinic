@@ -123,7 +123,6 @@ class Tickets(models.Model):
             total_credit = sum(self.env["account.move.line"].search(
                 [("sales_id", "=", rec.id)]).mapped("credit"))
             rec.customer_invoice_total = total_debit + total_credit
-        return rec.customer_invoice_total
 
     def action_customer_invoice(self):
         return {
