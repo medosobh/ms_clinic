@@ -5,7 +5,7 @@ from odoo import models, fields, api, _
 
 class Tickets(models.Model):
     _name = "hospital.tickets"
-    _description = "Information about tickets"
+    _description = "Tickets Information"
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
     state = fields.Selection(
@@ -20,7 +20,10 @@ class Tickets(models.Model):
         default="draft")
     name = fields.Char(
         string="Name",
-        required=True)
+        index=True,
+        required=True,
+        tracking=True,
+        default=lambda x: _('New'))
     patients_id = fields.Many2one(
         comodel_name="hospital.patients",
         string="Patient")
@@ -121,8 +124,8 @@ class Tickets(models.Model):
 
     @api.model
     def create(self, vals):
-        if not vals.get('code') or vals['code'] == _('New'):
-            vals['code'] = self.env['ir.sequence'].next_by_code(
+        if not vals.get('name') or vals['name'] == _('New'):
+            vals['name'] = self.env['ir.sequence'].next_by_code(
                 'ms_hospital.tickets') or _('New')
         return super(Tickets, self).create(vals)
 

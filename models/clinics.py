@@ -3,7 +3,7 @@ from odoo import models, fields
 
 class Clinics(models.Model):
     _name = "hospital.clinics"
-    _description = "Clinic or Section"
+    _description = "Clinics Information"
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
     name = fields.Char(

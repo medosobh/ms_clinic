@@ -3,7 +3,7 @@ from odoo import models, fields
 
 class Patients(models.Model):
     _name = "hospital.patients"
-    _description = "Patient"
+    _description = "Patients Information"
     _rec_name = "name"
     _check_company_auto = True
     _sql_constraints = [
