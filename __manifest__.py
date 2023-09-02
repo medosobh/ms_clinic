@@ -47,10 +47,10 @@
         'sequences/sequence_views.xml',
         # Views
         'views/tickets.xml',
-        'views/clinics.xml',
-        'views/patients.xml',
-        'views/staff.xml',
-        'views/sales.xml',
+        # 'views/clinics.xml',
+        # 'views/patients.xml',
+        # 'views/staff.xml',
+        # 'views/sales.xml',
         # 'views/insurance.xml',
     ],
     # only loaded in demonstration mode

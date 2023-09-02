@@ -83,7 +83,9 @@
                                 <field name="child_id"/>
                             </gorup>
                             <gorup>
-                                <field name="company_id" groups="base.group_multi_company"/>
+                                <field name="category_id"/>
+                                <field name="company_id"
+                                       groups="base.group_multi_company"/>
                                 <field name="currency_id"/>
                             </gorup>
                         </group>
@@ -97,10 +99,6 @@
                                     <field name="prescription_notes"/>
                                 </group>
                             </page>
-                            <page name="medicine"
-                                  string="Medicine">
-                                <field name="medicine_line_ids"/>
-                            </page>
                             <page name="diagnosis"
                                   string="Diagnosis">
                                 <field name="diagnosis_ids"/>
@@ -109,15 +107,22 @@
                                   string="Prescriptions">
                                 <field name="prescriptions_ids"/>
                             </page>
+                            <page name="sales"
+                                  string="Sales Order">
+                                <field name="sales_ids"/>
+                            </page>
+
                         </notebook>
                     </sheet>
                 </form>
             </field>
         </record>
+
+
         <!-- Define the action -->
         <record id="action_tickets_tree"
                 model="ir.actions.act_window">
-            <field name="name">Appointments</field>
+            <field name="name">Tickets</field>
             <field name="res_model">hospital.tickets</field>
             <field name="view_mode">tree,form,kanban,calendar</field>
             <field name="domain"/>

@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 
-from odoo import models, fields, api
+from odoo import models, fields, api, _
+from odoo.exceptions import UserError
 
 
 class Tickets(models.Model):
@@ -83,6 +84,10 @@ class Tickets(models.Model):
         comodel_name='hospital.diagnose.line',
         inverse_name='tickets_id',
         string="Diagnosis lines")
+    category_id = fields.Many2one(
+        comodel_name='product.category',
+        required=True,
+        string='Product Category')
     prescription_notes = fields.Text(
         string="Prescription Notes")
     prescription_id = fields.Many2one(
@@ -105,6 +110,13 @@ class Tickets(models.Model):
     customer_invoice_total = fields.Integer(
         string="Patient Invoice Total",
         compute="_compute_customer_invoice_total")
+
+    @api.model
+    def create(self, vals):
+        if not vals.get('code') or vals['code'] == _('New'):
+            vals['code'] = self.env['ir.sequence'].next_by_code(
+                'ms_hospital.tickets') or _('New')
+        return super(Tickets, self).create(vals)
 
     def set_to_draft(self):
         self.state = 'draft'
@@ -199,9 +211,13 @@ class PrescriptionLine(models.Model):
     sequence = fields.Integer(
         string="Sequence",
         default=10)
-    prescription_date = fields.Text(
-        string="Date",
-        required=False)
+    product_id = fields.Many2one(
+        comodel_name='product.product',
+        required=True,
+        domain="[('categ_id', '=', categ_id)]")
+    categ_id = fields.Many2one(
+        related='tickets_id.category_id',
+        string='Category')
     note = fields.Char(
         string="Short Note",
         tracking=True)

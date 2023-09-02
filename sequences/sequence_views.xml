@@ -2,30 +2,11 @@
 <odoo>
     <data noupdate="1">
         <!-- Sequences for sales tickets -->
-        <record id="clinic_appointment_tickets_seq"
+        <record id="hospital_tickets_seq"
             model="ir.sequence">
-            <field name="name">Appointment Tickets</field>
-            <field name="code">ms_hospital.appointment</field>
-            <field name="prefix">AT/%(year)s/</field>
-            <field name="padding">5</field>
-            <field name="company_id"
-                eval="False"/>
-        </record>
-        <!-- Sequences for operation tickets -->
-        <record id="housemaid_transfer_tickets_seq"
-            model="ir.sequence">
-            <field name="name">Sales Invoices</field>
-            <field name="code">ms_hospital.sales</field>
-            <field name="prefix">SI/%(year)s/</field>
-            <field name="padding">5</field>
-            <field name="company_id"
-                eval="False"/>
-        </record>
-        <record id="housemaid_operation_tickets_seq"
-            model="ir.sequence">
-            <field name="name">Housmaid Temporary Tickets</field>
-            <field name="code">housemaid.temporary.tickets</field>
-            <field name="prefix">TM/%(year)s/</field>
+            <field name="name">Tickets</field>
+            <field name="code">ms_hospital.tickets</field>
+            <field name="prefix">TK/%(year)s/</field>
             <field name="padding">5</field>
             <field name="company_id"
                 eval="False"/>
