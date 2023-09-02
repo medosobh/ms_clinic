@@ -6,6 +6,7 @@ from datetime import date, datetime, timedelta
 class Staff(models.Model):
     _name = "hospital.staff"
     _description = "Information about staff"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
 
     name = fields.Char(
         string="Name",
@@ -24,22 +25,20 @@ class Staff(models.Model):
         string="Phone")
     email = fields.Char(
         string="Email")
-    contact_number = fields.Char(
-        string="Contact Number")
     address = fields.Char(
         string="Address")
-    is_active = fields.Boolean(
+    active = fields.Boolean(
         string="Active",
         default=True)
     specialization = fields.Char(
         string="Specialization")
-    tickets_ids = fields.One2many(
-        comodel_name="hospital.tickets",
-        inverse_name="staff_id",
-        string="Appointments")
-    clinics_id = fields.Many2many(
-        comodel_name="hospital.clinics",
-        string="Clinic")
+    # tickets_ids = fields.One2many(
+    #     comodel_name="hospital.tickets",
+    #     inverse_name="staff_id",
+    #     string="Appointments")
+    # clinics_id = fields.Many2many(
+    #     comodel_name="hospital.clinics",
+    #     string="Clinic")
 
     def toggle_active(self):
         for record in self:
@@ -52,4 +51,4 @@ class Staff(models.Model):
 
 class Roles(models.Model):
     _name = "hospital.roles"
-    _description = "Job Roles"
+    _description = "Staff Roles"

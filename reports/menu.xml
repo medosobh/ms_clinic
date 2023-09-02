@@ -1,34 +1,52 @@
 <odoo>
-	<data>
-		<menuitem id="hospital_root" name="Hospital" web_icon="static/description/icon.png" sequence="145" />
-		<!-- ticket only -->
-		<menuitem id="hospital_menu_main" name="Appointments" parent="hospital_root" sequence="10" />
-		<!-- split -->
-		<menuitem id="hospital_menu_tickets" name="Tickets"
-				  parent="hospital_menu_main" action="xyz" sequence="11" />
-		<!-- ticket (diagnosis records and attachment + prescription +
-		customer invoices) -->
-		<!-- patients and charges -->
-		<!-- doctors and staff -->
-		<menuitem id="hospital_menu_hospital" name="Hospital" parent="hospital_root" sequence="20" />
-		<!-- split -->
-		<!-- inherit analytic account -->
-		<menuitem id="hospital_menu_clinic" name="Clinic" parent="hospital_menu_master" action="xyz" sequence="21" />
-		<!-- inherit res partner -->
-		<menuitem id="hospital_menu_patients" name="Patients" parent="hospital_menu_master" action="xyz" sequence="22" />
-		<menuitem id="hospital_menu_doctors" name="Doctors" parent="hospital_menu_master" action="xyz" sequence="23" />
-		<!-- services -->
-		<menuitem id="hospital_menu_operation" name="Services" parent="hospital_root" sequence="30" />
-		<!-- split -->
-		<!-- inherit analytic account -->
-		<menuitem id="hospital_menu_services" name="Services" parent="hospital_menu_operation" action="xyz" sequence="31" />
-		<!-- inherit customer invoice -->
-		<menuitem id="hospital_menu_charges" name="Charges" parent="hospital_menu_operation" action="xyz" sequence="32" />
-		<!-- Configuration -->
-		<menuitem id="hospital_menu_configuration" name="Configuration" parent="hospital_root" sequence="50" />
-		<!-- split -->
-		<menuitem id="hospital_menu_product_product" name="Medicine Product" parent="hospital_menu_configuration" action="stock.product_template_action_product" sequence="51" />
-		<menuitem id="hospital_menu_product_service" name="Service Product" parent="hospital_menu_configuration" action="stock.product_template_action_product" sequence="52" />
-		<menuitem id="hospital_menu_roles" name="Service Product" parent="hospital_menu_configuration" action="stock.product_template_action_product" sequence="52" />
-	</data>
+    <data>
+        <menuitem id="hospital_root" name="Hospital"
+                  web_icon="static/description/icon.png" sequence="145"/>
+        <!-- ticket only -->
+        <menuitem id="menu_hospital_main" name="Tickets"
+                  parent="hospital_root" sequence="10"/>
+        <!-- split -->
+
+        <!-- ticket (diagnosis records and attachment + prescription +
+        customer invoices) -->
+        <!-- patients and charges -->
+        <!-- doctors and staff -->
+        <menuitem id="menu_hospital_hospital" name="Hospital"
+                  parent="hospital_root" sequence="20"/>
+
+
+
+
+        <!-- services -->
+        <menuitem id="menu_hospital_services" name="Services"
+                  parent="hospital_root" sequence="30"/>
+        <!-- split -->
+        <!-- inherit analytic account -->
+        <!--        <menuitem id="hospital_menu_services" name="Services"-->
+        <!--                  parent="hospital_menu_operation" action="xyz" sequence="31"/>-->
+        <!-- inherit customer invoice -->
+        <!--        <menuitem id="hospital_menu_charges" name="Charges"-->
+        <!--                  parent="hospital_menu_operation" action="xyz" sequence="32"/>-->
+        <!--        &lt;!&ndash; Configuration &ndash;&gt;-->
+        <menuitem id="hospital_menu_configuration" name="Configuration"
+                  parent="hospital_root" sequence="50"/>
+        <!-- split -->
+        <menuitem id="hospital_menu_product_product" name="Medicine Product"
+                  parent="hospital_menu_configuration"
+                  action="stock.product_template_action_product"
+                  sequence="51"/>
+<!--        <menuitem id="hospital_menu_product_service" name="Service Product"-->
+<!--                  parent="hospital_menu_configuration"-->
+<!--                  action="stock.product_template_action_product"-->
+<!--                  sequence="52"/>-->
+        <!--        <menuitem id="hospital_menu_roles" name="Staff Roles"-->
+        <!--                  parent="hospital_menu_configuration"-->
+        <!--                  action="xyz"-->
+        <!--                  sequence="52"/>-->
+        <!--        <menuitem id="hospital_menu_clinic_type" name="Clinic
+        Type"&ndash;&gt;-->
+        <!--                  parent="hospital_menu_configuration"-->
+        <!--                  action="xyz"-->
+        <!--                  sequence="52"/>-->
+    </data>
 </odoo>

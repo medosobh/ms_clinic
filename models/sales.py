@@ -23,12 +23,10 @@ class Sales(models.Model):
     category_id = fields.Many2one(
         comodel_name='product.category',
         required=True,
-        domain=[('order_type', '=', 'sales')],
         string='Product Category')
     tickets_id = fields.Many2one(
         comodel_name='hospital.tickets',
-        required=True,
-        tracking=True)
+        required=True)
     issue_date = fields.Date(
         string='Date',
         default=fields.Datetime.today,
@@ -44,10 +42,6 @@ class Sales(models.Model):
     stock_warehouse = fields.Many2one(
         comodel_name='stock.warehouse',
         string='Warehouse')
-    active = fields.Boolean(
-        string="Active",
-        default=True,
-        tracking=True)
     user_id = fields.Many2one(
         comodel_name='res.users',
         string="Host Man",
@@ -80,6 +74,10 @@ class Sales(models.Model):
         compute='_compute_customer_invoice_total')
     analytic_account_id = fields.Reference(
         related='tickets_id.analytic_account_id')
+    active = fields.Boolean(
+        string="Active",
+        default=True,
+        tracking=True)
 
     # -------------------------------------------------------------------------
     # COMPUTE METHODS

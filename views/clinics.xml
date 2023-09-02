@@ -2,22 +2,6 @@
 <odoo>
     <data>
 
-        <!-- Define the menu -->
-        <menuitem id="clinics_parent_menu" name="Clinics" sequence="10"/>
-
-        <!-- Define the action -->
-        <record id="action_clinics_tree" model="ir.actions.act_window">
-            <field name="name">Clinics</field>
-            <field name="res_model">hospital.clinics</field>
-            <field name="view_mode">tree,form</field>
-            <field name="domain"/>
-            <field name="context"/>
-            <field name="help" type="html">
-                <p class="oe_view_nocontent_create">
-                    Click here to add a new clinics.
-                </p>
-            </field>
-        </record>
 
         <record model="ir.ui.view" id="clinics_tree_view">
             <field name="name">hospital.clinics.tree</field>
@@ -25,12 +9,17 @@
             <field name="arch" type="xml">
                 <tree string="Clinics">
                     <field name="name"/>
+                    <field name="type"/>
                     <field name="location"/>
                     <field name="address"/>
                     <field name="phone"/>
                     <field name="email"/>
-                    <field name="website"/>
-                    <field name="is_active"/>
+                    <field name="fees_rate"/>
+                    <field name="company_id"
+                           groups="base.group_multi_company"
+                           widget="selection"/>
+                    <field name="currency_id" widget="selection"/>
+                    <field name="active"/>
                 </tree>
             </field>
         </record>
@@ -41,25 +30,35 @@
             <field name="arch" type="xml">
                 <form>
                     <sheet>
-                        <div role="alert"
-                        class="alert alert-warning"
-                        attrs="{'invisible': [('analytic_account_id', '!=', False)]}">
-                        Create analytic account. bills, invoices and stock move depending on that.
-                    </div>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
                         <group>
-                            <field name="name"/>
-                            <field name="location"/>
-                            <field name="address"/>
-                            <field name="phone"/>
-                            <field name="email"/>
-                            <field name="website"/>
-                            <field name="is_active"/>
+                            <group>
+                                <field name="type"/>
+                                <field name="location"/>
+                                <field name="address"/>
+                                <field name="phone" widget="phone"/>
+                                <field name="email" widget="email"/>
+                                <field name="fees_rate"/>
+                            </group>
+                            <group>
+                                <field name="company_id"
+                                       groups="base.group_multi_company"
+                                       widget="selection"/>
+                                <field name="currency_id"
+                                       widget="selection"/>
+                                <field name="active"/>
+                            </group>
                         </group>
                         <notebook>
                             <page string="Doctors">
                             </page>
                             <page string="Patients">
-                                <field name="patients" widget="one2many_list"/>
+
                             </page>
                             <page string="Pharmacies">
 
@@ -72,14 +71,29 @@
                             </page>
                         </notebook>
                     </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
                 </form>
             </field>
         </record>
-
-        <!-- Define the menuitem that points to the action -->
-        <menuitem id="menu_clinics_tree" name="Clinics"
-                  parent="clinics_parent_menu"
-                  action="action_clinics_tree" sequence="10"/>
-
+        <!-- Define the action -->
+        <record id="action_hospital_clinics" model="ir.actions.act_window">
+            <field name="name">Clinics</field>
+            <field name="res_model">hospital.clinics</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain"/>
+            <field name="context"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click here to add a new clinics.
+                </p>
+            </field>
+        </record>
+        <menuitem id="hospital_menu_clinics" name="Clinics"
+                  parent="menu_hospital_hospital"
+                  action="action_hospital_clinics" sequence="21"/>
     </data>
 </odoo>

@@ -1,19 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
-        <!-- Define the action -->
-        <record id="action_staff_tree" model="ir.actions.act_window">
-            <field name="name">Staffs</field>
-            <field name="res_model">hospital.staff</field>
-            <field name="view_mode">tree,form</field>
-            <field name="domain"/>
-            <field name="context"/>
-            <field name="help" type="html">
-                <p class="oe_view_nocontent_create">
-                    Click here to add a new staff.
-                </p>
-            </field>
-        </record>
+
 
         <record model="ir.ui.view" id="staff_tree_view">
             <field name="name">hospital.staff.tree</field>
@@ -21,13 +9,14 @@
             <field name="arch" type="xml">
                 <tree>
                     <field name="name"/>
+                    <field name="roles_id" widget="selection"/>
                     <field name="age"/>
                     <field name="gender"/>
-                    <field name="phone"/>
-                    <field name="email"/>
+                    <field name="phone" widget="phone"/>
+                    <field name="email" widget="email"/>
                     <field name="address"/>
-                    <field name="role"/>
-                    <field name="is_active"/>
+                    <field name="specialization"/>
+                    <field name="active"/>
                 </tree>
             </field>
         </record>
@@ -41,11 +30,11 @@
                         <button name="toggle_inactive" string="Deactivate"
                                 type="object" class="oe_highlight"
                                 icon="fa-ban"
-                                attrs="{'invisible':[('is_active','=',False)]}"/>
+                                attrs="{'invisible':[('active','=',False)]}"/>
                         <button name="toggle_active" string="Activate"
                                 type="object" class="oe_highlight"
                                 icon="fa-check-square-o"
-                                attrs="{'invisible':[('is_active','=',True)]}"/>
+                                attrs="{'invisible':[('active','=',True)]}"/>
                     </header>
                     <sheet>
                         <div class="oe_title">
@@ -56,26 +45,41 @@
                         </div>
                         <group>
                             <group>
+                                <field name="roles_id"/>
+                                <field name="specialization"/>
                                 <field name="age" widget="integer"/>
                                 <field name="gender"/>
-                                <field name="role"/>
-                                <field name="is_active"/>
-                            </group>
-                            <group>
                                 <field name="phone" widget="phone"/>
                                 <field name="email" widget="email"/>
+                                <field name="address" widget="email"/>
+                                <field name="active"/>
                             </group>
                         </group>
-                        <notebook>
-                            <page string="Address">
-                                <field name="address" widget="text"/>
-                            </page>
-                        </notebook>
                     </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
                 </form>
             </field>
         </record>
+        <!-- Define the action -->
+        <record id="action_hospital_staff" model="ir.actions.act_window">
+            <field name="name">Staffs</field>
+            <field name="res_model">hospital.staff</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain"/>
+            <field name="context"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click here to add a new staff.
+                </p>
+            </field>
+        </record>
 
-
+        <menuitem id="hospital_menu_staff" name="Staff"
+                  parent="menu_hospital_hospital"
+                  action="action_hospital_staff" sequence="22"/>
     </data>
 </odoo>

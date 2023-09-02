@@ -18,68 +18,57 @@ class Patients(models.Model):
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
     name = fields.Char(
-        string="Patient Name",
+        string="Name",
         required=True,
-        tracking=True,
-    )
+        tracking=True)
     identity = fields.Char(
-        string="Patient Identity",
-        tracking=True,
-    )
+        string="Identity",
+        tracking=True)
     birthday = fields.Date(
         string="Birthday",
-        tracking=True,
-    )
-    age = fields.Integer(string="Age")
+        tracking=True)
+    age = fields.Integer(
+        string="Age")
     gender = fields.Selection(
         selection=[
             ("male", "Male"),
             ("female", "Female"),
         ],
         string="Gender",
-        tracking=True,
-    )
+        tracking=True)
     address = fields.Text(
         string="Address",
-        tracking=True,
-    )
+        tracking=True)
     phone = fields.Char(
         string="Phone",
-        tracking=True,
-    )
+        tracking=True)
     email = fields.Char(
         string="Email",
-        tracking=True,
-    )
-    medical_history_id = fields.Many2many(
-        comodel_name="hospital.medical.history",
-        string="Medical History",
-        tracking=True,
-    )
-    clinics_id = fields.One2many(
-        comodel_name="hospital.clinics",
-        inverse_name="patients_id",
-        string="Clinic",
         tracking=True)
-    tickets_ids = fields.One2many(
-        comodel_name="hospital.tickets",
-        inverse_name="patient_id",
-        string="Appointments",
-        tracking=True)
-    insurance_id = fields.Many2one(
-        comodel_name="hospital.insurance",
-        string="Patient Insurance",
-        tracking=True)
+    # medical_history_ids = fields.Many2many(
+    #     comodel_name="hospital.medical.history",
+    #     string="Medical History",
+    #     tracking=True)
+    # clinics_ids = fields.One2many(
+    #     comodel_name="hospital.clinics",
+    #     inverse_name="patients_id",
+    #     string="Clinic")
+    # tickets_ids = fields.One2many(
+    #     comodel_name="hospital.tickets",
+    #     inverse_name="patient_id",
+    #     string="Appointments")
+    # insurance_id = fields.Many2one(
+    #     comodel_name="hospital.insurance",
+    #     string="Patient Insurance",
+    #     tracking=True)
 
 
 class Insurance(models.Model):
     _name = "hospital.insurance"
     _description = "Patient"
-
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
     name = fields.Char(
         string="Patient Name",
         required=True,
-        tracking=True,
-    )
+        tracking=True)

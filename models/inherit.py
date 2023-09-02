@@ -8,13 +8,29 @@ class ProductTemplate(models.Model):
     medicine_name = fields.Char(
         string="Medicine Name",
         required=True)
-    description = fields.Text(
-        string="Description")
+    medicine_description = fields.Text(
+        string="Medicine Description")
     dosage = fields.Float(
         string="Dosage")
-    unit_price = fields.Float(
+    medicine_unit_price = fields.Float(
         string="Unit Price")
     quantity = fields.Integer(
         string="Quantity")
     manufacturer = fields.Char(
         string="Manufacturer")
+    service_name = fields.Char(
+        string="Service Name",
+        required=True)
+    service_description = fields.Text(
+        string="Service Description")
+    service_unit_price = fields.Float(string="Unit Price")
+
+
+class AccountAnalyticAccount(models.Model):
+    _inherit = 'account.analytic.account'
+
+    clinics_reference = fields.Reference(
+        selection=[
+            ('hospital.clinics', 'Clinic')
+        ],
+        string='Clinic')

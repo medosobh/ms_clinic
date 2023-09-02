@@ -2,13 +2,13 @@
 <odoo>
     <data>
         <!-- Appointment Form View -->
-        <record id="appointment_form_view"
+        <record id="tickets_form_view"
                 model="ir.ui.view">
             <field name="name">hospital.tickets.form</field>
             <field name="model">hospital.tickets</field>
             <field name="arch"
                    type="xml">
-                <form string="Appointment">
+                <form string="Ticket">
                     <header>
                         <button name="set_to_draft"
                                 string="Draft"
@@ -18,13 +18,13 @@
                                 string="Confirmed"
                                 type="object"/>
                         <button name="set_to_inspection"
-                                string=""
+                                string="Inspection"
                                 type="object"/>
                         <button name="set_to_reschedule"
-                                string="Billing"
+                                string="Reschedule"
                                 type="object"/>
                         <button name="set_to_closed"
-                                string="Payment"
+                                string="Closed"
                                 type="object"/>
                         <field name="state"
                                widget="statusbar"
@@ -61,15 +61,18 @@
                                 </div>
                             </button>
                         </div>
-                        <group>
-                            <group>
+                        <div class="oe_title">
+                            <h1>
                                 <field name="name"/>
-                                <field name="patients_id"/>
-                                <field name="clinics_id"/>
-                                <field name="start_date"/>
-                                <field name="end_date"/>
-
-                            </group>
+                            </h1>
+                        </div>
+                        <group>
+                            <field name="patients_id"/>
+                            <field name="clinics_id"/>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                        </group>
+                        <group>
                             <group>
                                 <field name="staff_id"/>
                                 <field name="billing_amount"/>
@@ -78,15 +81,19 @@
                             </group>
                             <gorup>
                                 <field name="next_date"/>
-                                <field name="parent_id"/>
-                                <field name="parent_path"/>
-                                <field name="child_id"/>
+                                <field name="parent_id"
+                                       class="oe_inline"/>
+                                <field name="child_id"
+                                       class="oe_inline"
+                                       invisible="1"/>
                             </gorup>
                             <gorup>
-                                <field name="category_id"/>
+                                <field name="analytic_account_id"/>
                                 <field name="company_id"
-                                       groups="base.group_multi_company"/>
+                                       groups="base.group_multi_company"
+                                       widget="selection"/>
                                 <field name="currency_id"/>
+                                <field name="user_id"/>
                             </gorup>
                         </group>
                         <notebook>
@@ -101,26 +108,238 @@
                             </page>
                             <page name="diagnosis"
                                   string="Diagnosis">
-                                <field name="diagnosis_ids"/>
                             </page>
                             <page name="prescriptions"
                                   string="Prescriptions">
-                                <field name="prescriptions_ids"/>
                             </page>
                             <page name="sales"
                                   string="Sales Order">
-                                <field name="sales_ids"/>
                             </page>
-
                         </notebook>
                     </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
                 </form>
             </field>
         </record>
 
+        <!-- Appointment Tree View -->
+        <record id="tickets_tree_view"
+                model="ir.ui.view">
+            <field name="name">hospital.tickets.tree</field>
+            <field name="model">hospital.tickets</field>
+            <field name="arch"
+                   type="xml">
+                <tree string="Tickets">
+                    <field name="name"/>
+                    <field name="clinics_id"/>
+                    <field name="patients_id"/>
+                    <field name="staff_id"/>
+                    <field name="start_date"/>
+                    <field name="billing_amount"/>
+                    <field name="payment_amount"/>
+                    <field name="payment_date"/>
+                    <field name="active" invisible="1"/>
+                </tree>
+            </field>
+        </record>
 
+        <!-- Appointment calendar View -->
+        <record id="tickets_calendar_view"
+                model="ir.ui.view">
+            <field name="name">hospital.tickets.calendar</field>
+            <field name="model">hospital.tickets</field>
+            <field name="arch"
+                   type="xml">
+                <calendar string="Tickets Schedule"
+                          date_start="start_date"
+                          date_stop="end_date"
+                          create="1"
+                          quick_add="False"
+                          mode="week"
+                          color="clinics_id"
+                          hide_time="true"
+                          event_limit="5"
+                          event_open_popup="False">
+                    <field name="clinics_id"
+                           filters="1"
+                           invisible="1"/>
+                    <field name="staff_id"
+                           filters="1"
+                           invisible="1"/>
+                    <field name="patients_id"
+                           filters="1"
+                           invisible="1"/>
+                    <field name="name"/>
+                    <field name="start_date"/>
+                    <field name="patients_id"/>
+                    <field name="staff_id"/>
+                    <field name="next_date"/>
+                    <field name="company_id"
+                           widget="selection"
+                           groups="base.group_multi_company"
+                           invisible="1"/>
+                    <field name="active" invisible="1"/>
+                </calendar>
+            </field>
+        </record>
+
+        <!--Define the kanban view-->
+        <record id="tickets_kanban_view"
+                model="ir.ui.view">
+            <field name="name">hospital.tickets.kanban</field>
+            <field name="model">hospital.tickets</field>
+            <field name="arch"
+                   type="xml">
+                <kanban default_group_by="state"
+                        class="o_kanban_small_column o_kanban_project_tasks"
+                        sample="1">
+                    <field name="state"/>
+                    <field name="name"/>
+                    <field name="patients_id"/>
+                    <field name="clinics_id"/>
+                    <field name="staff_id"/>
+                    <field name="start_date"
+                           type="date"/>
+                    <field name="end_date"
+                           type="date"/>
+                    <field name="company_id"
+                           widget="selection"
+                           groups="base.group_multi_company"/>
+                    <field name="active" invisible="1"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_global_click">
+                                <div class="oe_kanban_details">
+                                    <ul>
+                                        <li>
+                                            Ref:
+                                            <field name="name"/>
+                                        </li>
+                                        <li>
+                                            <field name="patients_id"
+                                            />
+                                        </li>
+                                        <li>
+                                            Clinic:
+                                            <field name="clinics_id"/>
+                                            Doctor:
+                                            <field name="staff_id"/>
+                                        </li>
+                                        <li>
+                                            Start:
+                                            <field name="start_date"/>
+                                            End:
+                                            <field name="start_date"/>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="oe_kanban_content position-absolute fixed-bottom mr-2">
+                                    <div class="o_kanban_record_bottom">
+                                        <div class="oe_kanban_bottom_left"/>
+                                        <div class="oe_kanban_bottom_right float-right">
+                                            <div class="hr_activity_container">
+                                                <field name="activity_ids"
+                                                       widget="kanban_activity"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!--Define the Search view-->
+        <record id="tickets_search_view"
+                model="ir.ui.view">
+            <field name="name">hospital.tickets.search</field>
+            <field name="model">hospital.tickets</field>
+            <field name="arch"
+                   type="xml">
+                <search string="Tickets">
+                    <field name="state"/>
+                    <field name="patients_id"/>
+                    <field name="clinics_id"/>
+                    <field name="staff_id"/>
+                    <field name="start_date"
+                           type="date"/>
+                    <field name="end_date"
+                           type="date"/>
+                    <field name="company_id"
+                           widget="selection"
+                           groups="base.group_multi_company"/>
+                    <field name="user_id" invisible="1"/>
+                    <field name="active" invisible="1"/>
+                    <filter name="filter_clinics_id"
+                            string="Clinic"
+                            domain="[('clinics_id', '=', 'clinics_id')]"/>
+                    <filter name="filter_staff_id"
+                            string="Doctor"
+                            domain="[('staff_id', '=', 'staff_id')]"/>
+                    <filter name="filter_user"
+                            string="User"
+                            domain="[('user_id', '=', uid)]"/>
+                    <separator/>
+                    <filter name="filter_archived"
+                            string="Archived"
+                            domain="[('active', '=', False)]"/>
+                    <separator/>
+                    <filter name="filter_draft"
+                            string="Draft"
+                            domain="[('state', '=', 'draft')]"/>
+                    <filter name="filter_confirm"
+                            string="Confirm"
+                            domain="[('state', '=', 'confirm')]"/>
+                    <filter name="filter_inspection"
+                            string="Inspection"
+                            domain="[('state', '=', 'inspection')]"/>
+                    <filter name="filter_reschedule"
+                            string="Reschedule"
+                            domain="[('state', '=', 'reschedule')]"/>
+                    <filter name="filter_closed"
+                            string="Closed"
+                            domain="[('state', '=', 'closed')]"/>
+                    <separator/>
+                    <group expand="0"
+                           string="Group by">
+                        <filter string="Company"
+                                name="group_by_company"
+                                context="{'group_by':'company_id'}"/>
+                        <filter string="patients_id"
+                                name="group_by_patients_id"
+                                context="{'group_by':'patients_id'}"/>
+                        <filter string="User"
+                                name="group_by_clinics_id"
+                                context="{'group_by':'clinics_id'}"/>
+                        <filter string="User"
+                                name="group_by_staff_id"
+                                context="{'group_by':'staff_id'}"/>
+                        <filter string="User"
+                                name="group_by_user"
+                                context="{'group_by':'user_id'}"/>
+                    </group>
+                    <searchpanel>
+                        <field name="clinics_id"
+                               select="multi"
+                               string="Clinic Group"
+                               enable_counters="1"/>
+                        <field name="staff_id"
+                               select="multi"
+                               string="Doctor Group"
+                               enable_counters="1"/>
+                    </searchpanel>
+                </search>
+            </field>
+        </record>
         <!-- Define the action -->
-        <record id="action_tickets_tree"
+        <record id="action_hospital_tickets"
                 model="ir.actions.act_window">
             <field name="name">Tickets</field>
             <field name="res_model">hospital.tickets</field>
@@ -130,45 +349,14 @@
             <field name="help"
                    type="html">
                 <p class="oe_view_nocontent_create">
-                    Click here to add a new appointment.
+                    Click here to add a new ticket.
                 </p>
             </field>
         </record>
-        <!-- Appointment Tree View -->
-        <record id="tickets_tree_view"
-                model="ir.ui.view">
-            <field name="name">hospital.tickets.tree</field>
-            <field name="model">hospital.tickets</field>
-            <field name="arch"
-                   type="xml">
-                <tree string="Appointments">
-                    <field name="name"/>
-                    <field name="clinics_id"/>
-                    <field name="patients_id"/>
-                    <field name="staff_id"/>
-                    <field name="appointment_date"/>
-                    <field name="billing_amount"/>
-                    <field name="payment_amount"/>
-                    <field name="payment_date"/>
-                </tree>
-            </field>
-        </record>
-        <record model="ir.ui.view"
-                id="eclinic_tickets_calendar_view">
-            <field name="name">hospital.tickets.calendar</field>
-            <field name="model">hospital.tickets</field>
-            <field name="arch"
-                   type="xml">
-                <calendar string="Appointments"
-                          date_start="appointment_date">
-                    <field name="name"/>
-                    <field name="appointment_date"/>
-                    <field name="patient_id"/>
-                    <field name="doctor_id"/>
-                    <field name="consultation_notes"/>
-                    <field name="prescription_notes"/>
-                </calendar>
-            </field>
-        </record>
+
+        <menuitem id="menu_hospital_tickets" name="Tickets"
+                  parent="menu_hospital_main" action="action_hospital_tickets"
+                  sequence="11"/>
+
     </data>
 </odoo>

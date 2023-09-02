@@ -4,6 +4,7 @@ from odoo import models, fields
 class Clinics(models.Model):
     _name = "hospital.clinics"
     _description = "Clinic or Section"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
 
     name = fields.Char(
         string="Name", required=True)
@@ -14,18 +15,24 @@ class Clinics(models.Model):
     address = fields.Text(string="Address")
     phone = fields.Char(string="Phone")
     email = fields.Char(string="Email")
-    website = fields.Char(string="Website")
-    tickets_ids = fields.One2many(
-        comodel_name="hospital.tickets",
-        inverse_name="clinics_id",
-        string="Appointments")
+    # tickets_ids = fields.One2many(
+    #     comodel_name="hospital.tickets",
+    #     inverse_name="clinics_id",
+    #     string="Appointments")
     fees_rate = fields.Monetary(
         string="Fees Rate",
         currency_field="currency_id")
+    # patients_ids = fields.One2many(
+    #     comodel_name='hospital.patients',
+    #     inverse_name='clinics_id',
+    #     string="Patients")
+    # staff_ids = fields.One2many(
+    #     comodel_name='hospital.staff',
+    #     inverse_name='clinics_id',
+    #     string="Staff")
     company_id = fields.Many2one(
         comodel_name='res.company',
         string='Company',
-        related='sales_id.company_id',
         change_default=True,
         default=lambda self: self.env.company,
         required=False,
@@ -36,9 +43,10 @@ class Clinics(models.Model):
         related='company_id.currency_id',
         readonly=True,
         help="Used to display the currency when tracking monetary values")
-    is_active = fields.Boolean(
+    active = fields.Boolean(
         string="Active",
-        default=True)
+        default=True,
+        tracking=True)
 
 
 class ClinicType(models.Model):
@@ -48,11 +56,4 @@ class ClinicType(models.Model):
     name = fields.Char(string="Name", required=True)
 
 
-class AccountAnalyticAccount(models.Model):
-    _inherit = 'account.analytic.account'
 
-    clinics_reference = fields.Reference(
-        selection=[
-            ('hospital.clinics', 'Clinic')
-        ],
-        string='Clinic')
