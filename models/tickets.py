@@ -1,15 +1,12 @@
 from datetime import datetime, timedelta
 
 from odoo import models, fields, api, _
-from odoo.exceptions import ValidationError
 
 
 class Tickets(models.Model):
     _name = "hospital.tickets"
     _description = "Ticket"
     _check_company_auto = True
-    _rec_name = 'name'
-    _order = 'name'
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
     state = fields.Selection(
@@ -88,6 +85,8 @@ class Tickets(models.Model):
         default=lambda self: self.env.user)
     consultation_notes = fields.Text(
         string="Consultation Notes")
+    prescription_notes = fields.Text(
+        string="Prescription Notes")
     # diagnose_id = fields.Many2one(
     #     comodel_name='hospital.diagnose.line',
     #     string="diagnose lines")
@@ -95,8 +94,6 @@ class Tickets(models.Model):
     #     comodel_name='hospital.diagnose.line',
     #     inverse_name='tickets_id',
     #     string="Diagnosis lines")
-    prescription_notes = fields.Text(
-        string="Prescription Notes")
     # prescription_id = fields.Many2one(
     #     comodel_name='hospital.prescription.line',
     #     string="prescription lines")
@@ -129,10 +126,10 @@ class Tickets(models.Model):
                 'ms_hospital.tickets') or _('New')
         return super(Tickets, self).create(vals)
 
-    @api.constrains('parent_id')
-    def _check_category_recursion(self):
-        if not self._check_recursion():
-            raise ValidationError(_('You cannot create recursive categories.'))
+    # @api.constrains('parent_id')
+    # def _check_category_recursion(self):
+    #     if not self._check_recursion():
+    #         raise ValidationError(_('You cannot create recursive categories.'))
 
     def set_to_draft(self):
         self.state = 'draft'
@@ -169,12 +166,13 @@ class Tickets(models.Model):
 
     def _compute_customer_invoice_total(self):
         self.ensure_one()
-        for rec in self:
-            total_debit = sum(self.env["account.move.line"].search(
-                [("id", "=", rec.id)]).mapped("debit"))
-            total_credit = sum(self.env["account.move.line"].search(
-                [("id", "=", rec.id)]).mapped("credit"))
-            rec.customer_invoice_total = total_debit + total_credit
+        # for rec in self:
+        #     total_debit = sum(self.env["account.move.line"].search(
+        #         [("tickets_id", "=", rec.id)]).mapped("debit"))
+        #     total_credit = sum(self.env["account.move.line"].search(
+        #         [("tickets_id", "=", rec.id)]).mapped("credit"))
+        #     rec.customer_invoice_total = total_debit + total_credit
+        return
 
     def action_customer_invoice(self):
         return {

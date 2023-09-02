@@ -69,7 +69,7 @@ class Sales(models.Model):
         string="Customer Invoice Total",
         compute='_compute_customer_invoice_total')
     analytic_account_id = fields.Many2one(
-        related='tickets_id.analytic_account_id',
+        comodel_name='account.analytic.account',
         string="Analytic Account")
     active = fields.Boolean(
         string="Active",
@@ -81,13 +81,12 @@ class Sales(models.Model):
     # -------------------------------------------------------------------------
     @api.depends('sales_order_line_ids')
     def _compute_sales_order_cost(self):
-        rec: Sales
-        for rec in self:
-            oline = sum(self.env['hospital.sales.oline'].search([
-                ('sales_id', '=', rec.id)
-            ]).mapped('price_subtotal'))
-            rec.s_order_cost = oline
-        return rec.s_order_cost
+        # for rec in self:
+        #     oline = sum(self.env['hospital.sales.oline'].search([
+        #         ('sales_id', '=', rec.id)
+        #     ]).mapped('price_subtotal'))
+        #     rec.s_order_cost = oline
+        return
 
     def _compute_customer_invoice_count(self):
         for rec in self:
@@ -98,19 +97,19 @@ class Sales(models.Model):
 
     # noinspection PyGlobalUndefined
     def _compute_customer_invoice_total(self):
-        for rec in self:
-            total_debit = sum(
-                self.env['account.move.line'].search([
-                    ('sales_id', '=', rec.id)
-                ]).mapped('debit')
-            )
-            total_credit = sum(
-                self.env['account.move.line'].search([
-                    ('sales_id', '=', rec.id)
-                ]).mapped('credit')
-            )
-            rec.customer_invoice_total = total_debit + total_credit
-        return rec.customer_invoice_total
+        # for rec in self:
+        #     total_debit = sum(
+        #         self.env['account.move.line'].search([
+        #             ('sales_id', '=', rec.id)
+        #         ]).mapped('debit')
+        #     )
+        #     total_credit = sum(
+        #         self.env['account.move.line'].search([
+        #             ('sales_id', '=', rec.id)
+        #         ]).mapped('credit')
+        #     )
+        #     rec.customer_invoice_total = total_debit + total_credit
+        return
 
     # -------------------------------------------------------------------------
     # Create METHODS
@@ -136,7 +135,6 @@ class Sales(models.Model):
     def button_farm_customer_invoice(self):
         # create Customer Invoice in background and open form view.
         self.ensure_one()
-
         # check analytic_account_id created
         analytic = self.analytic_account_id
         if not analytic:
@@ -181,7 +179,7 @@ class Sales(models.Model):
                 'quantity': self.sales_order_line_ids.qty,
                 'price_unit': self.sales_order_line_ids.price_unit,
                 'analytic_account_id': self.analytic_account_id.id,
-                'sales_id': self.id,
+                # 'sales_id': self.id,
             })],
             'company_id': self.company_id.id,
         }

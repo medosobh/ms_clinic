@@ -82,7 +82,7 @@
                             </group>
                             <gorup string="Reschedule">
                                 <field name="parent_id"/>
-                                <field name="child_id" invisible="1"/>
+                                <field name="child_id"/>
                             </gorup>
 
                         </group>
