@@ -5,7 +5,7 @@ from datetime import date, datetime, timedelta
 
 class Staff(models.Model):
     _name = "hospital.staff"
-    _description = "Staff Information"
+    _description = "Staff"
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
     name = fields.Char(

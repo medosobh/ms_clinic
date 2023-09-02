@@ -4,7 +4,7 @@ from odoo.exceptions import UserError
 
 class Sales(models.Model):
     _name = 'hospital.sales'
-    _description = 'Sales Orders'
+    _description = 'Sales Order'
     _check_company_auto = True
     _order = 'issue_date'
     _inherit = ['mail.thread', 'mail.activity.mixin']
@@ -20,10 +20,6 @@ class Sales(models.Model):
         ('lock', 'Locked')],
         string='State', readonly=False, copy=False,
         tracking=True, default='order')
-    category_id = fields.Many2one(
-        comodel_name='product.category',
-        required=True,
-        string='Product Category')
     tickets_id = fields.Many2one(
         comodel_name='hospital.tickets',
         required=True)
@@ -72,8 +68,9 @@ class Sales(models.Model):
     customer_invoice_total = fields.Integer(
         string="Customer Invoice Total",
         compute='_compute_customer_invoice_total')
-    analytic_account_id = fields.Reference(
-        related='tickets_id.analytic_account_id')
+    analytic_account_id = fields.Many2one(
+        related='tickets_id.analytic_account_id',
+        string="Analytic Account")
     active = fields.Boolean(
         string="Active",
         default=True,
@@ -86,7 +83,7 @@ class Sales(models.Model):
     def _compute_sales_order_cost(self):
         rec: Sales
         for rec in self:
-            oline = sum(self.env['farm.sales.oline'].search([
+            oline = sum(self.env['hospital.sales.oline'].search([
                 ('sales_id', '=', rec.id)
             ]).mapped('price_subtotal'))
             rec.s_order_cost = oline
@@ -213,11 +210,7 @@ class SalesOline(models.Model):
         default=10)
     product_id = fields.Many2one(
         comodel_name='product.product',
-        required=True,
-        domain="[('categ_id', '=', categ_id)]")
-    categ_id = fields.Many2one(
-        related='sales_id.category_id',
-        string='Category')
+        string='Product')
     price_unit = fields.Float(
         string='Price')
     product_uom = fields.Many2one(
@@ -249,7 +242,7 @@ class SalesOline(models.Model):
         currency_field='currency_id',
         store=True)
     sales_id = fields.Many2one(
-        comodel_name='farm.sales',
+        comodel_name='hospital.sales',
         string='Sales Order')
 
     @api.onchange('product_id')

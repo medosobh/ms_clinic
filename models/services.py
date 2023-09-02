@@ -5,7 +5,7 @@ from datetime import date, datetime, timedelta
 
 class Services(models.Model):
     _name = 'hospital.services'
-    _description = 'hospital.service'
+    _description = 'Service'
     _rec_name = 'name'
     _order = 'name ASC'
 

@@ -1,11 +1,15 @@
 from datetime import datetime, timedelta
 
 from odoo import models, fields, api, _
+from odoo.exceptions import ValidationError
 
 
 class Tickets(models.Model):
     _name = "hospital.tickets"
-    _description = "Tickets Information"
+    _description = "Ticket"
+    _check_company_auto = True
+    _rec_name = 'name'
+    _order = 'name'
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
     state = fields.Selection(
@@ -51,36 +55,32 @@ class Tickets(models.Model):
         currency_field='currency_id')
     payment_date = fields.Date(
         string="Payment Date")
-    analytic_account_id = fields.Reference(
-        selection=[("account.analytic.account", "Analytic Account")],
+    analytic_account_id = fields.Many2one(
+        comodel_bname="account.analytic.account",
         string="Analytic Account", )
     next_date = fields.Datetime(
         string="Reschedule Date",
-        default=datetime.now())
+        tracking=True)
     parent_id = fields.Many2one(
         comodel_name="hospital.tickets",
-        string='Parent Ticket',
+        string='Previous Ticket',
         index=True,
-        ondelete="cascade",
         readonly=True)
-    parent_path = fields.Char(
-        index=True)
     child_id = fields.One2many(
         comodel_name="hospital.tickets",
         inverse_name="parent_id",
-        string="Child Ticket")
+        string="Next Ticket")
     company_id = fields.Many2one(
         comodel_name="res.company",
         string="Company",
         change_default=True,
-        default=lambda self: self.env.company,
-        required=False,
-        readonly=True)
+        default=lambda self: self.env.company)
     currency_id = fields.Many2one(
         comodel_name="res.currency",
         string="Currency",
         related="company_id.currency_id",
-        readonly=True, ondelete="set null",
+        readonly=True,
+        ondelete="set null",
         help="Used to display the currency when tracking monetary values")
     user_id = fields.Many2one(
         comodel_name='res.users', string='Responsible',
@@ -129,6 +129,11 @@ class Tickets(models.Model):
                 'ms_hospital.tickets') or _('New')
         return super(Tickets, self).create(vals)
 
+    @api.constrains('parent_id')
+    def _check_category_recursion(self):
+        if not self._check_recursion():
+            raise ValidationError(_('You cannot create recursive categories.'))
+
     def set_to_draft(self):
         self.state = 'draft'
 
@@ -156,17 +161,19 @@ class Tickets(models.Model):
         return self.end_date
 
     def _compute_customer_invoice_count(self):
+        self.ensure_one()
         for rec in self:
             customer_invoice_count = self.env["account.move"].search_count(
                 [("invoice_origin", "=", rec.name)])
             rec.customer_invoice_count = customer_invoice_count
 
     def _compute_customer_invoice_total(self):
+        self.ensure_one()
         for rec in self:
             total_debit = sum(self.env["account.move.line"].search(
-                [("sales_id", "=", rec.id)]).mapped("debit"))
+                [("id", "=", rec.id)]).mapped("debit"))
             total_credit = sum(self.env["account.move.line"].search(
-                [("sales_id", "=", rec.id)]).mapped("credit"))
+                [("id", "=", rec.id)]).mapped("credit"))
             rec.customer_invoice_total = total_debit + total_credit
 
     def action_customer_invoice(self):

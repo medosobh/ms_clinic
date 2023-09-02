@@ -9,7 +9,8 @@ ms_hospital.access_hospital_roles,access_hospital_roles,ms_hospital.model_hospit
 ms_hospital.access_hospital_medical_history,access_hospital_medical_history,ms_hospital.model_hospital_medical_history,base.group_user,1,1,1,1
 ms_hospital.access_hospital_diagnose_line,access_hospital_diagnose_line,ms_hospital.model_hospital_diagnose_line,base.group_user,1,1,1,1
 ms_hospital.access_hospital_prescription_line,access_hospital_prescription_line,ms_hospital.model_hospital_prescription_line,base.group_user,1,1,1,1
-
+ms_hospital.access_hospital_sales,access_hospital_sales,ms_hospital.model_hospital_sales,base.group_user,1,1,1,1
+ms_hospital.access_hospital_sales_oline,access_hospital_sales_oline,ms_hospital.model_hospital_sales_oline,base.group_user,1,1,1,1
 
 
 

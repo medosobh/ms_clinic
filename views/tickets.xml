@@ -67,34 +67,24 @@
                             </h1>
                         </div>
                         <group>
-                            <field name="patients_id"/>
-                            <field name="clinics_id"/>
-                            <field name="start_date"/>
-                            <field name="end_date"/>
-                        </group>
-                        <group>
-                            <group>
+                            <group string="Appointment">
+                                <field name="patients_id"/>
+                                <field name="clinics_id"/>
+                                <field name="start_date"/>
+                                <field name="end_date"/>
+                                <field name="next_date"/>
+                            </group>
+                            <group string="Information">
                                 <field name="staff_id"/>
                                 <field name="billing_amount"/>
                                 <field name="payment_amount"/>
                                 <field name="payment_date"/>
                             </group>
-                            <gorup>
-                                <field name="next_date"/>
-                                <field name="parent_id"
-                                       class="oe_inline"/>
-                                <field name="child_id"
-                                       class="oe_inline"
-                                       invisible="1"/>
+                            <gorup string="Reschedule">
+                                <field name="parent_id"/>
+                                <field name="child_id" invisible="1"/>
                             </gorup>
-                            <gorup>
-                                <field name="analytic_account_id"/>
-                                <field name="company_id"
-                                       groups="base.group_multi_company"
-                                       widget="selection"/>
-                                <field name="currency_id"/>
-                                <field name="user_id"/>
-                            </gorup>
+
                         </group>
                         <notebook>
                             <page name="inspection"
@@ -114,6 +104,23 @@
                             </page>
                             <page name="sales"
                                   string="Sales Order">
+                            </page>
+                            <page string="Administration">
+                                <gorup>
+                                    <label for="analytic_account_id"
+                                           string="Analytic Account"/>
+                                    <field name="analytic_account_id"/>
+                                    <label for="company_id"
+                                           string="Company"/>
+                                    <field name="company_id"
+                                           groups="base.group_multi_company"/>
+                                    <label for="currency_id"
+                                           string="Currency"/>
+                                    <field name="currency_id"/>
+                                    <label for="user_id"
+                                           string="User"/>
+                                    <field name="user_id"/>
+                                </gorup>
                             </page>
                         </notebook>
                     </sheet>
@@ -142,6 +149,11 @@
                     <field name="billing_amount"/>
                     <field name="payment_amount"/>
                     <field name="payment_date"/>
+                    <field name="analytic_account_id"/>
+                    <field name="company_id"
+                           groups="base.group_multi_company"/>
+                    <field name="currency_id"/>
+                    <field name="user_id"/>
                     <field name="active" invisible="1"/>
                 </tree>
             </field>
@@ -178,10 +190,11 @@
                     <field name="patients_id"/>
                     <field name="staff_id"/>
                     <field name="next_date"/>
+                    <field name="analytic_account_id"/>
                     <field name="company_id"
-                           widget="selection"
-                           groups="base.group_multi_company"
-                           invisible="1"/>
+                           groups="base.group_multi_company"/>
+                    <field name="currency_id"/>
+                    <field name="user_id"/>
                     <field name="active" invisible="1"/>
                 </calendar>
             </field>
