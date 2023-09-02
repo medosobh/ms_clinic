@@ -1,6 +1,6 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
-from odoo import models, fields
+from odoo import models, fields, api
 
 
 class Tickets(models.Model):
@@ -27,33 +27,19 @@ class Tickets(models.Model):
     clinics_id = fields.Many2one(
         comodel_name="hospital.clinics",
         string="Location")
+    start_date = fields.Datetime(
+        string="Start Date",
+        required=True,
+        tracking=True,
+        default=datetime.now())
+    end_date = fields.Datetime(
+        string="End Date",
+        required=True,
+        tracking=True,
+        compute="_get_end_date")
     staff_id = fields.Many2one(
         comodel_name="hospital.staff",
         string="Doctor")
-    start_date = fields.Datetime(
-        string="Start Date", required=True,
-        tracking=True, default=datetime.now())
-    end_date = fields.Datetime(
-        string="End Date",
-        required=True, store=True,
-        compute="_get_end_date",
-        inverse="_set_end_date", )
-    consultation_notes = fields.Text(
-        string="Consultation Notes")
-    prescription_notes = fields.Text(
-        string="Prescription Notes")
-    medicine_line_ids = fields.One2many(
-        comodel_name='hospital.medicine.line',
-        inverse_name='tickets_id',
-        string="Medicine lines")
-    diagnosis_ids = fields.One2many(
-        comodel_name='hospital.diagnosis',
-        inverse_name='tickets_id',
-        string="Diagnosis lines")
-    prescriptions_ids = fields.One2many(
-        comodel_name='hospital.prescriptions',
-        inverse_name='tickets_id',
-        string="Prescriptions lines")
     billing_amount = fields.Float(
         string="Billing Amount")
     payment_amount = fields.Float(
@@ -88,6 +74,24 @@ class Tickets(models.Model):
         related="company_id.currency_id",
         readonly=True, ondelete="set null",
         help="Used to display the currency when tracking monetary values")
+    consultation_notes = fields.Text(
+        string="Consultation Notes")
+    diagnose_id = fields.Many2one(
+        comodel_name='hospital.diagnose.line',
+        string="diagnose lines")
+    diagnose_ids = fields.One2many(
+        comodel_name='hospital.diagnose.line',
+        inverse_name='tickets_id',
+        string="Diagnosis lines")
+    prescription_notes = fields.Text(
+        string="Prescription Notes")
+    prescription_id = fields.Many2one(
+        comodel_name='hospital.prescription.line',
+        string="prescription lines")
+    prescription_ids = fields.One2many(
+        comodel_name='hospital.prescription.line',
+        inverse_name='tickets_id',
+        string="Prescriptions lines")
     sales_id = fields.Many2one(
         comodel_name='hospital.sales',
         string="Sales Orders")
@@ -117,6 +121,16 @@ class Tickets(models.Model):
     def set_to_closed(self):
         self.state = 'closed'
 
+    @api.depends('start_date')
+    def _get_end_date(self):
+        self.ensure_one()
+        if not self.start_date:
+            self.end_date = self.start_date
+        else:
+            # add 20 min to start date
+            duration = timedelta(minutes=20)
+            self.end_date = self.start_date + duration
+
     def _compute_customer_invoice_count(self):
         for rec in self:
             customer_invoice_count = self.env["account.move"].search_count(
@@ -143,8 +157,8 @@ class Tickets(models.Model):
         }
 
 
-class Diagnosis(models.Model):
-    _name = "hospital.diagnosis"
+class DiagnoseLine(models.Model):
+    _name = "hospital.diagnose.line"
     _description = "diagnosis"
     _order = "diagnosis_date ASC"
     _inherit = ['mail.thread', 'mail.activity.mixin']
@@ -176,8 +190,8 @@ class Diagnosis(models.Model):
         return self.attachment_name
 
 
-class Prescriptions(models.Model):
-    _name = "hospital.prescriptions"
+class PrescriptionLine(models.Model):
+    _name = "hospital.prescription.line"
     _description = "Prescription"
     _order = "prescription_date ASC"
     _inherit = ['mail.thread', 'mail.activity.mixin']
@@ -206,50 +220,3 @@ class Prescriptions(models.Model):
 
     def _get_report_base_filename(self):
         return self.attachment_name
-
-
-class MedicineLine(models.Model):
-    _name = 'hospital.medicine.line'
-    _description = 'Medicine Line'
-
-    name = fields.Text(
-        string='Description',
-        required=True)
-    sequence = fields.Integer(
-        string='Sequence',
-        default=10)
-    product_id = fields.Many2one(
-        comodel_name='product.product',
-        required=True)
-    price_unit = fields.Float(
-        string='Price')
-    product_uom = fields.Many2one(
-        comodel_name='uom.uom',
-        string='Unit of Measure',
-        related='product_id.uom_id')
-    qty = fields.Float(
-        string='Quantity')
-    company_id = fields.Many2one(
-        comodel_name='res.company',
-        string='Company',
-        related='sales_id.company_id',
-        change_default=True,
-        default=lambda self: self.env.company,
-        required=False,
-        readonly=True)
-    currency_id = fields.Many2one(
-        comodel_name='res.currency',
-        string='Currency',
-        related='company_id.currency_id',
-        readonly=True,
-        help="Used to display the currency when tracking monetary values")
-    note = fields.Char(
-        string='Short Note')
-    price_subtotal = fields.Monetary(
-        string='Subtotal',
-        compute='_compute_subtotal',
-        currency_field='currency_id',
-        store=True)
-    tickets_id = fields.Many2one(
-        comodel_name='hospital.tickets',
-        string='Appointment ticket')
