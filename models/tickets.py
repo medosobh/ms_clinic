@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
@@ -19,6 +19,7 @@ class Tickets(models.Model):
             ("closed", "Closed"),
         ],
         string="State",
+        group_expand='_group_expand_states',
         default="draft")
     name = fields.Char(
         string="Name",
@@ -37,14 +38,12 @@ class Tickets(models.Model):
         string="Doctor")
     start_date = fields.Datetime(
         string="Start Date",
-        required=True,
-        tracking=True,
-        default=datetime.now())
+        tracking=True)
     end_date = fields.Datetime(
         string="End Date",
-        required=True,
         tracking=True,
-        compute="_get_end_date")
+        store=True,
+        compute='_get_end_date')
     billing_amount = fields.Monetary(
         string="Billing Amount",
         currency_field='currency_id')
@@ -135,6 +134,9 @@ class Tickets(models.Model):
         if not self._check_recursion():
             raise ValidationError(_('You cannot create recursive tickets.'))
 
+    def _group_expand_states(self, states, domain, order):
+        return [key for key, val in type(self).state.selection]
+
     def set_to_draft(self):
         self.state = 'draft'
 
@@ -152,14 +154,14 @@ class Tickets(models.Model):
 
     @api.depends('start_date')
     def _get_end_date(self):
-        self.ensure_one()
-        if not self.start_date:
-            self.end_date = self.start_date
-        else:
-            # add 20 min to start date
-            duration = timedelta(minutes=20)
-            self.end_date = self.start_date + duration
-        return self.end_date
+        for rec in self:
+            if not rec.start_date:
+                rec.end_date = rec.start_date
+                continue
+                # add 20 min to start date
+            duration = timedelta(minutes=20, seconds=0)
+            rec.end_date = rec.start_date + duration
+        return rec.end_date
 
     def _compute_customer_invoice_count(self):
         self.ensure_one()

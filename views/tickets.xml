@@ -8,7 +8,7 @@
             <field name="model">hospital.tickets</field>
             <field name="arch"
                    type="xml">
-                <form string="Ticket" version="7.0">
+                <form string="Ticket">
                     <header>
                         <button name="set_to_draft"
                                 string="Draft"
@@ -70,12 +70,9 @@
                             <group string="Appointment">
                                 <field name="patients_id"/>
                                 <field name="clinics_id"/>
-                                <field name="start_date"
-                                       t-options="{'format': 'dd / MM / yyyy HH / mm'}"/>
-                                <field name="end_date"
-                                       t-options="{'format': 'dd / MM / yyyy HH / mm'}"/>
-                                <field name="next_date"
-                                       t-options="{'format': 'dd / MM / yyyy HH / mm'}"/>
+                                <field name="start_date"/>
+                                <field name="end_date"/>
+                                <field name="next_date"/>
                             </group>
                             <group string="Information">
                                 <field name="staff_id"/>
@@ -141,6 +138,7 @@
                     <field name="patients_id"/>
                     <field name="staff_id"/>
                     <field name="start_date"/>
+                    <field name="end_date"/>
                     <field name="billing_amount"/>
                     <field name="payment_amount"/>
                     <field name="payment_date"/>
@@ -181,6 +179,7 @@
                            invisible="1"/>
                     <field name="name"/>
                     <field name="start_date"/>
+                    <field name="end_date"/>
                     <field name="patients_id"/>
                     <field name="staff_id"/>
                     <field name="next_date"/>
@@ -208,14 +207,12 @@
                     <field name="patients_id"/>
                     <field name="clinics_id"/>
                     <field name="staff_id"/>
-                    <field name="start_date"
-                           type="date"/>
-                    <field name="end_date"
-                           type="date"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
                     <field name="company_id"
-                           widget="selection"
                            groups="base.group_multi_company"/>
                     <field name="active" invisible="1"/>
+                    <field name="activity_ids"/>
                     <templates>
                         <t t-name="kanban-box">
                             <div t-attf-class="oe_kanban_global_click">
@@ -226,20 +223,25 @@
                                             <field name="name"/>
                                         </li>
                                         <li>
+                                            Patient:
                                             <field name="patients_id"
                                             />
                                         </li>
                                         <li>
                                             Clinic:
                                             <field name="clinics_id"/>
+                                        </li>
+                                        <li>
                                             Doctor:
                                             <field name="staff_id"/>
                                         </li>
                                         <li>
                                             Start:
                                             <field name="start_date"/>
+                                        </li>
+                                        <li>
                                             End:
-                                            <field name="start_date"/>
+                                            <field name="end_date"/>
                                         </li>
                                     </ul>
                                 </div>
@@ -274,25 +276,12 @@
                     <field name="patients_id"/>
                     <field name="clinics_id"/>
                     <field name="staff_id"/>
-                    <field name="start_date"
-                           type="date"/>
-                    <field name="end_date"
-                           type="date"/>
+                    <field name="start_date"/>
                     <field name="company_id"
                            widget="selection"
                            groups="base.group_multi_company"/>
                     <field name="user_id" invisible="1"/>
                     <field name="active" invisible="1"/>
-                    <filter name="filter_clinics_id"
-                            string="Clinic"
-                            domain="[('clinics_id', '=', 'clinics_id')]"/>
-                    <filter name="filter_staff_id"
-                            string="Doctor"
-                            domain="[('staff_id', '=', 'staff_id')]"/>
-                    <filter name="filter_user"
-                            string="User"
-                            domain="[('user_id', '=', uid)]"/>
-                    <separator/>
                     <filter name="filter_archived"
                             string="Archived"
                             domain="[('active', '=', False)]"/>
@@ -313,18 +302,18 @@
                             string="Closed"
                             domain="[('state', '=', 'closed')]"/>
                     <separator/>
-                    <group expand="0"
+                    <group expand="1"
                            string="Group by">
                         <filter string="Company"
                                 name="group_by_company"
                                 context="{'group_by':'company_id'}"/>
-                        <filter string="patients_id"
+                        <filter string="Patient"
                                 name="group_by_patients_id"
                                 context="{'group_by':'patients_id'}"/>
-                        <filter string="User"
+                        <filter string="Clinic"
                                 name="group_by_clinics_id"
                                 context="{'group_by':'clinics_id'}"/>
-                        <filter string="User"
+                        <filter string="Staff"
                                 name="group_by_staff_id"
                                 context="{'group_by':'staff_id'}"/>
                         <filter string="User"
