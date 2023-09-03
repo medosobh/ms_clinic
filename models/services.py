@@ -1,6 +1,4 @@
-from odoo import models, fields, api, _
-from odoo.exceptions import UserError, ValidationError
-from datetime import date, datetime, timedelta
+from odoo import models, fields
 
 
 class Services(models.Model):
@@ -15,4 +13,8 @@ class Services(models.Model):
         copy=False)
     description = fields.Text(
         string="Description")
+    unit_price = fields.Float(
+        string="Unit Price")
 
+    def create_service_product(self):
+        return

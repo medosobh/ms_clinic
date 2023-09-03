@@ -1,6 +1,6 @@
-from odoo import models, fields, api, _
-from odoo.exceptions import UserError, ValidationError
-from datetime import date, datetime, timedelta
+from datetime import date
+
+from odoo import models, fields, api
 
 
 class Staff(models.Model):
@@ -8,14 +8,27 @@ class Staff(models.Model):
     _description = "Staff"
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
+    @api.depends('birthday')
+    def _get_age(self):
+        self.ensure_one()
+        if not self.birthday:
+            self.age = 0
+        else:
+            self.age = (date.today().year - self.birthday.year)
+        return self.age
+
     name = fields.Char(
         string="Name",
         required=True)
     roles_id = fields.Many2one(
         comodel_name="hospital.roles",
         string="Role")
+    birthday = fields.Date(
+        string="Birthday",
+        tracking=True)
     age = fields.Integer(
-        string="Age")
+        string="Age",
+        compute='_get_age')
     gender = fields.Selection(
         selection=[
             ("male", "Male"),
@@ -39,14 +52,6 @@ class Staff(models.Model):
     # clinics_id = fields.Many2many(
     #     comodel_name="hospital.clinics",
     #     string="Clinic")
-
-    def toggle_active(self):
-        for record in self:
-            record.is_active = True
-
-    def toggle_inactive(self):
-        for record in self:
-            record.is_active = False
 
 
 class Roles(models.Model):

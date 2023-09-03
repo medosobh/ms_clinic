@@ -13,22 +13,11 @@
                     <page string="Medicine" name="medicine">
                         <group>
                             <field name="medicine_name"/>
-                            <field name="description"/>
+                            <field name="medicine_description"/>
                             <field name="dosage"/>
-                            <field name="unit_price"/>
+                            <field name="medicine_unit_price"/>
                             <field name="quantity"/>
                             <field name="manufacturer"/>
-                        </group>
-                    </page>
-                </xpath>
-                <xpath expr="//page[@name='general_information']"
-                       position="after">
-                    <page string="Service" name="service">
-                        <group>
-                            <field name="service_name"/>
-                            <field name="description"/>
-                            <field name="unit_price"/>
-                            <field name="services_id"/>
                         </group>
                     </page>
                 </xpath>

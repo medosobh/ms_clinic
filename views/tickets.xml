@@ -98,9 +98,68 @@
                             </page>
                             <page name="diagnosis"
                                   string="Diagnosis">
+                                <field name="diagnose_ids"
+                                       context="{'default_patients_id': patients_id}">
+                                    <tree>
+                                        <field name="sequence"
+                                               widget="handle"/>
+                                        <field name="diagnosis_date"/>
+                                        <field name="note"/>
+                                        <field name="attachment"
+                                               filename="attachment_name"
+                                               widget="download_link"/>
+                                        <field name="attachment_name"
+                                               invisible="1"/>
+                                        <field name="tickets_id"
+                                               invisible="1"/>
+                                        <field name="patients_id"
+                                               invisible="1"/>
+                                        <field name="user_id"/>
+
+                                    </tree>
+                                    <form>
+                                        <group string="Diagnose">
+                                            <field name="diagnosis_date"/>
+                                            <field name="note"/>
+                                            <field name="attachment"
+                                                   filename="attachment_name"
+                                                   widget="download_link"/>
+                                            <field name="attachment_name"
+                                                   invisible="1"/>
+                                            <field name="tickets_id"
+                                                   invisible="1"/>
+                                            <field name="patients_id"
+                                                   invisible="1"/>
+                                            <field name="user_id"/>
+                                        </group>
+                                    </form>
+                                </field>
                             </page>
-                            <page name="prescriptions"
-                                  string="Prescriptions">
+                            <page name="prescription"
+                                  string="Prescription">
+                                <field name="prescription_line_ids"
+                                       context="{'default_patients_id': patients_id}">
+                                    <tree>
+                                        <field name="sequence"
+                                               widget="handle"/>
+                                        <field name="product_id"/>
+                                        <field name="note"/>
+                                        <field name="tickets_id"
+                                               invisible="1"/>
+                                        <field name="patients_id"
+                                               invisible="1"/>
+                                        <field name="user_id"/>
+                                    </tree>
+                                    <form>
+                                        <field name="product_id"/>
+                                        <field name="note"/>
+                                        <field name="tickets_id"
+                                               invisible="1"/>
+                                        <field name="patients_id"
+                                               invisible="1"/>
+                                        <field name="user_id"/>
+                                    </form>
+                                </field>
                             </page>
                             <page name="sales"
                                   string="Sales Order">

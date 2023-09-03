@@ -10,6 +10,7 @@
                 <tree>
                     <field name="name"/>
                     <field name="roles_id" widget="selection"/>
+                    <field name="birthday"/>
                     <field name="age"/>
                     <field name="gender"/>
                     <field name="phone" widget="phone"/>
@@ -27,14 +28,6 @@
             <field name="arch" type="xml">
                 <form string="Staff">
                     <header>
-                        <button name="toggle_inactive" string="Deactivate"
-                                type="object" class="oe_highlight"
-                                icon="fa-ban"
-                                attrs="{'invisible':[('active','=',False)]}"/>
-                        <button name="toggle_active" string="Activate"
-                                type="object" class="oe_highlight"
-                                icon="fa-check-square-o"
-                                attrs="{'invisible':[('active','=',True)]}"/>
                     </header>
                     <sheet>
                         <div class="oe_title">

@@ -1,4 +1,6 @@
-from odoo import models, fields
+from datetime import date
+
+from odoo import models, fields, api
 
 
 class Patients(models.Model):
@@ -17,6 +19,15 @@ class Patients(models.Model):
     ]
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
+    @api.depends('birthday')
+    def _get_age(self):
+        self.ensure_one()
+        if not self.birthday:
+            self.age = 0
+        else:
+            self.age = (date.today().year - self.birthday.year)
+        return self.age
+
     name = fields.Char(
         string="Name",
         required=True,
@@ -28,7 +39,8 @@ class Patients(models.Model):
         string="Birthday",
         tracking=True)
     age = fields.Integer(
-        string="Age")
+        string="Age",
+        compute='_get_age')
     gender = fields.Selection(
         selection=[
             ("male", "Male"),

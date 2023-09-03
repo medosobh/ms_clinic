@@ -1,4 +1,4 @@
-from datetime import timedelta
+from datetime import timedelta, datetime
 
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
@@ -76,27 +76,29 @@ class Tickets(models.Model):
         ondelete="set null",
         help="Used to display the currency when tracking monetary values")
     user_id = fields.Many2one(
-        comodel_name='res.users', string='Responsible',
+        comodel_name='res.users',
+        string='Responsible',
         required=False,
+        readonly=True,
         default=lambda self: self.env.user)
     consultation_notes = fields.Text(
         string="Consultation Notes")
     prescription_notes = fields.Text(
         string="Prescription Notes")
-    # diagnose_id = fields.Many2one(
-    #     comodel_name='hospital.diagnose.line',
-    #     string="diagnose lines")
-    # diagnose_ids = fields.One2many(
-    #     comodel_name='hospital.diagnose.line',
-    #     inverse_name='tickets_id',
-    #     string="Diagnosis lines")
-    # prescription_id = fields.Many2one(
-    #     comodel_name='hospital.prescription.line',
-    #     string="prescription lines")
-    # prescription_ids = fields.One2many(
-    #     comodel_name='hospital.prescription.line',
-    #     inverse_name='tickets_id',
-    #     string="Prescriptions lines")
+    diagnose_id = fields.Many2one(
+        comodel_name='hospital.diagnose.line',
+        string="diagnose lines")
+    diagnose_ids = fields.One2many(
+        comodel_name='hospital.diagnose.line',
+        inverse_name='tickets_id',
+        string="Diagnosis")
+    prescription_line_id = fields.Many2one(
+        comodel_name='hospital.prescription.line',
+        string="prescription lines")
+    prescription_line_ids = fields.One2many(
+        comodel_name='hospital.prescription.line',
+        inverse_name='tickets_id',
+        string="Prescriptions")
     # sales_id = fields.Many2one(
     #     comodel_name='hospital.sales',
     #     string="Sales Orders")
@@ -198,15 +200,19 @@ class DiagnoseLine(models.Model):
     _order = "diagnosis_date ASC"
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
+    def _get_report_base_filename(self):
+        return self.attachment_name
+
     sequence = fields.Integer(
         string="Sequence",
         default=10)
-    diagnosis_date = fields.Text(
+    diagnosis_date = fields.Date(
         string="Date",
         required=False,
-        tracking=True)
-    note = fields.Char(
-        string="Short Note",
+        tracking=True,
+        default=datetime.today())
+    note = fields.Text(
+        string="Note",
         tracking=True)
     attachment = fields.Binary(
         string="Attachment File",
@@ -220,15 +226,22 @@ class DiagnoseLine(models.Model):
     tickets_id = fields.Many2one(
         comodel_name="hospital.tickets",
         string="Ticket")
-
-    def _get_report_base_filename(self):
-        return self.attachment_name
+    patients_id = fields.Many2one(
+        comodel_name="hospital.patients",
+        related='tickets_id.patients_id',
+        string="Patient")
+    user_id = fields.Many2one(
+        comodel_name='res.users', string='Responsible',
+        required=False,
+        readonly=True,
+        tracking=True,
+        default=lambda self: self.env.user)
 
 
 class PrescriptionLine(models.Model):
     _name = "hospital.prescription.line"
     _description = "Prescription"
-    _order = "prescription_date ASC"
+    _order = "sequence ASC"
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
     sequence = fields.Integer(
@@ -238,8 +251,18 @@ class PrescriptionLine(models.Model):
         comodel_name='product.product',
         required=True)
     note = fields.Char(
-        string="Short Note",
+        string="",
         tracking=True)
     tickets_id = fields.Many2one(
         comodel_name="hospital.tickets",
         string="Ticket")
+    patients_id = fields.Many2one(
+        comodel_name="hospital.patients",
+        related='tickets_id.patients_id',
+        string="Patient")
+    user_id = fields.Many2one(
+        comodel_name='res.users', string='Responsible',
+        required=False,
+        readonly=True,
+        tracking=True,
+        default=lambda self: self.env.user)
