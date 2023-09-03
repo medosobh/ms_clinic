@@ -22,6 +22,7 @@
         'base',
         'mail',
         'account',
+        'analytic',
         'stock',
         'l10n_eg',
         'uom',

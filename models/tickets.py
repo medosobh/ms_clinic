@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 
 from odoo import models, fields, api, _
+from odoo.exceptions import ValidationError
 
 
 class Tickets(models.Model):
@@ -52,31 +53,25 @@ class Tickets(models.Model):
         currency_field='currency_id')
     payment_date = fields.Date(
         string="Payment Date")
-    analytic_account_id = fields.Many2one(
-        comodel_bname="account.analytic.account",
-        string="Analytic Account", )
     next_date = fields.Datetime(
         string="Reschedule Date",
         tracking=True)
     parent_id = fields.Many2one(
         comodel_name="hospital.tickets",
-        string='Previous Ticket',
-        index=True,
-        readonly=True)
-    child_id = fields.One2many(
+        string='Previous Ticket')
+    child_id = fields.Many2one(
         comodel_name="hospital.tickets",
-        inverse_name="parent_id",
         string="Next Ticket")
     company_id = fields.Many2one(
         comodel_name="res.company",
         string="Company",
-        change_default=True,
+        index=True,
+        required=True,
         default=lambda self: self.env.company)
     currency_id = fields.Many2one(
         comodel_name="res.currency",
         string="Currency",
         related="company_id.currency_id",
-        readonly=True,
         ondelete="set null",
         help="Used to display the currency when tracking monetary values")
     user_id = fields.Many2one(
@@ -110,10 +105,10 @@ class Tickets(models.Model):
     #     string="Sales Orders")
     customer_invoice_count = fields.Integer(
         string="Patient Invoice Count",
-        compute="_compute_customer_invoice_count")
+    )
     customer_invoice_total = fields.Integer(
         string="Patient Invoice Total",
-        compute="_compute_customer_invoice_total")
+    )
     active = fields.Boolean(
         string="Active",
         default=True,
@@ -126,10 +121,15 @@ class Tickets(models.Model):
                 'ms_hospital.tickets') or _('New')
         return super(Tickets, self).create(vals)
 
-    # @api.constrains('parent_id')
-    # def _check_category_recursion(self):
-    #     if not self._check_recursion():
-    #         raise ValidationError(_('You cannot create recursive categories.'))
+    @api.constrains('parent_id')
+    def _check_category_recursion(self):
+        if not self._check_recursion():
+            raise ValidationError(_('You cannot create recursive tickets.'))
+
+    @api.constrains('child_id')
+    def _check_category_recursion(self):
+        if not self._check_recursion():
+            raise ValidationError(_('You cannot create recursive tickets.'))
 
     def set_to_draft(self):
         self.state = 'draft'
