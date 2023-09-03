@@ -44,10 +44,6 @@ class Sales(models.Model):
         required=True)
     notes = fields.Html(
         string='Terms and Conditions')
-    sales_order_line_ids = fields.One2many(
-        comodel_name='hospital.sales.oline',
-        inverse_name='sales_id',
-        string="order lines")
     company_id = fields.Many2one(
         comodel_name='res.company',
         string='Company',
@@ -132,7 +128,7 @@ class Sales(models.Model):
             'target': 'new'
         }
 
-    def button_farm_customer_invoice(self):
+    def button_hospital_customer_invoice(self):
         # create Customer Invoice in background and open form view.
         self.ensure_one()
         # check analytic_account_id created
@@ -196,72 +192,7 @@ class Sales(models.Model):
         return result
 
 
-class SalesOline(models.Model):
-    _name = 'hospital.sales.oline'
-    _description = 'Sales Order Line'
-
-    name = fields.Text(
-        string='Description',
-        required=True)
-    sequence = fields.Integer(
-        string='Sequence',
-        default=10)
-    product_id = fields.Many2one(
-        comodel_name='product.product',
-        string='Product')
-    price_unit = fields.Float(
-        string='Price')
-    product_uom = fields.Many2one(
-        comodel_name='uom.uom',
-        string='Unit of Measure',
-        related='product_id.uom_id',
-        domain="[('category_id', '=', product_uom_category_id)]")
-    qty = fields.Float(
-        string='Quantity')
-    company_id = fields.Many2one(
-        comodel_name='res.company',
-        string='Company',
-        related='sales_id.company_id',
-        change_default=True,
-        default=lambda self: self.env.company,
-        required=False,
-        readonly=True)
-    currency_id = fields.Many2one(
-        comodel_name='res.currency',
-        string='Currency',
-        related='sales_id.currency_id',
-        readonly=True,
-        help="Used to display the currency when tracking monetary values")
-    note = fields.Char(
-        string='Short Note')
-    price_subtotal = fields.Monetary(
-        string='Subtotal',
-        compute='_compute_subtotal',
-        currency_field='currency_id',
-        store=True)
-    sales_id = fields.Many2one(
-        comodel_name='hospital.sales',
-        string='Sales Order')
-
-    @api.onchange('product_id')
-    def onchange_price_unit(self):
-        if not self.product_id:
-            self.price_unit = 0
-            return
-        self.price_unit = self.product_id.list_price
-
-    @api.depends('price_unit', 'qty')
-    def _compute_subtotal(self):
-        for rec in self:
-            rec.price_subtotal = rec.price_unit * rec.qty
 
 
-class AccountMoveLine(models.Model):
-    _inherit = "account.move.line"
 
-    # expense already maintained in he.expense model
-    sales_id = fields.Many2one(
-        comodel_name='hospital.sales',
-        string="Hospital Sales")
-    move_type = fields.Selection(
-        related="move_id.move_type")
+

@@ -20,3 +20,13 @@ class ProductTemplate(models.Model):
         string="Manufacturer")
 
 
+class AccountMoveLine(models.Model):
+    _inherit = "account.move.line"
+
+    # expense already maintained in he.expense model
+    sales_id = fields.Many2one(
+        comodel_name='hospital.sales',
+        string="Hospital Sales")
+    move_type = fields.Selection(
+        related="move_id.move_type")
+

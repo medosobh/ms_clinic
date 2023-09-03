@@ -30,23 +30,6 @@
         <!--        &lt;!&ndash; Configuration &ndash;&gt;-->
         <menuitem id="hospital_menu_configuration" name="Configuration"
                   parent="hospital_root" sequence="50"/>
-        <!-- split -->
-        <menuitem id="hospital_menu_product_product" name="Medicine Product"
-                  parent="hospital_menu_configuration"
-                  action="stock.product_template_action_product"
-                  sequence="51"/>
-<!--        <menuitem id="hospital_menu_product_service" name="Service Product"-->
-<!--                  parent="hospital_menu_configuration"-->
-<!--                  action="stock.product_template_action_product"-->
-<!--                  sequence="52"/>-->
-        <!--        <menuitem id="hospital_menu_roles" name="Staff Roles"-->
-        <!--                  parent="hospital_menu_configuration"-->
-        <!--                  action="xyz"-->
-        <!--                  sequence="52"/>-->
-        <!--        <menuitem id="hospital_menu_clinic_type" name="Clinic
-        Type"&ndash;&gt;-->
-        <!--                  parent="hospital_menu_configuration"-->
-        <!--                  action="xyz"-->
-        <!--                  sequence="52"/>-->
+
     </data>
 </odoo>

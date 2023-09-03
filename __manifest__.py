@@ -53,6 +53,7 @@
         'views/clinics.xml',
         'views/staff.xml',
         'views/patients.xml',
+        'views/services.xml',
         # 'views/sales.xml',
         # 'views/insurance.xml',
     ],

@@ -35,31 +35,7 @@
                     <sheet>
                         <div class="oe_button_box"
                              name="button_sales_box">
-                            <button name="action_customer_invoice"
-                                    type="object"
-                                    class="oe_stat_button"
-                                    icon="fa-file-text-o">
-                                <div class="o_stat_info">
-                                    <field name="customer_invoice_count"/>
-                                    <span class="o_stat_text">
-                                        Count
-                                    </span>
-                                </div>
-                            </button>
-                            <button name="action_customer_invoice"
-                                    type="object"
-                                    class="oe_stat_button"
-                                    icon="fa-money">
-                                <div class="o_stat_info">
-                                    <field name="currency_id"
-                                           invisible="1"
-                                           groups="base.group_multi_currency"/>
-                                    <field name="customer_invoice_total"
-                                           widget="monetary"
-                                           options="{'currency_field': 'currency_id'}"/>
-                                    <span class="o_stat_text">Amount</span>
-                                </div>
-                            </button>
+
                         </div>
                         <div class="oe_title">
                             <h1>
@@ -400,8 +376,7 @@
             <field name="view_mode">tree,form,kanban,calendar</field>
             <field name="domain"/>
             <field name="context"/>
-            <field name="help"
-                   type="html">
+            <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
                     Click here to add a new ticket.
                 </p>
