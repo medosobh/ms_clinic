@@ -58,10 +58,12 @@ class Tickets(models.Model):
         tracking=True)
     parent_id = fields.Many2one(
         comodel_name="hospital.tickets",
-        string='Previous Ticket')
+        string='Previous Ticket',
+        readonly=True)
     child_id = fields.Many2one(
         comodel_name="hospital.tickets",
-        string="Next Ticket")
+        string="Next Ticket",
+        readonly=True)
     company_id = fields.Many2one(
         comodel_name="res.company",
         string="Company",
@@ -126,21 +128,11 @@ class Tickets(models.Model):
         if not self._check_recursion():
             raise ValidationError(_('You cannot create recursive tickets.'))
 
-    @api.onchange('parent_id')
-    def _check_parent_id(self, vals):
-        parent_id = vals['parent_id']
-        if parent_id == self.id:
-            raise ValidationError(_('You cannot create recursive tickets.'))
+    #
 
     @api.constrains('child_id')
     def _check_category_recursion(self):
         if not self._check_recursion():
-            raise ValidationError(_('You cannot create recursive tickets.'))
-
-    @api.onchange('child_id')
-    def _check_child_id(self, vals):
-        child_id = vals['child_id']
-        if child_id == self.id:
             raise ValidationError(_('You cannot create recursive tickets.'))
 
     def set_to_draft(self):
