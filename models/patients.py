@@ -32,6 +32,9 @@ class Patients(models.Model):
         string="Name",
         required=True,
         tracking=True)
+    partner_id = fields.Many2one(
+        comodel_name='res.partner',
+        string="Partner")
     identity = fields.Char(
         string="Identity",
         tracking=True)
@@ -57,18 +60,16 @@ class Patients(models.Model):
     email = fields.Char(
         string="Email",
         tracking=True)
-    # medical_history_ids = fields.Many2many(
-    #     comodel_name="hospital.medical.history",
-    #     string="Medical History",
-    #     tracking=True)
+    tickets_ids = fields.One2many(
+        comodel_name="hospital.tickets",
+        inverse_name="patients_id",
+        string="Medical History")
+
     # clinics_ids = fields.One2many(
     #     comodel_name="hospital.clinics",
     #     inverse_name="patients_id",
     #     string="Clinic")
-    # tickets_ids = fields.One2many(
-    #     comodel_name="hospital.tickets",
-    #     inverse_name="patient_id",
-    #     string="Appointments")
+
     # insurance_id = fields.Many2one(
     #     comodel_name="hospital.insurance",
     #     string="Patient Insurance",

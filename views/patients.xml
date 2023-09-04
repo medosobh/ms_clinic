@@ -15,6 +15,7 @@
                         </div>
                         <group>
                             <group>
+                                <field name="partner_id"/>
                                 <field name="identity" widget="char"/>
                                 <field name="birthday"/>
                                 <field name="age"/>
@@ -26,7 +27,14 @@
                         </group>
                         <notebook>
                             <page string="Medical History">
-
+                                <field name="tickets_ids">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="start_date"/>
+                                        <field name="consultation_notes"/>
+                                        <field name="prescription_notes"/>
+                                    </tree>
+                                </field>
                             </page>
                             <page string="Diagnose">
 
@@ -51,6 +59,7 @@
             <field name="arch" type="xml">
                 <tree>
                     <field name="name"/>
+                    <field name="partner_id"/>
                     <field name="age"/>
                     <field name="gender"/>
                     <field name="address"/>

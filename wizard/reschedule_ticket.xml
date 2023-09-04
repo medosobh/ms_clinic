@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="hospital_reschedule_ticket_wizard_form"
+                model="ir.ui.view">
+            <field name="name">hospital.reschedule.ticket.form</field>
+            <field name="model">hospital.reschedule.ticket</field>
+            <field name="arch"
+                   type="xml">
+                <form>
+                    <h1>Reschedule Current Ticket</h1>
+                    <group name="reschedule_ticket"
+                           string="Reschedule Ticket">
+                        <group>
+                            <field name="patients_id"
+                                   class="oe_inline"/>
+                            <field name="clinics_id"
+                                   class="oe_inline"/>
+                            <field name="staff_id"
+                                   class="oe_inline"/>
+                            <field name="start_date"
+                                   class="oe_inline"/>
+                            <field name="end_date"
+                                   class="oe_inline"/>
+                        </group>
+                        <group>
+                            <field name="company_id"
+                                   class="oe_inline"/>
+                            <field name="currency_id"
+                                   class="oe_inline"/>
+                            <field name="user_id"/>
+                        </group>
+                    </group>
+
+                    <footer>
+                        <button string="Create"
+                                name="action_create_reschedule_ticket"
+                                context="{'tickets_id': id, 'user_id': user_id}"
+                                type="object"
+                                class="oe_highlight"
+                                data-hotkey="q"/>
+                        <button string="Cancel"
+                                class="btn btn-secondary"
+                                special="cancel"
+                                data-hotkey="z"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="hospital_reschedule_ticket_action_wizard"
+                model="ir.actions.act_window">
+            <field name="name">Reschedule Current Ticket</field>
+            <field name="res_model">hospital.reschedule.ticket</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+    </data>
+</odoo>

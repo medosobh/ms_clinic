@@ -20,9 +20,12 @@ class Staff(models.Model):
     name = fields.Char(
         string="Name",
         required=True)
-    roles_id = fields.Many2one(
-        comodel_name="hospital.roles",
-        string="Role")
+    employee_id = fields.Many2one(
+        comodel_name="hr.employee",
+        string="Employee at HR")
+    job_title = fields.Char(
+        related="employee_id.job_title",
+        string="Job Title")
     birthday = fields.Date(
         string="Birthday",
         tracking=True)
@@ -54,6 +57,4 @@ class Staff(models.Model):
     #     string="Clinic")
 
 
-class Roles(models.Model):
-    _name = "hospital.roles"
-    _description = "Staff Roles"
+

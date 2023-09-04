@@ -30,12 +30,20 @@ class Tickets(models.Model):
     patients_id = fields.Many2one(
         comodel_name="hospital.patients",
         string="Patient")
+    # partner_id = fields.Many2one(
+    #     comodel_name="res.partner",
+    #     related="patients_id.partner_id",
+    #     string="Partner")
     clinics_id = fields.Many2one(
         comodel_name="hospital.clinics",
         string="Clinic")
     staff_id = fields.Many2one(
         comodel_name="hospital.staff",
         string="Doctor")
+    # employee_id = fields.Many2one(
+    #     comodel_name="hr.employee",
+    #     related="staff_id.partner_id",
+    #     string="Employee at HR")
     start_date = fields.Datetime(
         string="Start Date",
         tracking=True)
@@ -99,11 +107,8 @@ class Tickets(models.Model):
         comodel_name='hospital.prescription.line',
         inverse_name='tickets_id',
         string="Prescriptions")
-    # sales_id = fields.Many2one(
-    #     comodel_name='hospital.sales',
-    #     string="Sales Orders")
-    # sales_ids = fields.One2many(
-    #     comodel_name='hospital.sales',
+    # sales_line_ids = fields.One2many(
+    #     comodel_name='hospital.ticket.sales.line',
     #     inverse_name='tickets_id',
     #     string="Sales Orders")
     customer_invoice_count = fields.Integer(
@@ -198,11 +203,6 @@ class Tickets(models.Model):
         # create Customer Invoice in background and open form view.
         self.ensure_one()
         # check analytic_account_id created
-        analytic = self.analytic_account_id
-        if not analytic:
-            raise UserError(
-                _('Please define an analytic account for the company %s (%s).') % (
-                    self.company_id.name, self.company_id.id))
 
         move_type = self._context.get('default_move_type', 'out_invoice')
         journal = self.env['account.move'].with_context(
@@ -222,7 +222,7 @@ class Tickets(models.Model):
             'state': 'draft',
             'ref': self.name or '',
             'move_type': move_type,
-            'narration': self.notes,
+            # 'narration': self.notes,
             'currency_id': self.currency_id.id,
             'invoice_user_id': self.user_id and self.user_id.id or self.env.user.id,
             'partner_id': partner_invoice_id,
@@ -233,14 +233,14 @@ class Tickets(models.Model):
             'partner_bank_id': partner_bank_id.id,
             'journal_id': journal.id,  # company comes from the journal
             'invoice_origin': self.name,
-            'invoice_payment_term_id': self.payment_term_id.id,
+            # 'invoice_payment_term_id': self.payment_term_id.id,
             'invoice_line_ids': [(0, 0, {
-                'sequence': self.sales_order_line_ids.sequence,
-                'product_id': self.sales_order_line_ids.product_id.id,
-                'product_uom_id': self.sales_order_line_ids.product_uom.id,
-                'quantity': self.sales_order_line_ids.qty,
-                'price_unit': self.sales_order_line_ids.price_unit,
-                'analytic_account_id': self.analytic_account_id.id,
+                'sequence': self.sales_line_ids.sequence,
+                'product_id': self.sales_line_ids.product_id.id,
+                'product_uom_id': self.sales_line_ids.product_uom.id,
+                'quantity': self.sales_line_ids.qty,
+                'price_unit': self.sales_line_ids.price_unit,
+                # 'analytic_account_id': self.analytic_account_id.id,
                 # 'sales_id': self.id,
             })],
             'company_id': self.company_id.id,
@@ -292,7 +292,6 @@ class DiagnoseLine(models.Model):
         string="Ticket")
     patients_id = fields.Many2one(
         comodel_name="hospital.patients",
-        related='tickets_id.patients_id',
         string="Patient")
     user_id = fields.Many2one(
         comodel_name='res.users', string='Responsible',
@@ -322,7 +321,6 @@ class PrescriptionLine(models.Model):
         string="Ticket")
     patients_id = fields.Many2one(
         comodel_name="hospital.patients",
-        related='tickets_id.patients_id',
         string="Patient")
     user_id = fields.Many2one(
         comodel_name='res.users', string='Responsible',

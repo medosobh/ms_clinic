@@ -41,13 +41,17 @@
     'data': [
         # Security
         'security/ir.model.access.csv',
+
         # 'security/security.xml',
         # Data
         # 'data/data.xml',
+        'data/data_mail_action.xml',
         # Sequences
         'sequences/sequence_views.xml',
         # reports and Menu
         'reports/menu.xml',
+        # wizard
+        'wizard/reschedule_ticket.xml',
         # Views
         'views/tickets.xml',
         'views/clinics.xml',
@@ -56,6 +60,7 @@
         'views/services.xml',
         # 'views/sales.xml',
         # 'views/insurance.xml',
+
     ],
     # only loaded in demonstration mode
     'demo': [
