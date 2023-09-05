@@ -53,7 +53,6 @@ class ClinicType(models.Model):
     _name = "hospital.clinic.type"
     _description = "Clinic or Section"
 
-    name = fields.Char(string="Name", required=True)
-
-
-
+    name = fields.Char(
+        string="Name",
+        required=True)

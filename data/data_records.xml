@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="hospital.clinic.type"
+                id="hospital_clinic_type_1">
+            <field name="name">Ophthalmology</field>
+        </record>
+        <record model="hospital.clinic.type"
+                id="hospital_clinic_type_2">
+            <field name="name">Dental</field>
+        </record>
+        <record model="hospital.clinic.type"
+                id="hospital_clinic_type_3">
+            <field name="name">Diabetes</field>
+        </record>
+        <record model="hospital.clinic.type"
+                id="hospital_clinic_type_4">
+            <field name="name">Dialysis</field>
+        </record>
+        <record model="hospital.clinic.type"
+                id="hospital_clinic_type_5">
+            <field name="name">Imaging and radiology</field>
+        </record>
+        <record model="hospital.clinic.type"
+                id="hospital_clinic_type_6">
+            <field name="name">Orthopedic and other rehabilitation</field>
+        </record>
+        <record model="hospital.clinic.type"
+                id="hospital_clinic_type_7">
+            <field name="name">Pregnancy and childbirth</field>
+        </record>
+        <record model="hospital.clinic.type"
+                id="hospital_clinic_type_8">
+            <field name="name">Endogenous and cardiac diseases</field>
+        </record>
+        <record model="hospital.clinic.type"
+                id="hospital_clinic_type_9">
+            <field name="name">Skin and reproductive diseases</field>
+        </record>
+        <record model="hospital.clinic.type"
+                id="hospital_clinic_type_10">
+            <field name="name">Pathology Lab</field>
+        </record>
+
+    </data>
+</odoo>

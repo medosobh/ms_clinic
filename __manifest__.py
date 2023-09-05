@@ -44,7 +44,8 @@
 
         # 'security/security.xml',
         # Data
-        # 'data/data.xml',
+        # 'data/data_company.xml',
+        'data/data_records.xml',
         'data/data_mail_action.xml',
         # Sequences
         'sequences/sequence_views.xml',
