@@ -5,29 +5,14 @@
         <!-- ticket only -->
         <menuitem id="menu_hospital_main" name="Tickets"
                   parent="hospital_root" sequence="10"/>
-        <!-- split -->
-
-        <!-- ticket (diagnosis records and attachment + prescription +
-        customer invoices) -->
         <!-- patients and charges -->
         <!-- doctors and staff -->
         <menuitem id="menu_hospital_hospital" name="Hospital"
                   parent="hospital_root" sequence="20"/>
-
-
-
-
         <!-- services -->
         <menuitem id="menu_hospital_services" name="Services"
                   parent="hospital_root" sequence="30"/>
-        <!-- split -->
-        <!-- inherit analytic account -->
-        <!--        <menuitem id="hospital_menu_services" name="Services"-->
-        <!--                  parent="hospital_menu_operation" action="xyz" sequence="31"/>-->
-        <!-- inherit customer invoice -->
-        <!--        <menuitem id="hospital_menu_charges" name="Charges"-->
-        <!--                  parent="hospital_menu_operation" action="xyz" sequence="32"/>-->
-        <!--        &lt;!&ndash; Configuration &ndash;&gt;-->
+
         <menuitem id="hospital_menu_configuration" name="Configuration"
                   parent="hospital_root" sequence="50"/>
 

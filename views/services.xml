@@ -20,6 +20,7 @@
                                 <field name="description"/>
                             </group>
                             <group>
+                                <field name="product_id"/>
                                 <field name="unit_price"/>
                             </group>
                         </group>
@@ -48,6 +49,7 @@
                 <search string="Services">
                     <field name="name"/>
                     <field name="description"/>
+                    <field name="product_id"/>
                     <field name="unit_price"/>
                     <group expand="1" string="Group By">
                         <filter string="Name" name="name"
@@ -70,9 +72,11 @@
             </field>
         </record>
 
-        <menuitem id="services_menu" name="Services"
-                  parent="hospital_menu_configuration"
-                  action="hospital_services_act_window"/>
+        <menuitem id="services_menu"
+                  name="Services"
+                  action="hospital_services_act_window"
+                  parent="menu_hospital_services"
+                  sequence="31"/>
 
     </data>
 </odoo>

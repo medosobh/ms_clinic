@@ -31,10 +31,6 @@ class Tickets(models.Model):
         comodel_name="hospital.patients",
         required=True,
         string="Patient")
-    # partner_id = fields.Many2one(
-    #     comodel_name="res.partner",
-    #     related="patients_id.partner_id",
-    #     string="Partner")
     clinics_id = fields.Many2one(
         comodel_name="hospital.clinics",
         required=True,
@@ -43,10 +39,6 @@ class Tickets(models.Model):
         comodel_name="hospital.staff",
         required=True,
         string="Doctor")
-    # employee_id = fields.Many2one(
-    #     comodel_name="hr.employee",
-    #     related="staff_id.partner_id",
-    #     string="Employee at HR")
     start_date = fields.Datetime(
         string="Start Date",
         required=True,

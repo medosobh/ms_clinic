@@ -13,6 +13,9 @@ class Services(models.Model):
         copy=False)
     description = fields.Text(
         string="Description")
+    product_id = fields.Many2one(
+        comodel_name='product.product',
+        required=True)
     unit_price = fields.Float(
         string="Unit Price")
 

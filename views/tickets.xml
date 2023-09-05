@@ -147,8 +147,9 @@
                                     </form>
                                 </field>
                             </page>
-                            <page name="sales"
-                                  string="Sales Order">
+                            <page name="billing"
+                                  string="Patient Billing">
+
                             </page>
                             <page string="Administration">
                                 <group>
@@ -213,6 +214,9 @@
                           hide_time="true"
                           event_limit="5"
                           event_open_popup="False">
+                    <field name="state"
+                           filters="1"
+                           invisible="1"/>
                     <field name="clinics_id"
                            filters="1"
                            invisible="1"/>

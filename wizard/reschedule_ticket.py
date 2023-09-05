@@ -117,6 +117,6 @@ class RescheduleTicket(models.TransientModel):
         # mention assistant to follow the new ticket
         record.activity_schedule(
             'ms_hospital.mail_act_reschedule_ticket',
-            user_id=new_rec.user_id.id,
+            user_id=new_rec.employee_id.user_id.id,
             note=f'Please check ticket no {record.name}; for patient : '
-                 f'{new_rec.patients_id} was created.')
+                 f'{new_rec.patients_id.name} was created.')
