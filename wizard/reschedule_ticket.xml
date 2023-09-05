@@ -35,7 +35,6 @@
                     <footer>
                         <button string="Create"
                                 name="action_create_reschedule_ticket"
-                                context="{'tickets_id': id, 'user_id': user_id}"
                                 type="object"
                                 class="oe_highlight"
                                 data-hotkey="q"/>

@@ -12,7 +12,7 @@ class RescheduleTicket(models.TransientModel):
     @api.model
     def default_get(self, fields):
         res = super(RescheduleTicket, self).default_get(fields)
-        active_id = self._context.get('active_id')
+        active_id = self._context.get('tickets_id')
         if active_id:
             ticket_rec = self.env['hospital.tickets'].browse(int(active_id))
             res['parent_id'] = ticket_rec.id
@@ -31,6 +31,7 @@ class RescheduleTicket(models.TransientModel):
         default=lambda x: _('New'))
     patients_id = fields.Many2one(
         comodel_name="hospital.patients",
+        required=True,
         string="Patient")
     # partner_id = fields.Many2one(
     #     comodel_name="res.partner",
@@ -38,9 +39,11 @@ class RescheduleTicket(models.TransientModel):
     #     string="Partner")
     clinics_id = fields.Many2one(
         comodel_name="hospital.clinics",
+        required=True,
         string="Clinic")
     staff_id = fields.Many2one(
         comodel_name="hospital.staff",
+        required=True,
         string="Doctor")
     # employee_id = fields.Many2one(
     #     comodel_name="hr.employee",
@@ -48,6 +51,7 @@ class RescheduleTicket(models.TransientModel):
     #     string="Employee at HR")
     start_date = fields.Datetime(
         string="Start Date",
+        required=True,
         tracking=True)
     end_date = fields.Datetime(
         string="End Date",
@@ -99,20 +103,20 @@ class RescheduleTicket(models.TransientModel):
             'start_date': self.start_date,
             'end_date': self.end_date,
             'parent_id': self.parent_id.id,
-            'user_id': self.user_id.id,
             'company_id': self.company_id.id,
             'currency_id': self.currency_id.id,
+            'user_id': self.user_id.id,
         }
-        self.env['hospital.tickets'].self.create(vals)
+        new_rec = self.env['hospital.tickets'].create(vals)
         # change current ticket state and next date and child ticket
-        active_id = self._context.get('active_id')
+        active_id = self.parent_id.id
         record = self.env['hospital.tickets'].browse(active_id)
         record.state = 'reschedule'
-        record.next_date = self.start_date
-        record.child_id = self.id
+        record.next_date = new_rec.start_date
+        record.child_id = new_rec.id
         # mention assistant to follow the new ticket
         record.activity_schedule(
             'ms_hospital.mail_act_reschedule_ticket',
-            user_id=self.user_id.id,
-            note=f'Please check ticket no {record.code}; a patient : {self.patients_id} was created.'
-        )
+            user_id=new_rec.user_id.id,
+            note=f'Please check ticket no {record.name}; for patient : '
+                 f'{new_rec.patients_id} was created.')

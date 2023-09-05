@@ -34,7 +34,7 @@
                                 name="%(hospital_reschedule_ticket_action_wizard)d"
                                 type="action"
                                 attrs="{'invisible': [('state', 'in', ('confirm','reschedule','closed'))]}"
-                                context="{'ticket_id': id, 'user_id': user_id, 'patients_id': patients_id}"
+                                context="{'tickets_id': id, 'user_id': user_id, 'patients_id': patients_id}"
                                 class="oe_highlight"/>
                         <button string="Closed"
                                 name="set_to_closed"

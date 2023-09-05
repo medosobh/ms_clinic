@@ -29,6 +29,7 @@ class Tickets(models.Model):
         default=lambda x: _('New'))
     patients_id = fields.Many2one(
         comodel_name="hospital.patients",
+        required=True,
         string="Patient")
     # partner_id = fields.Many2one(
     #     comodel_name="res.partner",
@@ -36,9 +37,11 @@ class Tickets(models.Model):
     #     string="Partner")
     clinics_id = fields.Many2one(
         comodel_name="hospital.clinics",
+        required=True,
         string="Clinic")
     staff_id = fields.Many2one(
         comodel_name="hospital.staff",
+        required=True,
         string="Doctor")
     # employee_id = fields.Many2one(
     #     comodel_name="hr.employee",
@@ -46,6 +49,7 @@ class Tickets(models.Model):
     #     string="Employee at HR")
     start_date = fields.Datetime(
         string="Start Date",
+        required=True,
         tracking=True)
     end_date = fields.Datetime(
         string="End Date",
