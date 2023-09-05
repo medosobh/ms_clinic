@@ -32,6 +32,10 @@ class Tickets(models.Model):
         comodel_name="hospital.patients",
         required=True,
         string="Patient")
+    partner_id = fields.Many2one(
+        comodel_name='res.partner',
+        related="patients_id.partner_id",
+        string="Partner")
     clinics_id = fields.Many2one(
         comodel_name="hospital.clinics",
         required=True,
@@ -50,13 +54,16 @@ class Tickets(models.Model):
         store=True,
         compute='_get_end_date')
     invoice_amount = fields.Monetary(
-        string="invoice Amount",
+        string="Invoice Amount",
+        compute="_compute_invoice_amount",
         currency_field='currency_id')
     payment_amount = fields.Monetary(
         string="Payment Amount",
+        compute="_compute_payment_amount",
         currency_field='currency_id')
     payment_date = fields.Date(
-        string="Payment Date")
+        string="Payment Date",
+        compute="_compute_payment_date")
     next_date = fields.Datetime(
         string="Reschedule Date",
         tracking=True)
@@ -104,10 +111,10 @@ class Tickets(models.Model):
         comodel_name='hospital.prescription.line',
         inverse_name='tickets_id',
         string="Prescriptions")
-    # invoice_line_ids = fields.One2many(
-    #     comodel_name='hospital.ticket.invoice.line',
-    #     inverse_name='tickets_id',
-    #     string="Sales Orders")
+    invoice_line_ids = fields.One2many(
+        comodel_name='hospital.ticket.invoice.line',
+        inverse_name='tickets_id',
+        string="Invoice Lines")
     customer_invoice_count = fields.Integer(
         string="Patient Invoice Count",
     )
@@ -150,6 +157,114 @@ class Tickets(models.Model):
     def set_to_inspection(self):
         self.state = 'inspection'
 
+    def set_to_invoicing(self):
+        self.state = 'invoicing'
+        # create Customer Invoice in background and open form view.
+        self.ensure_one()
+        move_type = self._context.get('default_move_type', 'out_invoice')
+        journal = self.env['account.move'].with_context(
+            default_move_type=move_type)._get_default_journal()
+        if not journal:
+            raise UserError(
+                _('Please define an accounting sales journal for the company %s (%s).',
+                  self.company_id.name,
+                  self.company_id.id))
+        partner_invoice_id = self.partner_id.address_get(['invoice'])[
+            'invoice']
+        partner_bank_id = self.partner_id.commercial_partner_id.bank_ids.filtered_domain(
+            ['|', ('company_id', '=', False),
+             ('company_id', '=', self.company_id.id)])[:1]
+        invoice_vals = {
+            'state': 'draft',
+            'ref': self.name or '',
+            'invoice_date': self.start_date,
+            'move_type': move_type,
+            # 'narration': self.notes,
+            'currency_id': self.currency_id.id,
+            'invoice_user_id': self.user_id and self.user_id.id or self.env.user.id,
+            'partner_id': partner_invoice_id,
+            # 'fiscal_position_id': (self.fiscal_position_id or
+            # self.fiscal_position_id.get_fiscal_position(
+            # partner_invoice_id)).id,
+            'payment_reference': self.name or '',
+            'partner_bank_id': partner_bank_id.id,
+            'journal_id': journal.id,  # company comes from the journal
+            'invoice_origin': self.name,
+            # 'invoice_payment_term_id': self.payment_term_id.id,
+            'invoice_line_ids': [(0, 0, {
+                'sequence': self.invoice_line_ids.sequence,
+                'product_id': self.invoice_line_ids.product_id.id,
+                'product_uom_id': self.invoice_line_ids.product_uom.id,
+                'quantity': self.invoice_line_ids.qty,
+                'price_unit': self.invoice_line_ids.price_unit,
+                # 'analytic_account_id': self.analytic_account_id.id,
+                # 'sales_id': self.id,
+            })],
+            'company_id': self.company_id.id,
+        }
+        invoice = self.env['account.move'].create(invoice_vals)
+        result = self.env['ir.actions.act_window']._for_xml_id(
+            'account.action_move_out_invoice_type'
+        )
+        res = self.env.ref('account.view_move_form', False)
+        form_view = [(res and res.id or False, 'form')]
+        result['views'] = form_view + [(state, view) for state, view in
+                                       result['views'] if view != 'form']
+        result['res_id'] = invoice.id
+        return result
+
+    def _compute_invoice_amount(self):
+        for rec in self:
+            customer_invoice_total = sum(
+                self.env['account.move'].search([
+                    ('ref', '=', rec.name),
+                    ('move_type', '=', 'out_invoice')
+                ]).mapped('amount_total')
+            )
+
+            rec.invoice_amount = customer_invoice_total
+        return rec.invoice_amount
+
+    def _compute_payment_amount(self):
+        for rec in self:
+            customer_payment_total = sum(
+                self.env['account.move'].search([
+                    ('ref', '=', rec.name),
+                    ('move_type', '=', 'entry')
+                ]).mapped('amount_total')
+            )
+
+            rec.payment_amount = customer_payment_total
+        return rec.payment_amount
+
+    def _compute_payment_date(self):
+        for rec in self:
+            payment_date = self.env['account.move'].search([
+                ('ref', '=', rec.name),
+                ('move_type', '=', 'entry')
+            ], limit=1)
+
+            rec.payment_date = payment_date.date
+        return rec.payment_date
+
+    def collect_money(self):
+        # account.payment
+        # account.action_account_payments
+        # pass context partner, amount and memo
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Collect Invoice',
+            'res_model': 'account.payment',
+            'view_mode': 'form',
+            'context': {
+                'default_payment_type': 'inbound',
+                'default_partner_id': self.partner_id.id,
+                'default_amount': self.invoice_amount,
+                'default_ref': self.name,
+            },
+            'target': 'new'
+        }
+
     def set_to_reschedule(self):
         self.state = 'reschedule'
 
@@ -172,69 +287,28 @@ class Tickets(models.Model):
             'type': 'ir.actions.act_window',
             'name': 'Customer Invoices',
             'res_model': 'account.move',
-            'domain': [('invoice_origin', '=', self.name)],
+            'domain': [
+                ('ref', '=', self.name),
+                ('move_type', '=', 'out_invoice')
+            ],
             'view_mode': 'tree',
             'context': {},
             'target': 'new'
         }
 
-    def button_hospital_customer_invoice(self):
-        # create Customer Invoice in background and open form view.
-        self.ensure_one()
-        # check analytic_account_id created
-
-        move_type = self._context.get('default_move_type', 'out_invoice')
-        journal = self.env['account.move'].with_context(
-            default_move_type=move_type)._get_default_journal()
-        if not journal:
-            raise UserError(
-                _('Please define an accounting sales journal for the company %s (%s).',
-                  self.company_id.name,
-                  self.company_id.id))
-
-        partner_invoice_id = self.partner_id.address_get(['invoice'])[
-            'invoice']
-        partner_bank_id = self.partner_id.commercial_partner_id.bank_ids.filtered_domain(
-            ['|', ('company_id', '=', False),
-             ('company_id', '=', self.company_id.id)])[:1]
-        invoice_vals = {
-            'state': 'draft',
-            'ref': self.name or '',
-            'move_type': move_type,
-            # 'narration': self.notes,
-            'currency_id': self.currency_id.id,
-            'invoice_user_id': self.user_id and self.user_id.id or self.env.user.id,
-            'partner_id': partner_invoice_id,
-            # 'fiscal_position_id': (self.fiscal_position_id or
-            # self.fiscal_position_id.get_fiscal_position(
-            # partner_invoice_id)).id,
-            'payment_reference': self.name or '',
-            'partner_bank_id': partner_bank_id.id,
-            'journal_id': journal.id,  # company comes from the journal
-            'invoice_origin': self.name,
-            # 'invoice_payment_term_id': self.payment_term_id.id,
-            'invoice_line_ids': [(0, 0, {
-                'sequence': self.sales_line_ids.sequence,
-                'product_id': self.sales_line_ids.product_id.id,
-                'product_uom_id': self.sales_line_ids.product_uom.id,
-                'quantity': self.sales_line_ids.qty,
-                'price_unit': self.sales_line_ids.price_unit,
-                # 'analytic_account_id': self.analytic_account_id.id,
-                # 'sales_id': self.id,
-            })],
-            'company_id': self.company_id.id,
+    def action_customer_payment(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Customer Payment',
+            'res_model': 'account.move',
+            'domain': [
+                ('ref', '=', self.name),
+                ('move_type', '=', 'entry')
+            ],
+            'view_mode': 'tree',
+            'context': {},
+            'target': 'new'
         }
-        invoice = self.env['account.move'].create(invoice_vals)
-        result = self.env['ir.actions.act_window']._for_xml_id(
-            'account.action_move_out_invoice_type')
-        res = self.env.ref('account.view_move_form', False)
-        form_view = [(res and res.id or False, 'form')]
-        result['views'] = form_view + \
-                          [(state, view)
-                           for state, view in result['views'] if
-                           view != 'form']
-        result['res_id'] = invoice.id
-        return result
 
 
 class DiagnoseLine(models.Model):
@@ -324,22 +398,24 @@ class TicketInvoiceLine(models.Model):
         string='Service')
     product_id = fields.Many2one(
         comodel_name='product.product',
+        related='services_id.product_id',
         string='Product')
     price_unit = fields.Float(
+        related='product_id.list_price',
         string='Price')
     product_uom = fields.Many2one(
         comodel_name='uom.uom',
-        string='Unit of Measure',
         related='product_id.uom_id',
-        domain="[('category_id', '=', product_uom_category_id)]")
+        string='Unit of Measure')
     qty = fields.Float(
+        default=1,
+        required=True,
         string='Quantity')
     company_id = fields.Many2one(
         comodel_name='res.company',
         string='Company',
         related='tickets_id.company_id',
         change_default=True,
-        default=lambda self: self.env.company,
         required=False,
         readonly=True)
     currency_id = fields.Many2one(
@@ -348,8 +424,6 @@ class TicketInvoiceLine(models.Model):
         related='tickets_id.currency_id',
         readonly=True,
         help="Used to display the currency when tracking monetary values")
-    note = fields.Char(
-        string='Short Note')
     price_subtotal = fields.Monetary(
         string='Subtotal',
         compute='_compute_subtotal',

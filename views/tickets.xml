@@ -18,17 +18,27 @@
                         <button string="Draft"
                                 name="set_to_draft"
                                 type="object"
-                                attrs="{'invisible': [('state', 'in', ('draft','inspection','reschedule','closed'))]}"
+                                attrs="{'invisible': [('state', 'in', ('draft','inspection','invoicing','reschedule','closed'))]}"
                                 class="oe_highlight"/>
                         <button string="Confirmed"
                                 name="set_to_confirm"
                                 type="object"
-                                attrs="{'invisible': [('state', 'in', ('confirm','inspection','reschedule','closed'))]}"
+                                attrs="{'invisible': [('state', 'in', ('confirm','inspection','invoicing','reschedule','closed'))]}"
                                 class="oe_highlight"/>
                         <button string="Inspection"
                                 name="set_to_inspection"
                                 type="object"
-                                attrs="{'invisible': [('state', 'in', ('draft','inspection'))]}"
+                                attrs="{'invisible': [('state', 'in', ('draft','inspection','closed'))]}"
+                                class="oe_highlight"/>
+                        <button string="Invoicing"
+                                name="set_to_invoicing"
+                                type="object"
+                                attrs="{'invisible': [('state', 'in', ('draft','confirm','invoicing'))]}"
+                                class="oe_highlight"/>
+                        <button string="Collect Money"
+                                name="collect_money"
+                                type="object"
+                                attrs="{'invisible': ['|',('state', 'in', ('draft','confirm','inspection')),('payment_amount','!=', False)]}"
                                 class="oe_highlight"/>
                         <button string="Reschedule"
                                 name="%(hospital_reschedule_ticket_action_wizard)d"
@@ -39,7 +49,7 @@
                         <button string="Closed"
                                 name="set_to_closed"
                                 type="object"
-                                attrs="{'invisible': [('state', 'in', ('draft','confirm','closed'))]}"
+                                attrs="{'invisible': [('state', 'in', ('draft','confirm','inspection','closed'))]}"
                                 class="oe_highlight"/>
                     </header>
                     <sheet>
@@ -48,10 +58,19 @@
                             <button name="action_customer_invoice"
                                     type="object"
                                     class="oe_stat_button"
-                                    icon="fa-calendar">
+                                    icon="fa-dollar">
                                 <div class="o_stat_info">
                                     <field name="invoice_amount"/>
-                                    <span class="o_stat_text">Tickets</span>
+                                    <span class="o_stat_text">Invoice</span>
+                                </div>
+                            </button>
+                            <button name="action_customer_payment"
+                                    type="object"
+                                    class="oe_stat_button"
+                                    icon="fa-dollar">
+                                <div class="o_stat_info">
+                                    <field name="payment_amount"/>
+                                    <span class="o_stat_text">Payment</span>
                                 </div>
                             </button>
                         </div>
@@ -161,7 +180,30 @@
                             </page>
                             <page name="invoicing"
                                   string="Patient Invoicing">
-
+                                <field name="invoice_line_ids">
+                                    <tree editable="bottom">
+                                        <field name="sequence"
+                                               widget="handle"/>
+                                        <field name="services_id"
+                                               widget="selection"/>
+                                        <field name="product_id"
+                                               widget="selection"/>
+                                        <field name="name"
+                                               widget="section_and_note_text"/>
+                                        <field name="price_unit"
+                                               widget="monetary"/>
+                                        <field name="product_uom"/>
+                                        <field name="qty"
+                                               sum="Total QTY"/>
+                                        <field name="price_subtotal"
+                                               sum="Total Cost"/>
+                                        <field name="company_id"
+                                               widget="selection"
+                                               invisible="1"/>
+                                        <field name="currency_id"
+                                               invisible="1"/>
+                                    </tree>
+                                </field>
                             </page>
                             <page string="Administration">
                                 <group>

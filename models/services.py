@@ -52,7 +52,7 @@ class Services(models.Model):
             'purchase_ok': False,
             'detailed_type': 'service',
             'invoice_policy': 'delivery',
-            'lst_price': vals['unit_price'],
+            'list_price': vals['unit_price'],
             'description': vals['description'],
             'description_sale': vals['description'],
             'taxes_id': None,
