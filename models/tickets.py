@@ -16,6 +16,7 @@ class Tickets(models.Model):
             ("confirm", "Confirm"),
             ("inspection", "Inspection"),
             ("reschedule", "Reschedule"),
+            ("invoicing", "Invoicing"),
             ("closed", "Closed"),
         ],
         string="State",
@@ -48,8 +49,8 @@ class Tickets(models.Model):
         tracking=True,
         store=True,
         compute='_get_end_date')
-    billing_amount = fields.Monetary(
-        string="Billing Amount",
+    invoice_amount = fields.Monetary(
+        string="invoice Amount",
         currency_field='currency_id')
     payment_amount = fields.Monetary(
         string="Payment Amount",
@@ -103,8 +104,8 @@ class Tickets(models.Model):
         comodel_name='hospital.prescription.line',
         inverse_name='tickets_id',
         string="Prescriptions")
-    # sales_line_ids = fields.One2many(
-    #     comodel_name='hospital.ticket.sales.line',
+    # invoice_line_ids = fields.One2many(
+    #     comodel_name='hospital.ticket.invoice.line',
     #     inverse_name='tickets_id',
     #     string="Sales Orders")
     customer_invoice_count = fields.Integer(
@@ -165,24 +166,6 @@ class Tickets(models.Model):
             duration = timedelta(minutes=20, seconds=0)
             rec.end_date = rec.start_date + duration
         return rec.end_date
-
-    def _compute_customer_invoice_count(self):
-        self.ensure_one()
-        # for rec in self:
-        #     customer_invoice_count = self.env["account.move"].search_count(
-        #         [("invoice_origin", "=", rec.name)])
-        #     rec.customer_invoice_count = customer_invoice_count
-        return
-
-    def _compute_customer_invoice_total(self):
-        self.ensure_one()
-        # for rec in self:
-        #     total_debit = sum(self.env["account.move.line"].search(
-        #         [("tickets_id", "=", rec.id)]).mapped("debit"))
-        #     total_credit = sum(self.env["account.move.line"].search(
-        #         [("tickets_id", "=", rec.id)]).mapped("credit"))
-        #     rec.customer_invoice_total = total_debit + total_credit
-        return
 
     def action_customer_invoice(self):
         return {
@@ -326,9 +309,9 @@ class PrescriptionLine(models.Model):
         default=lambda self: self.env.user)
 
 
-class TicketSalesLine(models.Model):
-    _name = 'hospital.ticket.sales.line'
-    _description = 'Ticket Sales Line'
+class TicketInvoiceLine(models.Model):
+    _name = 'hospital.ticket.invoice.line'
+    _description = 'Ticket Invoice Line'
 
     name = fields.Text(
         string='Description',
@@ -336,6 +319,9 @@ class TicketSalesLine(models.Model):
     sequence = fields.Integer(
         string='Sequence',
         default=10)
+    services_id = fields.Many2one(
+        comodel_name='hospital.services',
+        string='Service')
     product_id = fields.Many2one(
         comodel_name='product.product',
         string='Product')

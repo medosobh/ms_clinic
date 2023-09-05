@@ -44,6 +44,18 @@
                     </header>
                     <sheet>
                         <div class="oe_button_box"
+                             name="button_box">
+                            <button name="action_customer_invoice"
+                                    type="object"
+                                    class="oe_stat_button"
+                                    icon="fa-calendar">
+                                <div class="o_stat_info">
+                                    <field name="invoice_amount"/>
+                                    <span class="o_stat_text">Tickets</span>
+                                </div>
+                            </button>
+                        </div>
+                        <div class="oe_button_box"
                              name="button_sales_box">
 
                         </div>
@@ -62,7 +74,7 @@
                             </group>
                             <group string="Information">
                                 <field name="staff_id"/>
-                                <field name="billing_amount"/>
+                                <field name="invoice_amount"/>
                                 <field name="payment_amount"/>
                                 <field name="payment_date"/>
                             </group>
@@ -147,8 +159,8 @@
                                     </form>
                                 </field>
                             </page>
-                            <page name="billing"
-                                  string="Patient Billing">
+                            <page name="invoicing"
+                                  string="Patient Invoicing">
 
                             </page>
                             <page string="Administration">
@@ -185,7 +197,7 @@
                     <field name="staff_id"/>
                     <field name="start_date"/>
                     <field name="end_date"/>
-                    <field name="billing_amount"/>
+                    <field name="invoice_amount"/>
                     <field name="payment_amount"/>
                     <field name="payment_date"/>
                     <field name="company_id"

@@ -45,10 +45,6 @@ class RescheduleTicket(models.TransientModel):
         comodel_name="hospital.staff",
         required=True,
         string="Doctor")
-    # employee_id = fields.Many2one(
-    #     comodel_name="hr.employee",
-    #     related="staff_id.partner_id",
-    #     string="Employee at HR")
     start_date = fields.Datetime(
         string="Start Date",
         required=True,
@@ -117,6 +113,11 @@ class RescheduleTicket(models.TransientModel):
         # mention assistant to follow the new ticket
         record.activity_schedule(
             'ms_hospital.mail_act_reschedule_ticket',
-            user_id=new_rec.employee_id.user_id.id,
-            note=f'Please check ticket no {record.name}; for patient : '
+            user_id=new_rec.staff_id.employee_id.user_id.id,
+            note=f'Please check ticket no {new_rec.name}; for patient : '
+                 f'{new_rec.patients_id.name} was created.')
+        new_rec.activity_schedule(
+            'ms_hospital.mail_act_reschedule_ticket',
+            user_id=new_rec.staff_id.employee_id.user_id.id,
+            note=f'Please check ticket no {new_rec.name}; for patient : '
                  f'{new_rec.patients_id.name} was created.')

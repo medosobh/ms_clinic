@@ -54,7 +54,7 @@
                                         <field name="staff_id"/>
                                         <field name="start_date"/>
                                         <field name="end_date"/>
-                                        <field name="billing_amount"/>
+                                        <field name="invoice_amount"/>
                                         <field name="payment_amount"/>
                                         <field name="payment_date"/>
                                         <field name="company_id"

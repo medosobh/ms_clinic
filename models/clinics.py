@@ -65,6 +65,8 @@ class Clinics(models.Model):
 class ClinicType(models.Model):
     _name = "hospital.clinic.type"
     _description = "Clinic or Section"
+    _check_company_auto = True
+    _inherit = ["mail.thread", "mail.activity.mixin"]
 
     name = fields.Char(
         string="Name",

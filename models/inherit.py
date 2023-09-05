@@ -6,8 +6,7 @@ class ProductTemplate(models.Model):
     _description = "Information about medicines"
 
     medicine_name = fields.Char(
-        string="Medicine Name",
-        required=True)
+        string="Medicine Name")
     medicine_description = fields.Text(
         string="Medicine Description")
     dosage = fields.Float(
