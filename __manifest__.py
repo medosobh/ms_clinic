@@ -51,6 +51,7 @@
         'sequences/sequence_views.xml',
         # reports and Menu
         'reports/menu.xml',
+        'reports/ticket_report.xml',
         # wizard
         'wizard/reschedule_ticket.xml',
         # Views

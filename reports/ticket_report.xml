@@ -1,9 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
-  <data>
-    <record id="action_download_pdf_hello_world" model="ir.actions.act_url">
-      <field name="name">Download PDF with Hello World</field>
-      <field name="type">ir.actions.act_url</field>
-      <field name="url">/ms_clinic/download_pdf_hello_world</field>
+    <template id="report_template_hospital_ticket_report">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+
+                        <div class="row">
+                            <div class="col-4 text-center">
+                                <div class="card-group">
+                                    <div class="card">
+                                        <div class="mb-4 bg-info text-white">
+                                            <span>Clinic:</span>
+                                        </div>
+                                        <div>
+                                            <t t-out="doc.clinics_id.name"/>
+                                        </div>
+                                        <div>
+                                            <t t-out="doc.clinics_id.type.name"/>
+                                        </div>
+                                        <div>
+                                            <span>address:</span>
+                                            <t t-out="doc.clinics_id.address"/>
+                                        </div>
+                                        <div>
+                                            <span>phone:</span>
+                                            <t t-out="doc.clinics_id.phone"/>
+                                        </div>
+                                        <div>
+                                            <span>email:</span>
+                                            <t t-out="doc.clinics_id.email"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4 text-center">
+                                    <div class="card">
+                                        <div class="mb-4 bg-info text-white">
+                                            <span>Doctor:</span>
+                                        </div>
+                                        <div>
+                                            <t t-out="doc.staff_id.name"/>
+                                        </div>
+                                        <div>
+                                            <t t-out="doc.staff_id.job_title"/>
+                                        </div>
+                                        <div>
+                                            <span>specialization:</span>
+                                            <t t-out="doc.staff_id.specialization"/>
+                                        </div>
+                                        <div>
+                                            <span>phone:</span>
+                                            <t t-out="doc.staff_id.phone"/>
+                                        </div>
+                                        <div>
+                                            <span>email:</span>
+                                            <t t-out="doc.staff_id.email"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                        </div>
+                        <div class="row">
+
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+    <record id="action_report_hospital_ticket_report"
+            model="ir.actions.report">
+        <field name="name">Ticket Report A4</field>
+        <field name="model">hospital.tickets</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">ms_hospital.report_template_hospital_ticket_report</field>
+        <field name="report_file">ms_hospital.report_template_hospital_ticket_report</field>
+        <field name="print_report_name">'Ticket Of %s' % object.name</field>
+        <field name="binding_model_id" ref="model_hospital_tickets"/>
+        <field name="binding_type">report</field>
     </record>
-  </data>
 </odoo>
