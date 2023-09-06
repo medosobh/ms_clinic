@@ -10,7 +10,7 @@
                         </div>
                         <br />
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-4">
                                 <h5 class="card-title">
                                     <u>Clinic:</u>
                                 </h5>
@@ -29,7 +29,7 @@
                                     <t t-out="doc.clinics_id.email"/>
                                 </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-4">
                                 <h5 class="card-title">
                                     <u>Doctor:</u>
                                 </h5>
@@ -43,6 +43,22 @@
                                 <div>
                                     <span>email:</span>
                                     <t t-out="doc.staff_id.email"/>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <h5 class="card-title">
+                                    <u>Patient:</u>
+                                </h5>
+                                <div t-out="doc.patients_id.name"/>
+                                <div t-out="doc.patients_id.age"/>
+                                <div t-out="doc.patients_id.gender"/>
+                                <div>
+                                    <span>phone:</span>
+                                    <t t-out="doc.patients_id.phone"/>
+                                </div>
+                                <div>
+                                    <span>email:</span>
+                                    <t t-out="doc.patients_id.email"/>
                                 </div>
                             </div>
                         </div>
