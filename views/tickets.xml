@@ -179,7 +179,7 @@
                                 </field>
                             </page>
                             <page name="invoicing"
-                                  string="Patient Invoicing">
+                                  string="Invoicing">
                                 <field name="invoice_line_ids">
                                     <tree editable="bottom">
                                         <field name="sequence"

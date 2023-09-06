@@ -5,66 +5,93 @@
             <t t-foreach="docs" t-as="doc">
                 <t t-call="web.external_layout">
                     <div class="page">
-
+                        <div>
+                            <t t-out="doc.start_date"/>
+                        </div>
                         <div class="row">
-                            <div class="col-4 text-center">
-                                <div class="card-group">
-                                    <div class="card">
-                                        <div class="mb-4 bg-info text-white">
-                                            <span>Clinic:</span>
-                                        </div>
-                                        <div>
-                                            <t t-out="doc.clinics_id.name"/>
-                                        </div>
-                                        <div>
-                                            <t t-out="doc.clinics_id.type.name"/>
-                                        </div>
-                                        <div>
-                                            <span>address:</span>
-                                            <t t-out="doc.clinics_id.address"/>
-                                        </div>
-                                        <div>
-                                            <span>phone:</span>
-                                            <t t-out="doc.clinics_id.phone"/>
-                                        </div>
-                                        <div>
-                                            <span>email:</span>
-                                            <t t-out="doc.clinics_id.email"/>
-                                        </div>
-                                    </div>
+                            <div class="col-6">
+                                <h5 class="card-title">
+                                    <u>Clinic:</u>
+                                </h5>
+                                <div t-out="doc.clinics_id.name"/>
+                                <div t-out="doc.clinics_id.type.name"/>
+                                <div>
+                                    <span>address:</span>
+                                    <t t-out="doc.clinics_id.address"/>
                                 </div>
-                                <div class="col-4 text-center">
-                                    <div class="card">
-                                        <div class="mb-4 bg-info text-white">
-                                            <span>Doctor:</span>
-                                        </div>
-                                        <div>
-                                            <t t-out="doc.staff_id.name"/>
-                                        </div>
-                                        <div>
-                                            <t t-out="doc.staff_id.job_title"/>
-                                        </div>
-                                        <div>
-                                            <span>specialization:</span>
-                                            <t t-out="doc.staff_id.specialization"/>
-                                        </div>
-                                        <div>
-                                            <span>phone:</span>
-                                            <t t-out="doc.staff_id.phone"/>
-                                        </div>
-                                        <div>
-                                            <span>email:</span>
-                                            <t t-out="doc.staff_id.email"/>
-                                        </div>
-                                    </div>
+                                <div>
+                                    <span>phone:</span>
+                                    <t t-out="doc.clinics_id.phone"/>
+                                </div>
+                                <div>
+                                    <span>email:</span>
+                                    <t t-out="doc.clinics_id.email"/>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <h5 class="card-title">
+                                    <u>Doctor:</u>
+                                </h5>
+                                <div t-out="doc.staff_id.name"/>
+                                <div t-out="doc.staff_id.job_title"/>
+                                <div t-out="doc.staff_id.specialization"/>
+                                <div>
+                                    <span>phone:</span>
+                                    <t t-out="doc.staff_id.phone"/>
+                                </div>
+                                <div>
+                                    <span>email:</span>
+                                    <t t-out="doc.staff_id.email"/>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-
+                            <div class="col-6">
+                                <h5 class="card-title">
+                                    <u>Consultation Notes:</u>
+                                </h5>
+                                <div t-out="doc.consultation_notes"/>
+                                <h5 class="card-title">
+                                    <u>Prescription Notes:</u>
+                                </h5>
+                                <div t-out="doc.prescription_notes"/>
+                            </div>
                         </div>
                         <div class="row">
-
+                            <div class="col-10">
+                                <h5 class="card-title">
+                                    <u>Prescription:</u>
+                                </h5>
+                                <table class="table table-bordered">
+                                    <thead style="font-size: 16px;">
+                                        <tr class="active">
+                                            <th class="test-center">Medicine</th>
+                                            <th class="test-center">note</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="doc.prescription_line_ids"
+                                           t-as="pres">
+                                            <tr>
+                                                <td>
+                                                    <t t-out="pres.product_id.name"/>
+                                                </td>
+                                                <td>
+                                                    <t t-out="pres.note"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <h5 class="card-title">
+                                    <u>Next Appointment:</u>
+                                </h5>
+                                <div t-out="doc.next_date"/>
+                            </div>
                         </div>
                     </div>
                 </t>

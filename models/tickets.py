@@ -366,9 +366,10 @@ class PrescriptionLine(models.Model):
         default=10)
     product_id = fields.Many2one(
         comodel_name='product.product',
-        required=True)
+        required=True,
+        string="medicine")
     note = fields.Char(
-        string="",
+        string="Note",
         tracking=True)
     tickets_id = fields.Many2one(
         comodel_name="hospital.tickets",
