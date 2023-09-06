@@ -66,6 +66,7 @@ class Tickets(models.Model):
         compute="_compute_payment_date")
     next_date = fields.Datetime(
         string="Reschedule Date",
+        readonly=True,
         tracking=True)
     parent_id = fields.Many2one(
         comodel_name="hospital.tickets",

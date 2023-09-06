@@ -33,7 +33,7 @@
                         <button string="Invoicing"
                                 name="set_to_invoicing"
                                 type="object"
-                                attrs="{'invisible': [('state', 'in', ('draft','confirm','invoicing'))]}"
+                                attrs="{'invisible': [('state', 'in', ('draft','confirm','invoicing','closed'))]}"
                                 class="oe_highlight"/>
                         <button string="Collect Money"
                                 name="collect_money"
