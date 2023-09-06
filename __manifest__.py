@@ -13,9 +13,13 @@
 
     'author': "Mohamed Sobh",
     'website': "https://www.linkedin.com/in/mohamed-sobh-898a1140",
+    'license': 'OPL-1',
+    'price': 49.99,
+    'currency': 'EUR',
 
     'category': 'Services',
     'version': '15.0.1.0',
+
 
     # any module necessary for this one to work correctly
     'depends': [
@@ -72,7 +76,6 @@
     'auto_install': False,
     'application': True,
     'sequence': 46,
-    'license': 'LGPL-3',
     'assets': {
         'web.assets_backend': {
 
