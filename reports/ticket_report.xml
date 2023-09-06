@@ -8,6 +8,7 @@
                         <div>
                             <t t-out="doc.start_date"/>
                         </div>
+                        <br />
                         <div class="row">
                             <div class="col-6">
                                 <h5 class="card-title">
@@ -45,6 +46,7 @@
                                 </div>
                             </div>
                         </div>
+                        <br />
                         <div class="row">
                             <div class="col-6">
                                 <h5 class="card-title">
@@ -57,6 +59,7 @@
                                 <div t-out="doc.prescription_notes"/>
                             </div>
                         </div>
+                        <br />
                         <div class="row">
                             <div class="col-10">
                                 <h5 class="card-title">
@@ -85,6 +88,7 @@
                                 </table>
                             </div>
                         </div>
+                        <br />
                         <div class="row">
                             <div class="col-6">
                                 <h5 class="card-title">
@@ -98,9 +102,39 @@
             </t>
         </t>
     </template>
-    <record id="action_report_hospital_ticket_report"
+
+    <record id="paperformat_hospital_prescription_notes" model="report.paperformat">
+        <field name="name">Custom Paperformat for prescription notes Ticket report</field>
+        <field name="default" eval="True"/>
+        <field name="disable_shrinking" eval="False"/>
+        <field name="format">A5</field>
+        <field name="page_height">0</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">20</field>
+        <field name="margin_bottom">16</field>
+        <field name="margin_left">7</field>
+        <field name="margin_right">7</field>
+        <field name="header_spacing">15</field>
+        <field name="dpi">96</field>
+    </record>
+
+<!--    <record id="action_report_hospital_ticket_report_a4"-->
+<!--            model="ir.actions.report">-->
+<!--        <field name="name">Ticket Report A4</field>-->
+<!--        <field name="model">hospital.tickets</field>-->
+<!--        <field name="report_type">qweb-pdf</field>-->
+<!--        <field name="report_name">ms_hospital.report_template_hospital_ticket_report</field>-->
+<!--        <field name="report_file">ms_hospital.report_template_hospital_ticket_report</field>-->
+<!--        <field name="print_report_name">'Ticket Of %s' % object.name</field>-->
+<!--        <field name="binding_model_id" ref="model_hospital_tickets"/>-->
+<!--        <field name="binding_type">report</field>-->
+<!--        <field name="paperformat_id" ref="paperformat_hospital_prescription_notes"/>-->
+<!--    </record>-->
+
+    <record id="action_report_hospital_ticket_report_a5"
             model="ir.actions.report">
-        <field name="name">Ticket Report A4</field>
+        <field name="name">Ticket Report A5</field>
         <field name="model">hospital.tickets</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">ms_hospital.report_template_hospital_ticket_report</field>
@@ -108,5 +142,6 @@
         <field name="print_report_name">'Ticket Of %s' % object.name</field>
         <field name="binding_model_id" ref="model_hospital_tickets"/>
         <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="paperformat_hospital_prescription_notes"/>
     </record>
 </odoo>
