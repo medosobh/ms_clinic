@@ -21,7 +21,7 @@ class Sales(models.Model):
         string='State', readonly=False, copy=False,
         tracking=True, default='order')
     tickets_id = fields.Many2one(
-        comodel_name='hospital.tickets',
+        comodel_name='hospital.clinic.tickets',
         required=True)
     issue_date = fields.Date(
         string='Date',

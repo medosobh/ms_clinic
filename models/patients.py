@@ -53,7 +53,7 @@ class Patients(models.Model):
         string="Email",
         tracking=True)
     tickets_ids = fields.One2many(
-        comodel_name="hospital.tickets",
+        comodel_name="hospital.clinic.tickets",
         inverse_name="patients_id",
         string="Medical History")
     tickets_count = fields.Integer(
@@ -93,7 +93,7 @@ class Patients(models.Model):
 
     def _compute_tickets_count(self):
         for rec in self:
-            tickets_count = self.env['hospital.tickets'].search_count([
+            tickets_count = self.env['hospital.clinic.tickets'].search_count([
                 ('patients_id', '=', rec.id)
             ])
             rec.tickets_count = tickets_count
@@ -102,7 +102,7 @@ class Patients(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': 'Orders',
-            'res_model': 'hospital.tickets',
+            'res_model': 'hospital.clinic.tickets',
             'domain': [('patients_id', '=', self.id)],
             'view_mode': 'calendar,tree,form',
             'target': 'new'

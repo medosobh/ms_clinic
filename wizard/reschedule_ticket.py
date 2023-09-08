@@ -14,7 +14,7 @@ class RescheduleTicket(models.TransientModel):
         res = super(RescheduleTicket, self).default_get(fields)
         active_id = self._context.get('tickets_id')
         if active_id:
-            ticket_rec = self.env['hospital.tickets'].browse(int(active_id))
+            ticket_rec = self.env['hospital.clinic.tickets'].browse(int(active_id))
             res['parent_id'] = ticket_rec.id
             res['patients_id'] = ticket_rec.patients_id
             res['clinics_id'] = ticket_rec.clinics_id
@@ -55,7 +55,7 @@ class RescheduleTicket(models.TransientModel):
         store=True,
         compute='_get_end_date')
     parent_id = fields.Many2one(
-        comodel_name="hospital.tickets",
+        comodel_name="hospital.clinic.tickets",
         string='Previous Ticket',
         readonly=True)
     company_id = fields.Many2one(
@@ -103,10 +103,10 @@ class RescheduleTicket(models.TransientModel):
             'currency_id': self.currency_id.id,
             'user_id': self.user_id.id,
         }
-        new_rec = self.env['hospital.tickets'].create(vals)
+        new_rec = self.env['hospital.clinic.tickets'].create(vals)
         # change current ticket state and next date and child ticket
         active_id = self.parent_id.id
-        record = self.env['hospital.tickets'].browse(active_id)
+        record = self.env['hospital.clinic.tickets'].browse(active_id)
         record.state = 'reschedule'
         record.next_date = new_rec.start_date
         record.child_id = new_rec.id

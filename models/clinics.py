@@ -20,7 +20,7 @@ class Clinics(models.Model):
         string="Fees Rate",
         currency_field="currency_id")
     tickets_ids = fields.One2many(
-        comodel_name="hospital.tickets",
+        comodel_name="hospital.clinic.tickets",
         inverse_name="clinics_id",
         string="Tickets")
     tickets_count = fields.Integer(
@@ -46,7 +46,7 @@ class Clinics(models.Model):
 
     def _compute_tickets_count(self):
         for rec in self:
-            tickets_count = self.env['hospital.tickets'].search_count([
+            tickets_count = self.env['hospital.clinic.tickets'].search_count([
                 ('clinics_id', '=', rec.id)
             ])
             rec.tickets_count = tickets_count
@@ -55,7 +55,7 @@ class Clinics(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': 'Orders',
-            'res_model': 'hospital.tickets',
+            'res_model': 'hospital.clinic.tickets',
             'domain': [('clinics_id', '=', self.id)],
             'view_mode': 'calendar,tree,form',
             'target': 'new'

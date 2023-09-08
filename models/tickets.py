@@ -4,8 +4,8 @@ from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError, UserError
 
 
-class Tickets(models.Model):
-    _name = "hospital.tickets"
+class ClinicTickets(models.Model):
+    _name = "hospital.clinic.tickets"
     _description = "Ticket"
     _check_company_auto = True
     _inherit = ["mail.thread", "mail.activity.mixin"]
@@ -69,11 +69,11 @@ class Tickets(models.Model):
         readonly=True,
         tracking=True)
     parent_id = fields.Many2one(
-        comodel_name="hospital.tickets",
+        comodel_name="hospital.clinic.tickets",
         string='Previous Ticket',
         readonly=True)
     child_id = fields.Many2one(
-        comodel_name="hospital.tickets",
+        comodel_name="hospital.clinic.tickets",
         string="Next Ticket",
         readonly=True)
     company_id = fields.Many2one(
@@ -131,8 +131,8 @@ class Tickets(models.Model):
     def create(self, vals):
         if not vals.get('name') or vals['name'] == _('New'):
             vals['name'] = self.env['ir.sequence'].next_by_code(
-                'ms_hospital.tickets') or _('New')
-        return super(Tickets, self).create(vals)
+                'ms_hospital.clinic.tickets') or _('New')
+        return super(ClinicTickets, self).create(vals)
 
     @api.constrains('parent_id')
     def _check_category_recursion(self):
@@ -342,7 +342,7 @@ class DiagnoseLine(models.Model):
         required=False,
         tracking=True)
     tickets_id = fields.Many2one(
-        comodel_name="hospital.tickets",
+        comodel_name="hospital.clinic.tickets",
         string="Ticket")
     patients_id = fields.Many2one(
         comodel_name="hospital.patients",
@@ -372,7 +372,7 @@ class PrescriptionLine(models.Model):
         string="Note",
         tracking=True)
     tickets_id = fields.Many2one(
-        comodel_name="hospital.tickets",
+        comodel_name="hospital.clinic.tickets",
         string="Ticket")
     patients_id = fields.Many2one(
         comodel_name="hospital.patients",
@@ -432,7 +432,7 @@ class TicketInvoiceLine(models.Model):
         currency_field='currency_id',
         store=True)
     tickets_id = fields.Many2one(
-        comodel_name='hospital.tickets',
+        comodel_name='hospital.clinic.tickets',
         string='Ticket')
 
     @api.onchange('product_id')

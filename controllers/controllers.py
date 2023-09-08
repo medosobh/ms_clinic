@@ -22,7 +22,7 @@ class HospitalPortal(CustomerPortal):
         vals = super(HospitalPortal, self)._prepare_home_portal_values(counters)
         # new code
         user_id = request.env.uid
-        offices_list = request.env['hospital.tickets'].search([
+        offices_list = request.env['hospital.clinic.tickets'].search([
             ('portal_user_id', '=', user_id)
         ]).ids
 
@@ -31,7 +31,7 @@ class HospitalPortal(CustomerPortal):
             offices_domain = OR(
                 [offices_domain, [('offices_id', '=', offices_list)]])
 
-        vals['maids_count'] = request.env['hospital.tickets'].search_count(
+        vals['maids_count'] = request.env['hospital.clinic.tickets'].search_count(
             offices_domain)
 
         return vals

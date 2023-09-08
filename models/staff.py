@@ -54,7 +54,7 @@ class Staff(models.Model):
     specialization = fields.Char(
         string="Specialization")
     tickets_ids = fields.One2many(
-        comodel_name="hospital.tickets",
+        comodel_name="hospital.clinic.tickets",
         inverse_name="staff_id",
         string="Tickets")
     tickets_count = fields.Integer(
@@ -80,7 +80,7 @@ class Staff(models.Model):
 
     def _compute_tickets_count(self):
         for rec in self:
-            tickets_count = self.env['hospital.tickets'].search_count([
+            tickets_count = self.env['hospital.clinic.tickets'].search_count([
                 ('staff_id', '=', rec.id)
             ])
             rec.tickets_count = tickets_count
@@ -89,7 +89,7 @@ class Staff(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': 'Orders',
-            'res_model': 'hospital.tickets',
+            'res_model': 'hospital.clinic.tickets',
             'domain': [('staff_id', '=', self.id)],
             'view_mode': 'calendar,tree,form',
             'target': 'new'
