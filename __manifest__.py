@@ -59,7 +59,6 @@
         # wizard
         'wizard/reschedule_ticket.xml',
         # Views
-        'views/tickets.xml',
         'views/clinics.xml',
         'views/staff.xml',
         'views/patients.xml',
