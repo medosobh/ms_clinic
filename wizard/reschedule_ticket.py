@@ -12,7 +12,7 @@ class RescheduleTicket(models.TransientModel):
     @api.model
     def default_get(self, fields):
         res = super(RescheduleTicket, self).default_get(fields)
-        active_id = self._context.get('tickets_id')
+        active_id = self._context.get('clinic_tickets_id')
         if active_id:
             ticket_rec = self.env['hospital.clinic.tickets'].browse(int(active_id))
             res['parent_id'] = ticket_rec.id

@@ -9,7 +9,7 @@
                     <sheet>
                         <div class="oe_button_box"
                              name="button_box">
-                            <button name="object_open_tickets_timeframe"
+                            <button name="object_open_clinic_tickets_timeframe"
                                     type="object"
                                     class="oe_stat_button"
                                     icon="fa-calendar">
@@ -47,7 +47,7 @@
                         </group>
                         <notebook>
                             <page string="Tickets">
-                                <field name="tickets_ids">
+                                <field name="clinic_tickets_ids">
                                     <tree string="Tickets">
                                         <field name="name"/>
                                         <field name="clinics_id"/>

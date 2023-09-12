@@ -10,7 +10,7 @@
                     <sheet>
                         <div class="oe_button_box"
                              name="button_box">
-                            <button name="object_open_tickets_timeframe"
+                            <button name="object_open_clinic_tickets_timeframe"
                                     type="object"
                                     class="oe_stat_button"
                                     icon="fa-calendar">
@@ -46,7 +46,7 @@
                         </group>
                         <notebook>
                             <page string="Tickets">
-                                <field name="tickets_ids">
+                                <field name="clinic_tickets_ids">
                                     <tree string="Tickets">
                                         <field name="name"/>
                                         <field name="clinics_id"/>
@@ -151,8 +151,8 @@
         <!-- Appointment Form View -->
         <record id="tickets_form_view"
                 model="ir.ui.view">
-            <field name="name">hospital.tickets.form</field>
-            <field name="model">hospital.tickets</field>
+            <field name="name">hospital.clinic.tickets.form</field>
+            <field name="model">hospital.clinic.tickets</field>
             <field name="arch"
                    type="xml">
                 <form string="Ticket">
@@ -191,7 +191,7 @@
                                 name="%(hospital_reschedule_ticket_action_wizard)d"
                                 type="action"
                                 attrs="{'invisible': [('state', 'in', ('confirm','reschedule','closed'))]}"
-                                context="{'tickets_id': id, 'user_id': user_id, 'patients_id': patients_id}"
+                                context="{'clinic_tickets_id': id, 'user_id': user_id, 'patients_id': patients_id}"
                                 class="oe_highlight"/>
                         <button string="Closed"
                                 name="set_to_closed"
@@ -274,7 +274,7 @@
                                                widget="download_link"/>
                                         <field name="attachment_name"
                                                invisible="1"/>
-                                        <field name="tickets_id"
+                                        <field name="clinic_tickets_id"
                                                invisible="1"/>
                                         <field name="patients_id"
                                                invisible="1"/>
@@ -290,7 +290,7 @@
                                                    widget="download_link"/>
                                             <field name="attachment_name"
                                                    invisible="1"/>
-                                            <field name="tickets_id"
+                                            <field name="clinic_tickets_id"
                                                    invisible="1"/>
                                             <field name="patients_id"
                                                    invisible="1"/>
@@ -308,7 +308,7 @@
                                                widget="handle"/>
                                         <field name="product_id"/>
                                         <field name="note"/>
-                                        <field name="tickets_id"
+                                        <field name="clinic_tickets_id"
                                                invisible="1"/>
                                         <field name="patients_id"
                                                invisible="1"/>
@@ -317,7 +317,7 @@
                                     <form>
                                         <field name="product_id"/>
                                         <field name="note"/>
-                                        <field name="tickets_id"
+                                        <field name="clinic_tickets_id"
                                                invisible="1"/>
                                         <field name="patients_id"
                                                invisible="1"/>
@@ -375,8 +375,8 @@
         <!-- Appointment Tree View -->
         <record id="tickets_tree_view"
                 model="ir.ui.view">
-            <field name="name">hospital.tickets.tree</field>
-            <field name="model">hospital.tickets</field>
+            <field name="name">hospital.clinic.tickets.tree</field>
+            <field name="model">hospital.clinic.tickets</field>
             <field name="arch"
                    type="xml">
                 <tree string="Tickets">
@@ -401,8 +401,8 @@
         <!-- Appointment calendar View -->
         <record id="tickets_calendar_view"
                 model="ir.ui.view">
-            <field name="name">hospital.tickets.calendar</field>
-            <field name="model">hospital.tickets</field>
+            <field name="name">hospital.clinic.tickets.calendar</field>
+            <field name="model">hospital.clinic.tickets</field>
             <field name="arch"
                    type="xml">
                 <calendar string="Tickets Schedule"
@@ -445,8 +445,8 @@
         <!--Define the kanban view-->
         <record id="tickets_kanban_view"
                 model="ir.ui.view">
-            <field name="name">hospital.tickets.kanban</field>
-            <field name="model">hospital.tickets</field>
+            <field name="name">hospital.clinic.tickets.kanban</field>
+            <field name="model">hospital.clinic.tickets</field>
             <field name="arch"
                    type="xml">
                 <kanban default_group_by="state"
@@ -517,8 +517,8 @@
         <!--Define the Search view-->
         <record id="tickets_search_view"
                 model="ir.ui.view">
-            <field name="name">hospital.tickets.search</field>
-            <field name="model">hospital.tickets</field>
+            <field name="name">hospital.clinic.tickets.search</field>
+            <field name="model">hospital.clinic.tickets</field>
             <field name="arch"
                    type="xml">
                 <search string="Tickets">
@@ -584,10 +584,10 @@
             </field>
         </record>
         <!-- Define the action -->
-        <record id="action_hospital_tickets"
+        <record id="action_hospital_clinic_tickets"
                 model="ir.actions.act_window">
             <field name="name">Tickets</field>
-            <field name="res_model">hospital.tickets</field>
+            <field name="res_model">hospital.clinic.tickets</field>
             <field name="view_mode">tree,form,kanban,calendar</field>
             <field name="domain"/>
             <field name="context"/>
@@ -598,8 +598,8 @@
             </field>
         </record>
 
-        <menuitem id="menu_hospital_tickets" name="Tickets"
-                  parent="menu_hospital_main" action="action_hospital_tickets"
+        <menuitem id="menu_hospital_clinic_tickets" name="Tickets"
+                  parent="menu_hospital_main" action="action_hospital_clinic_tickets"
                   sequence="11"/>
 
     </data>

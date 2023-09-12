@@ -22,7 +22,7 @@ class Clinics(models.Model):
     fees_rate = fields.Monetary(
         string="Fees Rate",
         currency_field="currency_id")
-    tickets_ids = fields.One2many(
+    clinic_tickets_ids = fields.One2many(
         comodel_name="hospital.clinic.tickets",
         inverse_name="clinics_id",
         string="Tickets")
@@ -54,7 +54,7 @@ class Clinics(models.Model):
             ])
             rec.tickets_count = tickets_count
 
-    def object_open_tickets_timeframe(self):
+    def object_open_clinic_tickets_timeframe(self):
         return {
             'type': 'ir.actions.act_window',
             'name': 'Orders',
@@ -179,18 +179,18 @@ class ClinicTickets(models.Model):
         string="diagnose lines")
     diagnose_ids = fields.One2many(
         comodel_name='hospital.diagnose.line',
-        inverse_name='tickets_id',
+        inverse_name='clinic_tickets_id',
         string="Diagnosis")
     prescription_line_id = fields.Many2one(
         comodel_name='hospital.prescription.line',
         string="prescription lines")
     prescription_line_ids = fields.One2many(
         comodel_name='hospital.prescription.line',
-        inverse_name='tickets_id',
+        inverse_name='clinic_tickets_id',
         string="Prescriptions")
     invoice_line_ids = fields.One2many(
         comodel_name='hospital.ticket.invoice.line',
-        inverse_name='tickets_id',
+        inverse_name='clinic_tickets_id',
         string="Invoice Lines")
     customer_invoice_count = fields.Integer(
         string="Patient Invoice Count",
@@ -275,7 +275,6 @@ class ClinicTickets(models.Model):
                 'quantity': self.invoice_line_ids.qty,
                 'price_unit': self.invoice_line_ids.price_unit,
                 # 'analytic_account_id': self.analytic_account_id.id,
-                # 'sales_id': self.id,
             })],
             'company_id': self.company_id.id,
         }
@@ -417,7 +416,7 @@ class DiagnoseLine(models.Model):
         string="Attachment Filename",
         required=False,
         tracking=True)
-    tickets_id = fields.Many2one(
+    clinic_tickets_id = fields.Many2one(
         comodel_name="hospital.clinic.tickets",
         string="Ticket")
     patients_id = fields.Many2one(
@@ -447,7 +446,7 @@ class PrescriptionLine(models.Model):
     note = fields.Char(
         string="Note",
         tracking=True)
-    tickets_id = fields.Many2one(
+    clinic_tickets_id = fields.Many2one(
         comodel_name="hospital.clinic.tickets",
         string="Ticket")
     patients_id = fields.Many2one(
@@ -492,14 +491,14 @@ class TicketInvoiceLine(models.Model):
     company_id = fields.Many2one(
         comodel_name='res.company',
         string='Company',
-        related='tickets_id.company_id',
+        related='clinic_tickets_id.company_id',
         change_default=True,
         required=False,
         readonly=True)
     currency_id = fields.Many2one(
         comodel_name='res.currency',
         string='Currency',
-        related='tickets_id.currency_id',
+        related='clinic_tickets_id.currency_id',
         readonly=True,
         help="Used to display the currency when tracking monetary values")
     price_subtotal = fields.Monetary(
@@ -507,7 +506,7 @@ class TicketInvoiceLine(models.Model):
         compute='_compute_subtotal',
         currency_field='currency_id',
         store=True)
-    tickets_id = fields.Many2one(
+    clinic_tickets_id = fields.Many2one(
         comodel_name='hospital.clinic.tickets',
         string='Ticket')
 

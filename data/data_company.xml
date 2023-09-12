@@ -1,28 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <!--    staff title-->
-    <data noupdate="0">
-        <record model="hospital.roles"
-                id="hospital_roles_1">
-            <field name="name">Receptionist</field>
-        </record>
-        <record model="housemaid.jobs"
-                id="hospital_roles_2">
-            <field name="name">Nurse</field>
-        </record>
-        <record model="housemaid.jobs"
-                id="hospital_roles_3">
-            <field name="name">Administrator</field>
-        </record>
-        <record model="housemaid.jobs"
-                id="hospital_roles_4">
-            <field name="name">Technician</field>
-        </record>
-        <record model="housemaid.jobs"
-                id="hospital_roles_5">
-            <field name="name">Doctor</field>
-        </record>
-    </data>
     <!-- add more accounts -->
     <data noupdate="0">
         <record model="account.account"
@@ -33,7 +10,6 @@
             <field name="user_type_id"
                    eval="ref('account.data_account_type_other_income')"/>
         </record>
-
         <!-- intermediate accounts-->
         <record model="account.account"
                 id="hospital_account_124970">
@@ -91,7 +67,6 @@
             <field name="user_type_id"
                    eval="ref('account.data_account_type_other_income')"/>
         </record>
-
         <!-- price diff-->
         <record model="account.account"
                 id="hospital_account_400500">
@@ -117,7 +92,6 @@
             <field name="user_type_id"
                    eval="ref('account.data_account_type_revenue')"/>
         </record>
-
         <!-- sale accounts -->
         <record model="account.account"
                 id="hospital_account_400100">
@@ -136,47 +110,41 @@
                    eval="ref('account.data_account_type_revenue')"/>
         </record>
     </data>
-
     <!-- stock location -->
     <data noupdate="0">
+        <record model="stock.location"
+                id="hospital_location_consume_view">
+            <field name="name">Consume</field>
+            <field name="location_id"
+                   eval="ref('stock.stock_location_locations_virtual')"/>
+            <field name="usage">view</field>
+            <field name="company_id"></field>
+        </record>
+        <record model="stock.location"
+                id="hospital_location_consume">
+            <field name="name">consume</field>
+            <field name="location_id"
+                   eval="ref('hospital_location_consume_view')"/>
+            <field name="valuation_in_account_id"
+                   eval="ref('hospital_account_400400')"/>
+            <field name="valuation_out_account_id"
+                   eval="ref('hospital_account_400400')"/>
+            <field name="usage">production</field>
+            <field name="company_id"></field>
+        </record>
     </data>
-    <record model="stock.location"
-            id="hospital_location_consume_view">
-        <field name="name">Consume</field>
-        <field name="location_id"
-               eval="ref('stock.stock_location_locations_virtual')"/>
-        <field name="usage">view</field>
-        <field name="company_id"></field>
-    </record>
-    <record model="stock.location"
-            id="hospital_location_consume">
-        <field name="name">consume</field>
-        <field name="location_id"
-               eval="ref('hospital_location_consume_view')"/>
-        <field name="valuation_in_account_id"
-               eval="ref('hospital_account_400400')"/>
-        <field name="valuation_out_account_id"
-               eval="ref('hospital_account_400400')"/>
-        <field name="usage">production</field>
-        <field name="company_id"></field>
-    </record>
-
-
     <!-- Product Category -->
-
     <data noupdate="0">
         <record id="product_category_hospital"
                 model="product.category">
             <field name="name">hospital</field>
         </record>
-
         <record id="product_category_service"
                 model="product.category">
             <field name="name">Service</field>
             <field name="parent_id"
                    ref="product_category_hospital"/>
         </record>
-
         <record id="product_category_manpower"
                 model="product.category">
             <field name="parent_id"
@@ -190,7 +158,6 @@
             <field name="property_account_expense_categ_id"
                    eval="ref('hospital_account_400410')"/>
         </record>
-
         <record id="product_category_equipment"
                 model="product.category">
             <field name="parent_id"
@@ -204,7 +171,6 @@
             <field name="property_account_expense_categ_id"
                    eval="ref('hospital_account_400420')"/>
         </record>
-
         <record id="product_category_maintenance"
                 model="product.category">
             <field name="parent_id"
@@ -218,8 +184,6 @@
             <field name="property_account_expense_categ_id"
                    eval="ref('hospital_account_400440')"/>
         </record>
-    </data>
-    <data noupdate="0">
         <record id="product_category_sale"
                 model="product.category">
             <field name="name">Sale</field>
@@ -228,7 +192,6 @@
             <field name="property_cost_method">fifo</field>
             <field name="property_valuation">real_time</field>
         </record>
-
         <record id="product_category_direct_sale"
                 model="product.category">
             <field name="parent_id"
@@ -243,6 +206,7 @@
                    eval="ref('hospital_account_400100')"/>
         </record>
     </data>
+    <!--    picking type-->
     <data noupdate="0">
         <record model="stock.picking.type"
                 id="hospital_stock_return">
@@ -286,7 +250,5 @@
             <field name="default_location_src_id"
                    eval="ref('stock.stock_location_stock')"/>
         </record>
-
-
     </data>
 </odoo>

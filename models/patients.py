@@ -52,7 +52,7 @@ class Patients(models.Model):
     email = fields.Char(
         string="Email",
         tracking=True)
-    tickets_ids = fields.One2many(
+    clinic_tickets_ids = fields.One2many(
         comodel_name="hospital.clinic.tickets",
         inverse_name="patients_id",
         string="Medical History")
@@ -98,7 +98,7 @@ class Patients(models.Model):
             ])
             rec.tickets_count = tickets_count
 
-    def object_open_tickets_timeframe(self):
+    def object_open_clinic_tickets_timeframe(self):
         return {
             'type': 'ir.actions.act_window',
             'name': 'Orders',

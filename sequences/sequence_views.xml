@@ -2,10 +2,10 @@
 <odoo>
     <data noupdate="1">
         <!-- Sequences for sales tickets -->
-        <record id="hospital_tickets_seq"
+        <record id="hospital_clinic_tickets_seq"
             model="ir.sequence">
             <field name="name">Tickets</field>
-            <field name="code">ms_hospital.tickets</field>
+            <field name="code">ms_hospital.clinic.tickets</field>
             <field name="prefix">TK/%(year)s/</field>
             <field name="padding">5</field>
             <field name="company_id"

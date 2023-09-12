@@ -16,7 +16,7 @@ class Radiology(models.Model):
     address = fields.Text(string="Address")
     phone = fields.Char(string="Phone")
     email = fields.Char(string="Email")
-    tickets_ids = fields.One2many(
+    clinic_tickets_ids = fields.One2many(
         comodel_name="hospital.clinic.tickets",
         inverse_name="clinics_id",
         string="Tickets")

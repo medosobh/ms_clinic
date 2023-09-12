@@ -53,7 +53,7 @@ class Staff(models.Model):
         string="Address")
     specialization = fields.Char(
         string="Specialization")
-    tickets_ids = fields.One2many(
+    clinic_tickets_ids = fields.One2many(
         comodel_name="hospital.clinic.tickets",
         inverse_name="staff_id",
         string="Tickets")
@@ -85,7 +85,7 @@ class Staff(models.Model):
             ])
             rec.tickets_count = tickets_count
 
-    def object_open_tickets_timeframe(self):
+    def object_open_clinic_tickets_timeframe(self):
         return {
             'type': 'ir.actions.act_window',
             'name': 'Orders',
