@@ -60,6 +60,7 @@
         'wizard/reschedule_ticket.xml',
         # Views
         'views/clinics.xml',
+        'views/rooms.xml',
         'views/staff.xml',
         'views/patients.xml',
         'views/services.xml',

@@ -586,7 +586,7 @@
         <!-- Define the action -->
         <record id="action_hospital_clinic_tickets"
                 model="ir.actions.act_window">
-            <field name="name">Tickets</field>
+            <field name="name">Clinic Tickets</field>
             <field name="res_model">hospital.clinic.tickets</field>
             <field name="view_mode">tree,form,kanban,calendar</field>
             <field name="domain"/>
@@ -598,7 +598,7 @@
             </field>
         </record>
 
-        <menuitem id="menu_hospital_clinic_tickets" name="Tickets"
+        <menuitem id="menu_hospital_clinic_tickets" name="Clinic Tickets"
                   parent="menu_hospital_main" action="action_hospital_clinic_tickets"
                   sequence="11"/>
 

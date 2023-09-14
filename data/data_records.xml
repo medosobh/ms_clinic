@@ -1,28 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <!--    staff title-->
-    <data noupdate="0">
-        <record model="hospital.roles"
-                id="hospital_roles_1">
-            <field name="name">Receptionist</field>
-        </record>
-        <record model="housemaid.jobs"
-                id="hospital_roles_2">
-            <field name="name">Nurse</field>
-        </record>
-        <record model="housemaid.jobs"
-                id="hospital_roles_3">
-            <field name="name">Administrator</field>
-        </record>
-        <record model="housemaid.jobs"
-                id="hospital_roles_4">
-            <field name="name">Technician</field>
-        </record>
-        <record model="housemaid.jobs"
-                id="hospital_roles_5">
-            <field name="name">Doctor</field>
-        </record>
-    </data>
+
     <!--    clinic type-->
     <data>
         <record model="hospital.clinic.type"
