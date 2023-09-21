@@ -149,7 +149,7 @@
     </data>
     <data>
         <!-- Appointment Form View -->
-        <record id="tickets_form_view"
+        <record id="clinic_tickets_form_view"
                 model="ir.ui.view">
             <field name="name">hospital.clinic.tickets.form</field>
             <field name="model">hospital.clinic.tickets</field>
@@ -373,7 +373,7 @@
         </record>
 
         <!-- Appointment Tree View -->
-        <record id="tickets_tree_view"
+        <record id="clinic_tickets_tree_view"
                 model="ir.ui.view">
             <field name="name">hospital.clinic.tickets.tree</field>
             <field name="model">hospital.clinic.tickets</field>
@@ -397,9 +397,8 @@
                 </tree>
             </field>
         </record>
-
         <!-- Appointment calendar View -->
-        <record id="tickets_calendar_view"
+        <record id="clinic_tickets_calendar_view"
                 model="ir.ui.view">
             <field name="name">hospital.clinic.tickets.calendar</field>
             <field name="model">hospital.clinic.tickets</field>
@@ -441,9 +440,8 @@
                 </calendar>
             </field>
         </record>
-
         <!--Define the kanban view-->
-        <record id="tickets_kanban_view"
+        <record id="clinic_tickets_kanban_view"
                 model="ir.ui.view">
             <field name="name">hospital.clinic.tickets.kanban</field>
             <field name="model">hospital.clinic.tickets</field>
@@ -513,9 +511,8 @@
                 </kanban>
             </field>
         </record>
-
         <!--Define the Search view-->
-        <record id="tickets_search_view"
+        <record id="clinic_tickets_search_view"
                 model="ir.ui.view">
             <field name="name">hospital.clinic.tickets.search</field>
             <field name="model">hospital.clinic.tickets</field>
@@ -593,7 +590,7 @@
             <field name="context"/>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
-                    Click here to add a new ticket.
+                    Click here to add a new Clinic ticket.
                 </p>
             </field>
         </record>

@@ -13,7 +13,7 @@
         <menuitem id="menu_hospital_services" name="Services"
                   parent="hospital_root" sequence="30"/>
 
-        <menuitem id="hospital_menu_configuration" name="Configuration"
+        <menuitem id="menu_hospital_configuration" name="Configuration"
                   parent="hospital_root" sequence="50"/>
 
     </data>

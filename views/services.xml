@@ -94,7 +94,7 @@
         <menuitem id="services_menu"
                   name="Services"
                   action="hospital_services_act_window"
-                  parent="menu_hospital_services"
+                  parent="menu_hospital_configuration"
                   sequence="31"/>
     </data>
 </odoo>

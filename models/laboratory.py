@@ -72,3 +72,5 @@ class LaboratoryType(models.Model):
         string="Active",
         default=True,
         tracking=True)
+
+
