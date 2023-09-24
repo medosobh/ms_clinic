@@ -124,6 +124,5 @@
                   name="Laboratory"
                   parent="menu_hospital_services"
                   action="hospital_laboratory_act_window"/>
-
     </data>
 </odoo>

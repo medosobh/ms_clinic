@@ -144,7 +144,7 @@
         <menuitem id="hospital_menu_clinic_type"
                   name="Clinic Type"
                   action="action_hospital_clinic_type"
-                  parent="hospital_menu_configuration"
+                  parent="menu_hospital_configuration"
                   sequence="51"/>
     </data>
     <data>
