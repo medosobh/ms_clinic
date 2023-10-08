@@ -39,6 +39,7 @@
                                 <field name="address" widget="email"/>
                             </group>
                             <group>
+                                <field name="user_id"/>
                                 <field name="company_id"
                                        groups="base.group_multi_company"
                                        widget="selection"/>

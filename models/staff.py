@@ -31,7 +31,6 @@ class Staff(models.Model):
     user_id = fields.Many2one(
         comodel_name='res.users', string='Doctor Internal User',
         required=True,
-        readonly=True,
         tracking=True,
         default=lambda self: self.employee_id.user_id)
     birthday = fields.Date(

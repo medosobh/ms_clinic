@@ -20,7 +20,6 @@
     'category': 'Services',
     'version': '15.0.1.0',
 
-
     # any module necessary for this one to work correctly
     'depends': [
         'base',
@@ -78,6 +77,9 @@
     'sequence': 46,
     'assets': {
         'web.assets_backend': {
+            'ms_hospital/static/scr/js/feature.js',
+        },
+        'web.assets_frontend': {
 
         },
         'web.assets_qweb': {

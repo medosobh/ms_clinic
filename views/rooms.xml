@@ -150,7 +150,7 @@
                   sequence="51"/>
     </data>
     <data>
-    <!-- Appointment Form View -->
+        <!-- Room Ticket Form View -->
         <record id="room_tickets_form_view"
                 model="ir.ui.view">
             <field name="name">hospital.room.tickets.form</field>
@@ -367,7 +367,7 @@
                 </form>
             </field>
         </record>
-        <!-- Appointment Tree View -->
+        <!-- Room Ticket Tree View -->
         <record id="room_tickets_tree_view"
                 model="ir.ui.view">
             <field name="name">hospital.room.tickets.tree</field>
@@ -392,7 +392,7 @@
                 </tree>
             </field>
         </record>
-        <!-- Appointment calendar View -->
+        <!-- Room Ticket calendar View -->
         <record id="room_tickets_calendar_view"
                 model="ir.ui.view">
             <field name="name">hospital.room.tickets.calendar</field>
@@ -435,7 +435,7 @@
                 </calendar>
             </field>
         </record>
-        <!--Define the kanban view-->
+        <!-- Room Ticket kanban view-->
         <record id="room_tickets_kanban_view"
                 model="ir.ui.view">
             <field name="name">hospital.room.tickets.kanban</field>
@@ -506,7 +506,7 @@
                 </kanban>
             </field>
         </record>
-        <!--Define the Search view-->
+        <!-- Room Ticket Search view-->
         <record id="room_tickets_search_view"
                 model="ir.ui.view">
             <field name="name">hospital.room.tickets.search</field>
@@ -575,7 +575,7 @@
                 </search>
             </field>
         </record>
-        <!-- Define the action -->
+        <!-- Room Ticket action -->
         <record id="action_hospital_room_tickets"
                 model="ir.actions.act_window">
             <field name="name">Room Tickets</field>
@@ -589,7 +589,7 @@
                 </p>
             </field>
         </record>
-        <!-- Define the menu -->
+        <!-- Room Ticket menu -->
         <menuitem id="menu_hospital_room_tickets" name="Room Tickets"
                   parent="menu_hospital_main" action="action_hospital_room_tickets"
                   sequence="12"/>
