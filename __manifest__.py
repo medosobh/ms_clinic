@@ -12,13 +12,13 @@
     """,
 
     'author': "Mohamed Sobh",
-    'website': "https://www.linkedin.com/in/mohamed-sobh-898a1140",
+    "website": "https://info.odoo-express.com",
     'license': 'OPL-1',
     'price': 49.99,
     'currency': 'EUR',
 
     'category': 'Services',
-    'version': '15.0.1.0',
+    'version': '17.0.1.0',
 
     # any module necessary for this one to work correctly
     'depends': [
