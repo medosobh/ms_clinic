@@ -1,12 +1,10 @@
 from datetime import timedelta
-
 from odoo import api, fields, models, _
 
 
 class RescheduleTicket(models.TransientModel):
     _name = 'hospital.reschedule.ticket'
     _description = 'Reschedule Ticket Wizard'
-
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
     @api.model
